@@ -16,7 +16,7 @@ def report_page():
 
 @app.route('/services')
 def Services_page():
-    return "<h1>services Page</h1>"
+    return "<h1>Services Page</h1>"
 
 
 if __name__ == "__main__":
