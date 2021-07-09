@@ -3,6 +3,8 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
+@app.route('/home')
+@app.route('/index')
 def home_page():
     return "<h1>Home Page</h1>"
 
@@ -17,6 +19,8 @@ def report_page():
 @app.route('/services')
 def Services_page():
     return "<h1>Services Page</h1>"
+
+
 
 
 if __name__ == "__main__":
