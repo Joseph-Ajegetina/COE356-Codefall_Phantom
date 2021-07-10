@@ -2,6 +2,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
+#home route
 @app.route('/')
 @app.route('/home')
 @app.route('/index')
