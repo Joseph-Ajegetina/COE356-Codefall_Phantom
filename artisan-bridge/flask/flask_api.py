@@ -1,25 +1,18 @@
 from flask import Flask
-from flask_wtf import FlaskForm
-from wtforms import StringField, passwordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
-
+from forms import LoginForm 
 
 app = Flask(__name__)
+# Key to be hashed and hidden in directory
 app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 
-class LoginForm(FlaskForm):
-    username = StringField('username', validators=[InputRequired(), Length(min=4,max=15)])
-    password = passwordField('poassword', validators=[InputRequired(), Length(min=8, max= 80)])
-    remember = BooleanField('remember me')
 
-
-#home route
 @app.route('/')
 @app.route('/home')
 @app.route('/index')
 def home_page():
     return "<h1>Home Page</h1>"
 
+# Login form, validation and session to be added
 @app.route('/login' )
 def login():
     form = LoginForm()
