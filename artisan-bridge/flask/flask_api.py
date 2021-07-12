@@ -4,8 +4,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired
 
+ #from forms import LoginForm 
 
 app = Flask(__name__)
+# Key to be hashed and hidden in directory
 app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 
 class LoginForm(FlaskForm):
@@ -23,14 +25,14 @@ class signUpForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
 
-#home route
 @app.route('/')
 @app.route('/home')
 @app.route('/index')
 def home_page():
     return "<h1>Home Page</h1>"
 
-@app.route('/login', methods=['GET','POST'] )
+# Login form, validation and session to be added
+@app.route('/login', methods=['POST','GET'] )
 def login():
     form = LoginForm()
     return "<h1>login page</h1>"
