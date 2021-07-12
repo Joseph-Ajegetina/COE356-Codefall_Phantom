@@ -13,10 +13,17 @@ def home_page():
     return "<h1>Home Page</h1>"
 
 # Login form, validation and session to be added
-@app.route('/login' )
+@app.route('/login', methods=['POST','GET'] )
 def login():
     form = LoginForm()
     return "<h1>login page</h1>"
+
+@app.route('/sign_up', methods=['POST','GET'] )
+def sign_up():
+    return "<h1>Sign_up page</h1>"
+
+
+
 
 @app.route('/about')
 def about_page():
