@@ -3,7 +3,6 @@ import Footer from "./components/footer/Footer.jsx"
 import ImageSlider from "./components/imageSlider/ImageSlider.jsx"
 import PopularServices from "./components/popularServices/PopularServices.jsx"
 import TopRatedArtisan from "./components/topRatedArtisan/TopRatedArtisan.jsx"
-import ControlledForm from "./components/ControlledForm"
 import "./App.scss"
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
       <ImageSlider/>
       <PopularServices/>
       <TopRatedArtisan/>
-      <ControlledForm/>
       <Footer/>
     </div>
     
