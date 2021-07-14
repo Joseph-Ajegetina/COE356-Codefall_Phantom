@@ -4,7 +4,7 @@
 
 ArtisanBridge app is a bridge between the general pulic with various artisans in their vicinity.
 
-For the artisan, finding a customer is a game of chance.For instance on campus, we see various artisans such as cobblers, tailors and many others,
+For the artisan, finding a customer is a game of chance. For instance on campus, we see various artisans such as cobblers, tailors and many others,
 while others roam the various hostels hoping to find  someone who needs their service at that time.It can happen that, at the time of 
 their visit no one needs their service.But at the same instance there is a student in another hostel hoping that same artisan would
  come around.If it happens that he/she visits that needy student hostel then he can render the service, else if he does not, loses a customer.
