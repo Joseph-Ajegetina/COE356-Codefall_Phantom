@@ -3,6 +3,7 @@ from flask.helpers import flash
 from forms import LoginForm, signUpForm
 
 app = Flask(__name__)
+
 # Key to be hashed and hidden in directory
 app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 
