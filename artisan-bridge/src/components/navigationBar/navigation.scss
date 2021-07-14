@@ -1,0 +1,41 @@
+.navBar {
+  width: 100%;
+  height: 70px;
+  padding: 20px 30px;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  z-index: 2;
+  background-color: white;
+}
+.home {
+  width: 20px;
+  color: black;
+}
+.services {
+  width: 30px;
+}
+.navBar a {
+  text-decoration: none;
+  color: black;
+}
+.navBar a:hover {
+  color: #f59401;
+}
+.left a {
+  text-decoration: none;
+}
+.left a:hover {
+  text-decoration: none;
+  color: black;
+}
+.right {
+  .dropdown-item:hover {
+    background-color: #f59401;
+    color: white;
+  }
+}
+.nav-item {
+  padding-right: 25px;
+}
