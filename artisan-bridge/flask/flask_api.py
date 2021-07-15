@@ -8,6 +8,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 
 
+# Key to be hashed and hidden in directory
+app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
+
+
 @app.route('/')
 @app.route('/home')
 @app.route('/index')
