@@ -18,6 +18,9 @@
 --
 -- Table structure for table `artisans`
 --
+DROP DATABASE IF EXISTS artisanbridge;
+CREATE DATABASE artisanbridge;
+USE artisanbridge;
 
 DROP TABLE IF EXISTS `artisans`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
