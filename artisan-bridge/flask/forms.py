@@ -13,7 +13,7 @@ class LoginForm(FlaskForm):
 class signUpForm(FlaskForm):
     username = StringField('Username',
                         validators=[DataRequired(), Length(min=4, max=20)])#minimum username length should be 4
-    email = StringField('Email', validators= [DataRequired(), Email])
+    email = StringField('Email', validators= [DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])# remember to hash password    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     confirm_password = PasswordField('confirm password',
                             validators=[DataRequired(),EqualTo('password')])
