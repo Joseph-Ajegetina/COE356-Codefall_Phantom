@@ -29,8 +29,8 @@ def login():
         form = LoginForm.from_json(login_details)
         if form.validate():
             login_details = json.dumps(login_details)
-            return login_details
-        return form.errors
+            return login_details # this is where to send the details to the database
+        return form.errors # if there are errors return json file back to react frontend
        
  
    
@@ -47,14 +47,6 @@ def register():
         print(form)
         
         return { "response": 200, "Your Name": form.username.data}
-
-        if form.validate_on_submit():
-            print(2000)
-
-        print(form.email.errors)
-
-    
-        
 
     return "<h1>signUp page page</h1>"
 
