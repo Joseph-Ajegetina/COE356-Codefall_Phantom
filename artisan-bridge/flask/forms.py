@@ -1,10 +1,11 @@
 # To contain form classes for data collection and validation
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, wtforms_json, Form
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired
+wtforms_json.init()
 
 
-class LoginForm(FlaskForm):
+class LoginForm(Form):
     username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
     password = PasswordField('poassword', validators=[DataRequired(), Length(min=8, max= 80)])
     submit = SubmitField('Sign Up')

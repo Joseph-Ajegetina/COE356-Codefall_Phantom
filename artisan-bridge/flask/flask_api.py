@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, request
 from flask.helpers import flash
 from forms import LoginForm, signUpForm
+import json
 
 app = Flask(__name__)
 # Key to be hashed and hidden in directory
@@ -17,13 +18,17 @@ def home_page():
 # Login form, validation and session to be added
 @app.route('/login', methods=['POST','GET'] )
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        # delete this line later---------------------------------------------------------------
-        flash(f'Account created for {form.username.data}.')
-        #---------------------------------------------------------------------------------------
+    if request.method == 'POST':
+        login_details = request.get_json(force=True)
+        login_details = json.loads(login_details)
+        form = LoginForm.from_json(login_details)
+        if form.validate():
+            login_details = json.dumps(login_details)
+            return login_details
+        return form.errors
+       
  
-    return "<h1>login page</h1>"
+   
 
 
 @app.route('/register', methods=['GET','POST'] )
