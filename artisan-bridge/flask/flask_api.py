@@ -4,8 +4,6 @@ from forms import LoginForm, signUpForm
 import json
 import requests
 from wtforms_json import from_json
-# WTF_CSRF_ENABLED = False
-
 
 
 app = Flask(__name__)
@@ -17,6 +15,7 @@ app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 @app.route('/home')
 @app.route('/index')
 def home_page():
+    # Database query for services and most rated artisans
     return "<h1>Home Page</h1>"
 
 
@@ -41,14 +40,20 @@ def register():
 
     if request.method == 'POST':
         request_react = request.get_json(force=True)
-        # print(dict(request_react))
-        form = signUpForm.from_json(request_react)
-        
-        print(form)
-        
-        return { "response": 200, "Your Name": form.username.data}
+        form = signUpForm.from_json(request_react)  
 
-    return "<h1>signUp page page</h1>"
+        if form.validate():
+            #-------------------------------------------
+            # Database commiting and further validation 
+            #-------------------------------------------
+            return { "Registration": f"Account created for {form.username.data}"}
+        else:
+            return {"Errors" : form.errors } 
+        
+    # to be changed
+    return {"Page" : "Sign Up" }
+
+    
 
 
 @app.route('/about')
@@ -66,5 +71,5 @@ def Services_page():
 
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
