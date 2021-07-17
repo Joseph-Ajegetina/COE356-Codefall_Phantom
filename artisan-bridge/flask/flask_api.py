@@ -2,6 +2,11 @@ from flask import Flask, request
 from flask.helpers import flash
 from forms import LoginForm, signUpForm
 import json
+import requests
+from wtforms_json import from_json
+# WTF_CSRF_ENABLED = False
+
+
 
 app = Flask(__name__)
 # Key to be hashed and hidden in directory
@@ -33,11 +38,24 @@ def login():
 
 @app.route('/register', methods=['GET','POST'] )
 def register():
-    form = signUpForm()
-    if form.validate_on_submit():
-        # delete this line later---------------------------------------------------------------
-        flash(f'Account created for {form.username.data}.')
-        #---------------------------------------------------------------------------------------
+
+    if request.method == 'POST':
+        request_react = request.get_json(force=True)
+        # print(dict(request_react))
+        form = signUpForm.from_json(request_react)
+        
+        print(form)
+        
+        return { "response": 200, "Your Name": form.username.data}
+
+        if form.validate_on_submit():
+            print(2000)
+
+        print(form.email.errors)
+
+    
+        
+
     return "<h1>signUp page page</h1>"
 
 
@@ -56,5 +74,5 @@ def Services_page():
 
 
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
