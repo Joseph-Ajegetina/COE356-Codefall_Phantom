@@ -18,15 +18,12 @@
 --
 -- Table structure for table `artisans`
 --
-DROP DATABASE IF EXISTS artisanbridge;
-CREATE DATABASE artisanbridge;
-USE artisanbridge;
 
 DROP TABLE IF EXISTS `artisans`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `artisans` (
-  `artisan_id` int NOT NULL AUTO_INCREMENT,
+  `artisan_username` int NOT NULL AUTO_INCREMENT,
   `service_id` int NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
@@ -34,7 +31,8 @@ CREATE TABLE `artisans` (
   `location` varchar(50) DEFAULT NULL,
   `contact` varchar(50) NOT NULL,
   `core service` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`artisan_id`),
+  `password` varchar(400) NOT NULL,
+  PRIMARY KEY (`artisan_username`),
   KEY `service_id` (`service_id`),
   CONSTRAINT `artisans_ibfk_1` FOREIGN KEY (`service_id`) REFERENCES `services` (`service_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -57,14 +55,15 @@ DROP TABLE IF EXISTS `customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customers` (
-  `customer_id` int NOT NULL AUTO_INCREMENT,
+  `customer_username` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `birth_date` date DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `city` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`customer_id`)
+  `password` varchar(400) NOT NULL,
+  PRIMARY KEY (`customer_username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -85,13 +84,13 @@ DROP TABLE IF EXISTS `records`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `records` (
-  `customer_id` int NOT NULL,
-  `artisan_id` int DEFAULT NULL,
+  `customer_username` int NOT NULL,
+  `artisan_username` int DEFAULT NULL,
   `date` date DEFAULT NULL,
-  KEY `customer_id` (`customer_id`),
-  KEY `artisan_id` (`artisan_id`),
-  CONSTRAINT `records_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
-  CONSTRAINT `records_ibfk_2` FOREIGN KEY (`artisan_id`) REFERENCES `artisans` (`artisan_id`)
+  KEY `customer_id` (`customer_username`),
+  KEY `artisan_id` (`artisan_username`),
+  CONSTRAINT `records_ibfk_1` FOREIGN KEY (`customer_username`) REFERENCES `customers` (`customer_username`),
+  CONSTRAINT `records_ibfk_2` FOREIGN KEY (`artisan_username`) REFERENCES `artisans` (`artisan_username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -137,4 +136,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-15 21:49:32
+-- Dump completed on 2021-07-18 23:28:21
