@@ -2,8 +2,9 @@ from flask import Flask, request
 from flask.helpers import flash
 from forms import LoginForm, signUpForm
 import json
-import requests
+from mysqlConnector import connection, artisans, services, customers, records, db
 from wtforms_json import from_json
+
 
 
 app = Flask(__name__)
@@ -24,11 +25,14 @@ def home_page():
 def login():
     if request.method == 'POST':
         login_details = request.get_json(force=True)
-        login_details = json.loads(login_details)
+        # login_details = json.loads(login_details)
         form = LoginForm.from_json(login_details)
+
         if form.validate():
+
             login_details = json.dumps(login_details)
             return login_details # this is where to send the details to the database
+
         return form.errors # if there are errors return json file back to react frontend
        
  
@@ -45,8 +49,9 @@ def register():
         if form.validate():
             #-------------------------------------------
             # Database commiting and further validation 
+            connection.execute(db.insert(customers).values([dict(request_react)]))
             #-------------------------------------------
-            return { "Registration": f"Account created for {form.username.data}"}
+            return {'Success':"created"}#{ "Registration": f"Account created for {form.username.data}"}
         else:
             return {"Errors" : form.errors } 
         
@@ -71,5 +76,5 @@ def Services_page():
 
 
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)

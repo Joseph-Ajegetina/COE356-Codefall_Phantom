@@ -8,10 +8,12 @@ url = "http://localhost:5000/register"
 # headers["Content-Type"] = "application/json"
 
 data = {
-  "username": "Som",
-  "email": "jasonsweet",
-  "password": "qwertyuiop",
-  "confirm_password": "qwertyuio"
+  "first_name": "Jason",
+  "last_name": "Sweet",
+  "phone": "+2335599111234",
+  "city": "Kumasi",
+  "email": "jasonsweet@gmail.com"
+  
 }
 
 
