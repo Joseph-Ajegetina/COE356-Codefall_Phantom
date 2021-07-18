@@ -4,12 +4,16 @@ from forms import LoginForm, signUpForm
 import json
 import requests
 from wtforms_json import from_json
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user
 
 
 app = Flask(__name__)
 # Key to be hashed and hidden in directory
 app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
 
 @app.route('/')
 @app.route('/home')
@@ -27,6 +31,10 @@ def login():
         login_details = json.loads(login_details)
         form = LoginForm.from_json(login_details)
         if form.validate():
+            
+            #login_user(user, rememger=form.remember.data)
+
+            #if user and bcrypt.check_password_hash(user.password,form.password.data)
             login_details = json.dumps(login_details)
             return login_details # this is where to send the details to the database
         return form.errors # if there are errors return json file back to react frontend
