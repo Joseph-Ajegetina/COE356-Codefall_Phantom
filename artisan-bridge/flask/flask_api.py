@@ -33,7 +33,11 @@ def login():
         form = LoginForm.from_json(login_details)
 
         if form.validate():
-            
+            email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
+            password = connection.execute(db.select([customers.columns.password]).where(customers.columns.email == form.email.data)).fetchall()
+            if email and bcrypt.check_password_hash(password,form.password.data):
+                pass
+
             #login_user(user, rememger=form.remember.data)
 
             #if user and bcrypt.check_password_hash(user.password,form.password.data)
