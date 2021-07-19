@@ -7,7 +7,7 @@ export default function navigation() {
     return (
         <div className="navBar" id="navBar">
             <div className="left ">
-            <h1><a href="" className="logo"> ARTISAN<span className="text-warning">BRIDGE</span></a></h1>
+            <h1><a href="#" className="logo"> ARTISAN<span className="text-warning">BRIDGE</span></a></h1>
             </div>
             <div className="right">
             <ul class="nav nav-pills">
@@ -26,8 +26,8 @@ export default function navigation() {
     </li>
     <a href="#" className="dropdown-toggle" data-toggle="dropdown"><img src="images/profile.png" alt="" className="services"/> Profile</a>
                 <div class="dropdown-menu">
-                    <a href="log in.html" class="dropdown-item">Login</a>
-                    <a href="sign up.html" class="dropdown-item">Sign up</a>
+                    <a href="#" class="dropdown-item">Login</a>
+                    <a href="#" class="dropdown-item">Sign up</a>
                     </div>
 </ul>
 

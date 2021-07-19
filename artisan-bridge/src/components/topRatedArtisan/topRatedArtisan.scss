@@ -1,3 +1,50 @@
 .topRatedArtisan {
   padding: 20px 30px;
 }
+.artisan-wrapper-center {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 2rem;
+}
+.artisan-wrapper {
+  width: 400px;
+  height: 440px;
+  background-color: #c4c4c4;
+  align-items: center;
+  border-radius: 20px;
+}
+.artisan-img {
+  width: 300px;
+  height: 250px;
+  border-radius: 14px;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
+  margin: 20px 45px;
+}
+.artisan-elipse {
+  width: 56px;
+  margin-left: 33px;
+  margin-bottom: 10px;
+  height: 51px;
+  border-radius: 500px;
+  background-color: #f59401;
+}
+.ratingimg {
+  width: 40px;
+  height: 40px;
+  margin-left: 9px;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+.description {
+  display: flex;
+  justify-content: space-between;
+}
+.skill {
+  margin-left: 5px;
+  margin-top: 15px;
+}

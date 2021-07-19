@@ -4,6 +4,8 @@ import ImageSlider from "./components/imageSlider/ImageSlider.jsx"
 import PopularServices from "./components/popularServices/PopularServices.jsx"
 import TopRatedArtisan from "./components/topRatedArtisan/TopRatedArtisan.jsx"
 import "./App.scss"
+
+
 function App() {
   return (
     <div className="app">

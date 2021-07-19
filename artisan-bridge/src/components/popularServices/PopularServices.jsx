@@ -8,7 +8,7 @@ export default function popularServices() {
                 <a href="" className="wrapper-link">
                 <div className="wrapper">
                     <div className="elipse">
-                        <img src="images/elipseimage1.png" alt="" className="elipseimage1" />
+                        <img src="images/elipseimage1.png" alt="" className="elipseimage" />
                     </div>
                     <div className="wrapper-text">
                       <h3>Electronics</h3>
@@ -19,6 +19,32 @@ export default function popularServices() {
                  </div>
                  </a>
                  <a href="" className="wrapper-link">
+                <div className="wrapper">
+                    <div className="elipse">
+                        <img src="images/elipseimage2.png" alt="" className="elipseimage" />
+                    </div>
+                    <div className="wrapper-text">
+                      <h3>Electronics</h3>
+                       <p className="text">
+                       Get a quick fix on your broken phone screen,  or watch battery replacement   
+                    </p>
+                    </div>
+                 </div>
+                 </a>
+                 <a href="" className="wrapper-link">
+                <div className="wrapper">
+                    <div className="elipse">
+                        <img src="images/elipseimage3.png" alt="" className="elipseimage" />
+                    </div>
+                    <div>
+                      <h3>Phones and Watches</h3>
+                       <p className="text">
+                       Get your blenders, rice cookers, hot plate, fridges etc. fix by trusted Artisan  
+                    </p>
+                    </div>
+                 </div>
+                 </a>
+                {/*  <a href="" className="wrapper-link">
                  <div className="wrapper">
                     <div className="elipse">
                     <img src="images/elipseimage2.png" alt="" className="elipseimage2" />
@@ -43,7 +69,7 @@ export default function popularServices() {
                     </p>
                  </div>
                     </div>
-                    </a>
+                    </a> */}
             </div>
             <a href="" className="service-link">All Services</a>
 
