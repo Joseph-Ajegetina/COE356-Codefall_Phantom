@@ -1,20 +1,11 @@
-from flask import Flask, request
-from flask.helpers import flash
-from forms import LoginForm, signUpForm
+from flask import request
+from Flaskapp.forms import LoginForm, signUpForm
 import json
-from mysqlConnector import connection, artisans, services, customers, records, db
+from Flaskapp import connection, artisans, services, customers, records, db
 from wtforms_json import from_json
-from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, login_user
+from Flaskapp import app, bcrypt, db
 
 
-
-app = Flask(__name__)
-# Key to be hashed and hidden in directory
-app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
-
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
 
 @app.route('/')
 @app.route('/home')
@@ -63,7 +54,7 @@ def register():
             # Database commiting and further validation 
             connection.execute(db.insert(customers).values([dict(request_react)]))
             #-------------------------------------------
-            return {'Success':"created"}#{ "Registration": f"Account created for {form.username.data}"}
+            return { "Registration": f"Account created for {form.first_name.data}"}
         else:
             return {"Errors" : form.errors } 
         
@@ -88,5 +79,3 @@ def Services_page():
 
 
 
-if __name__ == "__main__":
-    app.run(debug=True)

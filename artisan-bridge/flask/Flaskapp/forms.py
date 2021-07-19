@@ -2,9 +2,8 @@
 from wtforms import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError
-import wtforms_json
-from mysqlConnector import connection, artisans, services, customers, records, db
-wtforms_json.init()
+from Flaskapp import connection, artisans, services, customers, records, db
+
 
 
 class LoginForm(Form):
@@ -12,6 +11,8 @@ class LoginForm(Form):
     password = PasswordField('poassword', validators=[DataRequired(), Length(min=8, max= 80)])
     submit = SubmitField('Sign Up')
     remember = BooleanField('remember me')
+
+
 
 class signUpForm(Form):
     # username = StringField('Username',
