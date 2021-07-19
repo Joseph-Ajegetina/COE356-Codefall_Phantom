@@ -24,17 +24,15 @@ def login():
         form = LoginForm.from_json(login_details)
 
         if form.validate():
-            email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
+            username = connection.execute(db.select([customers.columns.username]).where(customers.columns.username == form.username.data)).fetchall()
             password = connection.execute(db.select([customers.columns.password]).where(customers.columns.email == form.email.data)).fetchall()
-            if email and bcrypt.check_password_hash(password,form.password.data):
-                pass
+            if username and bcrypt.check_password_hash(password,form.password.data):
+                pass #log the user in
+             #login_user(user, rememger=form.remember.data)
+            else:
+                return 'invalid credentials'
 
-            #login_user(user, rememger=form.remember.data)
-
-            #if user and bcrypt.check_password_hash(user.password,form.password.data)
-
-            login_details = json.dumps(login_details)
-            return login_details # this is where to send the details to the database
+           
 
         return form.errors # if there are errors return json file back to react frontend
        
