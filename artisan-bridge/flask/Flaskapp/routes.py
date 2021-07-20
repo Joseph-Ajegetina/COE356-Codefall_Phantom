@@ -1,4 +1,5 @@
 from flask import request
+from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm
 import json
 from Flaskapp import connection, artisans, services, customers, records, db
@@ -15,17 +16,20 @@ def home_page():
     return "<h1>Home Page</h1>"
 
 
+@app.route('/dashboard', methods=['GET','POST'])
+@login_required
+def dashboard():
+    return 'the dashboard'
+
 # Login form, validation and session to be added
 @app.route('/login', methods=['POST','GET'] )
 def login():
     if request.method == 'POST': 
-
         login_details = request.get_json(force=True)
         # login_details = json.loads(login_details)
         form = LoginForm.from_json(login_details)
 
         if form.validate():
-
             username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
             password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
 
@@ -35,8 +39,9 @@ def login():
             # ----------------------------------------
             
             if username and bcrypt.check_password_hash(password[0][0],form.password.data):
-                # pass #log the user in
-                return {"Info":"logged in"}
+                login_user(username)
+                #log the user in
+                return {"Info":"logged in"}# return to the dashboard of the user
              #login_user(user, rememger=form.remember.data)
             else:
                 return {"Info":'invalid credentials'}
@@ -44,7 +49,12 @@ def login():
         return form.errors # if there are errors return json file back to react frontend
        
  
-   
+
+@app.route('/logout', methods=['GET','POST'])
+@login_required
+def logout():
+    logout_user()
+    return 'back to login route'  
 
 
 @app.route('/register', methods=['GET','POST'] )
@@ -70,7 +80,7 @@ def register():
             return {"Errors" : form.errors } 
         
     # to be changed
-    return {"Page" : "Sign Up" }
+    return {"Page" : "Sign Up" }# return to dashboard route
 
     
 
