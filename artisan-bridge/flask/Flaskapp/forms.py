@@ -7,22 +7,22 @@ from Flaskapp import connection, artisans, services, customers, records, db
 
 
 class LoginForm(Form):
-    username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
-    password = PasswordField('poassword', validators=[DataRequired(), Length(min=8, max= 80)])
-    submit = SubmitField('Sign Up')
-    remember = BooleanField('remember me')
+    customer_username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 200)])
+    # submit = SubmitField('Sign Up')
+    # remember = BooleanField('remember me')
 
 
 
 class signUpForm(Form):
-    # username = StringField('Username',
-    #                     validators=[DataRequired(), Length(min=4, max=20)])#minimum username length should be 4
     
     first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])
     last_name = StringField('last_name', validators=[DataRequired(), Length(min=4, max=20)])
     email = StringField('email', validators= [DataRequired(), Email()])
     phone = StringField('phone', validators= [DataRequired()])
+    customer_username = StringField('customer_username', validators= [DataRequired()])
     city = StringField('city', validators= [DataRequired()])
+    password = PasswordField('poassword', validators=[DataRequired(), Length(min=8, max= 80)])
 
     # When password field is added
     # password = PasswordField('Password', validators=[DataRequired()])# remember to hash password    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
