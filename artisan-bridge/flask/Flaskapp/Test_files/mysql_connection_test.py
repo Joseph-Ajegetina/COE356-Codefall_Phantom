@@ -12,7 +12,7 @@ rounds = db.Table('artisans', metadata, autoload=True, autoload_with=engine)
 customers = db.Table('customers', metadata, autoload=True, autoload_with=engine)
 
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
-print(connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == 'ghost')).fetchall()
+print(connection.execute(db.select([customers]).where(customers.columns.customer_username == 'ghost')).fetchall()
 )
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
 # print(connection.execute("desc services").fetchall())

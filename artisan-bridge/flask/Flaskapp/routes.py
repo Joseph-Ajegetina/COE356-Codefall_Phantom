@@ -1,7 +1,7 @@
 from flask import request
-from Flaskapp.forms import LoginForm, signUpForm
+from Flaskapp.forms import LoginForm, signUpForm, adminForm
 import json
-from Flaskapp import connection, artisans, services, customers, records, db
+from Flaskapp import connection, artisans, services, customers, admin, records, db
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
 
@@ -31,10 +31,10 @@ def login():
 
             # ----------------------------------------
             # Query can be changed to simplier format
-            # 
+            # Query = connection.execute(db.select([admin]).where(admin.columns.email == form.email.data)).fetchall()
             # ----------------------------------------
             
-            if username and bcrypt.check_password_hash(password[0][0],form.password.data):
+            if username and bcrypt.check_password_hash(password[0][0],form.password.data): #if Query[0][1] and bcrypt.check_password_hash(Query[0][2],form.password.data):
                 # pass #log the user in
                 return {"Info":"logged in"}
              #login_user(user, rememger=form.remember.data)
@@ -75,6 +75,7 @@ def register():
     
 
 
+
 @app.route('/about')
 def about_page():
     return "<h1>About Page</h1>"
@@ -87,3 +88,29 @@ def report_page():
 def Services_page():
     return "<h1>Services Page</h1>"
 
+
+@app.route('/admin', method=['POST','GET'])
+def admin():
+    if request.method == 'POST': 
+
+        admin_details = request.get_json(force=True)
+        form = adminForm.from_json(admin_details)
+
+        if form.validate():
+
+            admin = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == form.email.data)).fetchall()
+            password = connection.execute(db.select([admin.columns.password]).where(admin.columns.email == form.email.data)).fetchall()
+
+            # ----------------------------------------
+            # Query can be changed to simplier format
+            # Query = connection.execute(db.select([admin]).where(admin.columns.email == form.email.data)).fetchall()
+            # ----------------------------------------
+            
+            if admin and bcrypt.check_password_hash(password[0][0],form.password.data): #if Query[0][1] and bcrypt.check_password_hash(Query[0][2],form.password.data):
+                
+                return {"Info":"logged in, Administrator"}
+             #login_user(user, rememger=form.remember.data)
+            else:
+                return {"Info":'invalid credentials for admin'}
+
+        return form.errors # if there are errors return json file back to react frontend
