@@ -18,21 +18,28 @@ def home_page():
 # Login form, validation and session to be added
 @app.route('/login', methods=['POST','GET'] )
 def login():
-    if request.method == 'POST':
+    if request.method == 'POST': 
+
         login_details = request.get_json(force=True)
         # login_details = json.loads(login_details)
         form = LoginForm.from_json(login_details)
 
         if form.validate():
-            username = connection.execute(db.select([customers.columns.username]).where(customers.columns.username == form.username.data)).fetchall()
-            password = connection.execute(db.select([customers.columns.password]).where(customers.columns.email == form.email.data)).fetchall()
-            if username and bcrypt.check_password_hash(password,form.password.data):
-                pass #log the user in
+
+            username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+            password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+
+            # ----------------------------------------
+            # Query can be changed to simplier format
+            # 
+            # ----------------------------------------
+            
+            if username and bcrypt.check_password_hash(password[0][0],form.password.data):
+                # pass #log the user in
+                return {"Info":"logged in"}
              #login_user(user, rememger=form.remember.data)
             else:
-                return 'invalid credentials'
-
-           
+                return {"Info":'invalid credentials'}
 
         return form.errors # if there are errors return json file back to react frontend
        
@@ -44,8 +51,14 @@ def login():
 def register():
 
     if request.method == 'POST':
+
         request_react = request.get_json(force=True)
+        # hashing password before converting json to form
+        password = bcrypt.generate_password_hash(str(request_react['password'])).decode('utf-8')
+        request_react['password'] = password
+        
         form = signUpForm.from_json(request_react)  
+
 
         if form.validate():
             #-------------------------------------------
@@ -73,7 +86,4 @@ def report_page():
 @app.route('/services')
 def Services_page():
     return "<h1>Services Page</h1>"
-
-
-
 

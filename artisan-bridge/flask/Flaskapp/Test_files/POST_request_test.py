@@ -1,22 +1,24 @@
 import requests
 import json
-from requests.structures import CaseInsensitiveDict
 
-url = "http://localhost:5000/register"
+url = "http://localhost:5000/login"
 
-# headers = CaseInsensitiveDict()
-# headers["Content-Type"] = "application/json"
+# data = {
+#   "first_name": "Jason",
+#   "last_name": "Sweet",
+#   "customer_username": "ghost",
+#   "phone": "+2335599111234",
+#   "city": "Kumasi",
+#   "email": "jasonsweet@gmail.com",
+#   "password": "passwords"
+  
+# }
 
 data = {
-  "first_name": "Jason",
-  "last_name": "Sweet",
-  "phone": "+2335599111234",
-  "city": "Kumasi",
-  "email": "jasonsweet@gmail.com"
+  "customer_username": "ghost",
+  "password": "password"
   
 }
-
-
 
 resp = requests.post(url, data=json.dumps(data))
 
