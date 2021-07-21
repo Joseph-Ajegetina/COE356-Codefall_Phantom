@@ -8,18 +8,19 @@ from Flaskapp import app, bcrypt, db
 
 
 
-@app.route('/')
-@app.route('/home')
-@app.route('/index')
-def home_page():
-    # Database query for services and most rated artisans
-    return "<h1>Home Page</h1>"
+# @app.route('/')
+# @app.route('/home')
+# @app.route('/index')
+# def home_page():
+#     # Database query for services and most rated artisans
+#     return "<h1>Home Page</h1>"
 
 
 @app.route('/dashboard', methods=['GET','POST'])
 @login_required
 def dashboard():
-    return 'the dashboard'
+    return {"info":'the dashboard'}
+
 
 # Login form, validation and session to be added
 @app.route('/login', methods=['POST','GET'] )
@@ -32,14 +33,9 @@ def login():
         if form.validate():
             username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
             password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
-
-            # ----------------------------------------
-            # Query can be changed to simplier format
-            # Query = connection.execute(db.select([admin]).where(admin.columns.email == form.email.data)).fetchall()
-            # ----------------------------------------
             
             if username and bcrypt.check_password_hash(password[0][0],form.password.data):
-                login_user(username)
+                # login_user(username)
                 #log the user in
                 return {"Info":"logged in"}# return to the dashboard of the user
              #login_user(user, rememger=form.remember.data)
@@ -54,7 +50,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return 'back to login route'  
+    return {"info":'back to login route'}  
 
 
 @app.route('/register', methods=['GET','POST'] )
@@ -82,8 +78,6 @@ def register():
     # to be changed
     return {"Page" : "Sign Up" }# return to dashboard route
 
-    
-
 
 
 @app.route('/about')
@@ -91,6 +85,7 @@ def about_page():
     return "<h1>About Page</h1>"
 
 @app.route('/report')
+@login_required
 def report_page():
     return "<h1>Report Page</h1>"
 
@@ -99,8 +94,8 @@ def Services_page():
     return "<h1>Services Page</h1>"
 
 
-@app.route('/admin', method=['POST','GET'])
-def admin():
+@app.route('/admin', methods=['POST','GET'])
+def administrator():
     if request.method == 'POST': 
 
         admin_details = request.get_json(force=True)
@@ -108,18 +103,13 @@ def admin():
 
         if form.validate():
 
-            admin = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == form.email.data)).fetchall()
+            admin_email = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == form.email.data)).fetchall()
             password = connection.execute(db.select([admin.columns.password]).where(admin.columns.email == form.email.data)).fetchall()
-
-            # ----------------------------------------
-            # Query can be changed to simplier format
-            # Query = connection.execute(db.select([admin]).where(admin.columns.email == form.email.data)).fetchall()
-            # ----------------------------------------
             
-            if admin and bcrypt.check_password_hash(password[0][0],form.password.data): #if Query[0][1] and bcrypt.check_password_hash(Query[0][2],form.password.data):
+            if admin_email and bcrypt.check_password_hash(password[0][0],form.password.data): 
                 
                 return {"Info":"logged in, Administrator"}
-             #login_user(user, rememger=form.remember.data)
+                #login_user(user, rememger=form.remember.data)
             else:
                 return {"Info":'invalid credentials for admin'}
 

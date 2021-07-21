@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "http://localhost:5000/login"
+url = "http://localhost:5000/admin"
 
 # data = {
 #   "first_name": "Jason",
@@ -15,8 +15,9 @@ url = "http://localhost:5000/login"
 # }
 
 data = {
+  "email": "admin@artisanbridge.com",
   "customer_username": "ghost",
-  "password": "password"
+  "password": "passwords"
   
 }
 
