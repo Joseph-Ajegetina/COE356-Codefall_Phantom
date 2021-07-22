@@ -114,3 +114,19 @@ def administrator():
                 return {"Info":'invalid credentials for admin'}
 
         return form.errors # if there are errors return json file back to react frontend
+
+
+app.route('/popular_artisans')
+def popular_artisans():
+    #select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
+    #select * from top rated artisans
+    #db.select([top_rated_artisans])
+    pass
+
+app.routeI('/popular_services')
+def popularServices():
+    #select * from popular_services
+    #db.select([populars_ervices])
+    pass
+
+ 
