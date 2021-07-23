@@ -1,0 +1,45 @@
+Metadata-Version: 2.1
+Name: flaskapp
+Version: 1.0.5
+Summary: Create flask project simply
+Home-page: https://github.com/ksg97031/flaskapp
+Author: ksg97031
+Author-email: ksg97031@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.4
+Description-Content-Type: text/x-rst
+Requires-Dist: flask
+Requires-Dist: pathlib
+Requires-Dist: sqlalchemy
+Requires-Dist: flask-sqlalchemy
+
+flaskapp
+============================================================
+| Creating flask project one by one is very troublesome to ours.
+| 'flaskapp' can create a flask project with base files fast and simple.
+|
+
+.. code:: sh
+
+  $ pip install flaskapp
+
+.. code:: sh
+
+  $ flaskapp create your_project_name
+  $ cd your_project_name
+
+.. code:: sh
+
+  $ python app.py
+   * Serving Flask app "app" (lazy loading)
+   * Environment: production
+    WARNING: This is a development server. Do not use it in a production deployment.
+    Use a production WSGI server instead.
+   * Debug mode: off
+   * Running on http://0.0.0.0:80/ (Press CTRL+C to quit) 
+
+
