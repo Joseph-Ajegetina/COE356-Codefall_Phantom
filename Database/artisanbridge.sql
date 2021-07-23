@@ -4,7 +4,7 @@ USE artisanbridge;
 
 DROP TABLE IF EXISTS `services`;
 CREATE TABLE `services` (
-  `service_id` int NOT NULL AUTO_INCREMENT,
+  `service_id` INT NOT NULL AUTO_INCREMENT,
   `service_type` varchar(255) NOT NULL,
   `description` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`service_id`)
@@ -12,7 +12,7 @@ CREATE TABLE `services` (
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
-  `customer_id` int NOT NULL AUTO_INCREMENT,
+  `customer_id` INT NOT NULL AUTO_INCREMENT,
   `customer_username` varchar(255),
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE `customers` (
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(400) NOT NULL,
   PRIMARY KEY (`customer_id`)
-) ;
+);
 
 DROP TABLE IF EXISTS `artisans`;
 CREATE TABLE `artisans` (
@@ -36,18 +36,33 @@ CREATE TABLE `artisans` (
   `contact` varchar(50) NOT NULL,
   `password` varchar(400) NOT NULL,
   PRIMARY KEY (`artisan_id`),
-  FOREIGN KEY (service_id) REFERENCES services(service_id));
+  FOREIGN KEY (service_id) REFERENCES services(service_id)
+  );
 
 
 DROP TABLE IF EXISTS `records`;
 CREATE TABLE `records` (
-  `customer_id` int,
-  `artisan_id` int,
+  `customer_id` int NOT NULL,
+  `artisan_id` int NOT NULL,
   `date` DATETIME DEFAULT NOW(),
+  `service_type` varchar(255) NOT NULL,
   FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
   FOREIGN KEY (artisan_id) REFERENCES artisans(artisan_id)
-) ;
+);
 
-CREATE VIEW topRatedArtisans AS SELECT first_name,last_name,rating FROM artisans ORDER BY rating DESC LIMIT 3;
+CREATE VIEW top_Rated_Artisans AS 
+SELECT first_name, last_name, rating 
+FROM artisans 
+ORDER BY rating DESC 
+LIMIT 3;
+
+CREATE VIEW popular_Services AS 
+SELECT service_type   
+FROM records
+GROUP BY service_type 
+ORDER BY COUNT(service_type) DESC
+LIMIT 3;
+
 ALTER TABLE artisans AUTO_INCREMENT=1000;
 ALTER TABLE customers AUTO_INCREMENT=1000;
+ALTER TABLE services AUTO_INCREMENT=1000;
