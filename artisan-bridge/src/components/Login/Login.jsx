@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export default function Login({log_in}) {
 
-  const [details,setDetails]= useState ({username:"", password:""});
+  const [details,setDetails]= useState ({customer_username:"", password:""});
   
   const submithand = e =>{
     e.preventDefault();
@@ -30,7 +30,7 @@ export default function Login({log_in}) {
 
         <div>
             <label>
-              <input type="text" placeholder="username" name="username" id="username" required onChange={e=> setDetails({...details, username:e.target.value})} value={details.username} />
+              <input type="text" placeholder="username" name="customer_username" id="username" required onChange={e=> setDetails({...details, customer_username:e.target.value})} value={details.customer_username} />
             </label>
             </div>
             <div>
