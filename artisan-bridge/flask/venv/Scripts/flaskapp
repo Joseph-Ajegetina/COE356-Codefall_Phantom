@@ -1,0 +1,13 @@
+#!c:\users\caleb\documents\coe356-codefall_phantom\artisan-bridge\flask\venv\scripts\python.exe
+import sys
+from flaskapp import create_project
+
+def main():
+    if len(sys.argv) != 3 or sys.argv[1] != 'create':
+        print("Usage: flaskapp create [project_name]")
+        return
+    
+    create_project.run(sys.argv[2])
+
+if __name__=="__main__":
+    main()

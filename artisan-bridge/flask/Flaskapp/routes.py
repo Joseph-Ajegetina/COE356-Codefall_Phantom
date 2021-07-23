@@ -20,7 +20,7 @@ def home_page():
 def login():
     if request.method == 'POST': 
 
-        login_details = request.get_json(force=True)
+        login_details = request.get_json()
         # login_details = json.loads(login_details)
         form = LoginForm.from_json(login_details)
 
