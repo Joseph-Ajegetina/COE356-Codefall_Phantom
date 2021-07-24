@@ -42,10 +42,12 @@ CREATE TABLE `artisans` (
 
 DROP TABLE IF EXISTS `records`;
 CREATE TABLE `records` (
+  `record_id` INT NOT NULL AUTO_INCREMENT,
   `customer_id` int NOT NULL,
   `artisan_id` int NOT NULL,
   `date` DATETIME DEFAULT NOW(),
   `service_type` varchar(255) NOT NULL,
+  PRIMARY KEY (record_id),
   FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
   FOREIGN KEY (artisan_id) REFERENCES artisans(artisan_id)
 );
@@ -66,3 +68,4 @@ LIMIT 3;
 ALTER TABLE artisans AUTO_INCREMENT=1000;
 ALTER TABLE customers AUTO_INCREMENT=1000;
 ALTER TABLE services AUTO_INCREMENT=1000;
+ALTER TABLE records AUTO_INCREMENT=1000;
