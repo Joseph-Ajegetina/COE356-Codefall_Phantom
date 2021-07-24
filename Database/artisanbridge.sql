@@ -14,8 +14,7 @@ DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `customer_id` INT NOT NULL AUTO_INCREMENT,
   `customer_username` varchar(255),
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
+  `name` varchar(400) NOT NULL,
   `birth_date` date DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `address` varchar(50) NOT NULL,
@@ -29,12 +28,12 @@ CREATE TABLE `artisans` (
   `artisan_id` int NOT NULL AUTO_INCREMENT,
   `artisan_username` varchar(255),
   `service_id` int NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
+  `name` varchar(400) NOT NULL,
   `rating` DECIMAL(2,2) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `contact` varchar(50) NOT NULL,
   `password` varchar(400) NOT NULL,
+  `birth_date` date DEFAULT NULL,
   PRIMARY KEY (`artisan_id`),
   FOREIGN KEY (service_id) REFERENCES services(service_id)
   );
@@ -53,7 +52,7 @@ CREATE TABLE `records` (
 );
 
 CREATE VIEW top_Rated_Artisans AS 
-SELECT first_name, last_name, rating 
+SELECT name, rating 
 FROM artisans 
 ORDER BY rating DESC 
 LIMIT 3;
