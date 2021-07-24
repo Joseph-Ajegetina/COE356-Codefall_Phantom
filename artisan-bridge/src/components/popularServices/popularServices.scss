@@ -2,10 +2,6 @@
   padding: 20px 30px;
 }
 .wrapper-center {
-  /*  width: 90vw;
-  margin: 0 auto;
-  max-width: 1170px; */
-  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -15,7 +11,6 @@
 .service-link {
   text-decoration: none;
   float: right;
-  margin-top: 20px;
 }
 .wrapper {
   width: 450px;

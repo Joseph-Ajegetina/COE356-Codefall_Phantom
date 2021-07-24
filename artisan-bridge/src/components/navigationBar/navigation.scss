@@ -31,6 +31,7 @@
   color: black;
 }
 .right {
+  padding: 5px;
   .dropdown-item:hover {
     background-color: #f59401;
     color: white;
@@ -38,4 +39,17 @@
 }
 .nav-item {
   padding-right: 25px;
+}
+.search {
+  width: 35%;
+  padding-top: 5px;
+}
+.searchbar {
+  width: 90%;
+  padding: 10px;
+  height: 32px;
+}
+.searchicon {
+  background-color: #f59401;
+  border-radius: 5px;
 }
