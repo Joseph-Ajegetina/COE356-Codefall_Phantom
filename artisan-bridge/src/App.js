@@ -8,16 +8,26 @@ import Signup from "./components/Sign up/Sign up.jsx"
 import Service from "./components/Service/Service"
 import Artisan from "./components/Artisan/Artisan.jsx"
 import Records from "./components/Records/Records.jsx"
+import Dashboard from "./components/Dashboard/Dashboard.jsx"
+import { useState } from "react"
 
 
 
 function App() {
+
+  const [user,setUser]=useState({username:"",password:"" })
+  
+  const log_in = details => {
+    console.log(details);
+  }
+
+
   return (
    <Router>
     <div className="app">
       <Switch>
       <Route path="/login">
-     <Login />
+     <Login  log_in={log_in} />
     </Route>
     <Route path="/signup">
     <Signup />
@@ -43,7 +53,7 @@ function App() {
 <Footer/>
     </div>
     </Route>
-    <Route path="/home">
+    <Route path="/Home">
       <Navigation/>
     <div className="sections">
       <Home/>
@@ -57,6 +67,14 @@ function App() {
       <Footer/>
     </div>
     </Route>
+    <Route path="/Dashboard">
+      <Navigation/>
+    <div className="sections">
+      <Dashboard/>
+      <Footer/>
+    </div>
+    </Route>
+    
     </Switch>
     </div>
     </Router>
