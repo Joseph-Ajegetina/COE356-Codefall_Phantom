@@ -5,13 +5,14 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 import sqlalchemy as db
 from sqlalchemy import create_engine, MetaData
 import pymysql
+from flask_cors import CORS
 
 # To allow to json to form object passing
 import wtforms_json
 wtforms_json.init()
 
 app = Flask(__name__)
-
+CORS(app)
 # Key to be hashed and hidden in directory
 app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 bcrypt = Bcrypt(app)

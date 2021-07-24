@@ -5,3 +5,23 @@
   border-radius: 62px;
   object-fit: cover;
 }
+h4 {
+  padding-left: 30px;
+  padding-top: 20px;
+}
+.service-home {
+  margin-right: 20px;
+  align-items: center;
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 2rem;
+}
+.artisan-home {
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 2rem;
+}

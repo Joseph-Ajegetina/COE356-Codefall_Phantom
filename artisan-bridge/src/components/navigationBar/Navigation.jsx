@@ -1,5 +1,6 @@
 import "./navigation.scss"
 import { Link } from 'react-router-dom'
+import SearchIcon from '@material-ui/icons/Search';
 
 
 export default function navigation() {
@@ -11,6 +12,13 @@ export default function navigation() {
                  ARTISAN<span className="text-warning">BRIDGE</span></h1>
                 </Link>
             </div>
+            <div className="search">
+          <input
+            type="text"
+            class="searchbar"
+            placeholder="Search for artisans and services"
+          /> <button className="searchicon"> <SearchIcon/> </button>
+          </div>
             <div className="right">
             <ul class="nav nav-pills">
     <li class="nav-item">
@@ -24,7 +32,7 @@ export default function navigation() {
         </Link>
     </li>
     <li class="nav-item">
-        <Link to="artisan" className="nav">
+        <Link to="/artisan" className="nav">
         <img src="images/find an artisan.png" alt="" className="services"/> Find an Artisan
         </Link>
     </li>
@@ -33,7 +41,7 @@ export default function navigation() {
         <img src="images/records.png" alt="" className="home"/> Records
         </Link>
     </li>
-    <a href="#" className="dropdown-toggle" data-toggle="dropdown"><img src="images/profile.png" alt="" className="services"/> Profile</a>
+    <a href="#" className="dropdown" data-toggle="dropdown"><img src="images/profile.png" alt="" className="services"/> Profile</a>
                 <div class="dropdown-menu">
                     <Link to="/login" className="dropdown-item"> 
                    Login

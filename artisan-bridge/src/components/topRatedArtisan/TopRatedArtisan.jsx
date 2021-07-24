@@ -1,9 +1,10 @@
 import "./topRatedArtisan.scss"
+import { Link } from 'react-router-dom'
+
 
 export default function topRatedArtisan() {
     return (
         <div className="topRatedArtisan">
-            <h4>Top Rated Artisans</h4>
             <div className="artisan-wrapper-center">
                 <a href="" className="wrapper-link">
                     <div className="artisan-wrapper">
@@ -28,22 +29,9 @@ export default function topRatedArtisan() {
                     </div>
                 </a>
                 
-                <a href="" className="wrapper-link">
-                    <div className="artisan-wrapper">
-                    <div>
-                         <img src="images/artisan2.jpg" alt="" className="artisan-img"/>
-                      </div>
-                    </div>
-                </a>
-                <a href="" className="wrapper-link">
-                    <div className="artisan-wrapper">
-                    <div>
-                         <img src="images/artisan3.jpg" alt="" className="artisan-img"/>
-                      </div>
-                    </div>
-                </a>
+             
             </div>
-            <a href="" className="service-link">All Artisans</a>
+          
 
          </div>
     )
