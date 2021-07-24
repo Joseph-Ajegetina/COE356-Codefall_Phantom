@@ -1,6 +1,7 @@
 import "./home.scss"
 import PopularServices from "../popularServices/PopularServices"
 import TopRatedArtisan from "../topRatedArtisan/TopRatedArtisan"
+import { Link } from 'react-router-dom'
 
 
 export default function home() {
@@ -32,8 +33,24 @@ export default function home() {
     <span class="visually-hidden">Next</span>
   </button> */}
 </div>
+<h4>Popular Services</h4>
+<div className="service-home">
 <PopularServices/>
+<PopularServices/>
+<PopularServices/>
+</div>
+<Link to="/service" className="service-link">
+            All Services
+            </Link>     
+<h4>Top Rated Artisans</h4>
+<div className="artisan-home">
 <TopRatedArtisan/>
+<TopRatedArtisan/>
+<TopRatedArtisan/>
+</div>
+<Link to="artisan" className="service-link">
+            All Artisans
+            </Link>
        </div>
     )
 }
