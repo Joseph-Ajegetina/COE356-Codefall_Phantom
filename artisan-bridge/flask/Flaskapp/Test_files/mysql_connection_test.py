@@ -10,9 +10,10 @@ metadata = db.MetaData()
 
 rounds = db.Table('artisans', metadata, autoload=True, autoload_with=engine)
 customers = db.Table('customers', metadata, autoload=True, autoload_with=engine)
+admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
+
 
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
-print(connection.execute(db.select([rounds])).fetchall()
-)
+print(connection.execute(db.select([admin.columns.email]).where(admin.columns.email == 'ghost')).fetchall())
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
 # print(connection.execute("desc services").fetchall())
