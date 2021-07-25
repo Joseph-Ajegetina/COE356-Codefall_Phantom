@@ -2,14 +2,14 @@
 from wtforms import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError
-from Flaskapp import connection, artisans, services, customers, admin,records, db
+from Flaskapp import connection, artisans, services, customers,records, db
 
 
 
 class LoginForm(Form):
     customer_username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 200)])
-    # remember = BooleanField('remember me')
+    
 
 
 

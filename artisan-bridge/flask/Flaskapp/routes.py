@@ -2,7 +2,7 @@ from flask import request
 from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm
 import json
-from Flaskapp import connection, artisans, services, customers, admin, records, db
+from Flaskapp import connection, artisans, services, customers, records, db
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
 
@@ -31,10 +31,11 @@ def login():
         form = LoginForm.from_json(login_details)
 
         if form.validate():
+            email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
             username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
             password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
             
-            if username and bcrypt.check_password_hash(password[0][0],form.password.data):
+            if (username or email) and bcrypt.check_password_hash(password[0][0],form.password.data):
                 # login_user(username)
                 #log the user in
                 return {"Info":"logged in"}# return to the dashboard of the user
@@ -94,26 +95,26 @@ def Services_page():
     return "<h1>Services Page</h1>"
 
 
-@app.route('/admin', methods=['POST','GET'])
-def administrator():
-    if request.method == 'POST': 
+# @app.route('/admin', methods=['POST','GET'])
+# def administrator():
+#     if request.method == 'POST': 
 
-        admin_details = request.get_json(force=True)
-        form = adminForm.from_json(admin_details)
+#         admin_details = request.get_json(force=True)
+#         form = adminForm.from_json(admin_details)
 
-        if form.validate():
+#         if form.validate():
 
-            admin_email = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == form.email.data)).fetchall()
-            password = connection.execute(db.select([admin.columns.password]).where(admin.columns.email == form.email.data)).fetchall()
+#             admin_email = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == form.email.data)).fetchall()
+#             password = connection.execute(db.select([admin.columns.password]).where(admin.columns.email == form.email.data)).fetchall()
             
-            if admin_email and bcrypt.check_password_hash(password[0][0],form.password.data): 
+#             if admin_email and bcrypt.check_password_hash(password[0][0],form.password.data): 
                 
-                return {"Info":"logged in, Administrator"}
-                #login_user(user, rememger=form.remember.data)
-            else:
-                return {"Info":'invalid credentials for admin'}
+#                 return {"Info":"logged in, Administrator"}
+#                 #login_user(user, rememger=form.remember.data)
+#             else:
+#                 return {"Info":'invalid credentials for admin'}
 
-        return form.errors # if there are errors return json file back to react frontend
+#         return form.errors # if there are errors return json file back to react frontend
 
 
 app.route('/popular_artisans')
