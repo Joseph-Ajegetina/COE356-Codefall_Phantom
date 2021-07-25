@@ -37,7 +37,7 @@ def login():
             if username and bcrypt.check_password_hash(password[0][0],form.password.data):
                 # pass #log the user in
                 return {"Info":"logged in"}
-             #login_user(user, rememger=form.remember.data)
+                #login_user(user, rememger=form.remember.data)
             else:
                 return {"Info":'invalid credentials'}
 

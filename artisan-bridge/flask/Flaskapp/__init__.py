@@ -21,7 +21,7 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
 # Database configuration
-engine = create_engine('mysql+pymysql://root:root@localhost:3306/artisanbridge')
+engine = create_engine('mysql+pymysql://root:Thekingman9065@localhost:3306/artisanbridge')
 connection = engine.connect()
 metadata = db.MetaData()
 
