@@ -12,7 +12,6 @@ class LoginForm(Form):
     
 
 
-
 class signUpForm(Form):
     
     first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])

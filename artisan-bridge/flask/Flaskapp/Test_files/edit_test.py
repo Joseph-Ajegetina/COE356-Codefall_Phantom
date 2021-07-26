@@ -1,21 +1,24 @@
-# string to variable
+# # string to variable
 
-cat = 1000
-dog = 100
+# cat = 1000
+# dog = 100
 
-def go():
-    print(globals()[str(input())]*globals()['dog'])
+# def go():
+#     print(globals()[str(input())]*globals()['dog'])
 
-go()
+# go()
 
-# class go():
+# # class go():
     
-#     def __init__(self, goal):
-#         self.goal = goal
+# #     def __init__(self, goal):
+# #         self.goal = goal
 
 
-# test = go(5000)
-# str = 'out'
-# exec(f"{str} = {'test'}.{'goal'}")
+# # test = go(5000)
+# # str = 'out'
+# # exec(f"{str} = {'test'}.{'goal'}")
 
-# print(out)
+# # print(out)
+goal = None
+
+print(bool(goal))

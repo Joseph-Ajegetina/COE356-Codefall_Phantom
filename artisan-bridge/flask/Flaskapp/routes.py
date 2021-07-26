@@ -1,50 +1,100 @@
-from flask import request
+from flask import request, session, g
 from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
 from Flaskapp import connection, artisans, services, customers, records, db, admin
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
+from Flaskapp.decos import admin_login_required, login_requireds
+
+
+
+# def login_requireds(*args, **kwargs):
+
+#     def wrapper(original):
+#         return original()
+                
+#     if kwargs == True:
+#         return wrapper
+#     else:
+#         return {"Info":"Login required"}
+
+
+
+# State = None
 
 
 
 
+@app.before_request
+def before_request():
+    
+    # print(State)
+    if 'username' in session:
+        
+        # print(State)
+        app.config['State'] = True
+        # State = True
+        # print(State)
+    else:
+        app.config['State'] = None
+        
 
-@app.route('/dashboard', methods=['GET','POST'])
-@login_required
+@app.route('/dashboard', methods=['GET'])
+@login_requireds
 def dashboard():
+
     return {"info":'the dashboard'}
+
 
 
 # Login form, validation and session to be added
 @app.route('/login', methods=['POST','GET'] )
 def login():
-    if request.method == 'POST': 
-        login_details = request.get_json(force=True)
-        # login_details = json.loads(login_details)
-        form = LoginForm.from_json(login_details)
 
-        if form.validate():
-            email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
-            username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
-            password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
-            
-            if (username or email) and bcrypt.check_password_hash(password[0][0],form.password.data):
-                # login_user(username)
-                #log the user in
-                return {"Info":"logged in"}# return to the dashboard of the user
+    session['loggedin'] = True
+    session['username'] = 'username'
+    return {"info":"LoggedIn"}
+
+    # if request.method == 'POST': 
+    #     login_details = request.get_json(force=True)
+    #     # login_details = json.loads(login_details)
+    #     form = LoginForm.from_json(login_details)
+
+    #     # Requires reformating
+    #     if form.validate():
+
+    #         email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
+    #         username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+    #         password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+    #         customer_id = connection.execute(db.select([customers.columns.customer_id]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+
+
+    #         if (username or email) and bcrypt.check_password_hash(password[0][0],form.password.data):
+    #             #log the user in
+
+    #             session['loggedin'] = True
+    #             session['id'] = customer_id
+    #             session['username'] = 'username'
+
+    #             return {"Info":"logged in"}# return to the dashboard of the user
              
-            else:
-                return {"Info":'invalid credentials'}
+    #         else:
+    #             return {"Info":'invalid credentials'}
 
-        return form.errors # if there are errors return json file back to react frontend
+    #     return form.errors # if there are errors return json file back to react frontend
+
+    # else:
+    #     return {"Info": "GET to login"}
        
  
 
 @app.route('/logout', methods=['GET','POST'])
-@login_required
+@login_requireds
 def logout():
-    logout_user()
+    
+    session.clear()
+
     return {"info":'back to login route'}  
 
 
@@ -96,7 +146,7 @@ def administrator():
             else:
                 return {"Info":'invalid credentials for admin'}
 
-        return form.errors # if there are errors return json file back to react frontend
+        return form.errors    # if there are errors return json file back to react frontend
 
 
 
@@ -138,7 +188,7 @@ def popular_artisans():
     #db.select([top_rated_artisans])
     pass
 
-app.routeI('/popular_services')
+app.route('/popular_services')
 def popularServices():
     #select * from popular_services
     #db.select([populars_ervices])

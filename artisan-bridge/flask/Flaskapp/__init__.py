@@ -33,5 +33,8 @@ services = db.Table('services', metadata, autoload=True, autoload_with=engine)
 records = db.Table('records', metadata, autoload=True, autoload_with=engine)
 admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
 
+# variables
+app.config['State'] = None
+
 # For routes in flask app
 from Flaskapp import routes
