@@ -194,4 +194,14 @@ def popularServices():
     #db.select([populars_ervices])
     pass
 
+@app.route('/report')
+@login_required
+def reports():
+    return connection.execute(db.select([records]))
+
+@app.route('/services')
+def services():
+    return connection.execute(db.select([services]))
+   
+
  
