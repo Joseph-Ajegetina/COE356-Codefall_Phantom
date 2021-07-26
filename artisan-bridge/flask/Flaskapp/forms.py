@@ -21,7 +21,7 @@ class signUpForm(Form):
     phone = StringField('phone', validators= [DataRequired()])
     customer_username = StringField('customer_username', validators= [DataRequired()])
     city = StringField('city', validators= [DataRequired()])
-    password = PasswordField('poassword', validators=[DataRequired(), Length(min=8, max= 80)])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
 
     # confirm_password = PasswordField('confirm password', validators=[DataRequired(),EqualTo('password')])
     
@@ -54,9 +54,25 @@ class adminForm(Form):
     email = StringField('email', validators=[DataRequired(), Email()])
     password = PasswordField('password', validators=[DataRequired()])
 
-    # Same as login route
-    def validate_email(self, email):
-        email = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == email.data)).fetchall()
+    # # Same as login route
+    # def validate_email(self, email):
+    #     email = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == email.data)).fetchall()
 
-        if email:
-            raise ValidationError('Email has already been used')
+    #     if email:
+    #         raise ValidationError('Email has already been used')
+
+
+class artisanForm(Form):
+
+    first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])
+    last_name = StringField('last_name', validators=[DataRequired(), Length(min=4, max=20)])
+    email = StringField('email', validators= [DataRequired(), Email()])
+    contact = StringField('phone', validators= [DataRequired()])
+    service_id = StringField('service_id', validators= [DataRequired()])
+    artisan_username = StringField('customer_username', validators= [DataRequired()])
+    location = StringField('city', validators= [DataRequired()])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
+    rating = StringField('rating', validators= [DataRequired()])
+    core_serivce = StringField('core_service', validators= [DataRequired()])
+
+    # some fields will be changed or removed
