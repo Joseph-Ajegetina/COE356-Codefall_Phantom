@@ -68,3 +68,10 @@ ALTER TABLE artisans AUTO_INCREMENT=1000;
 ALTER TABLE customers AUTO_INCREMENT=1000;
 ALTER TABLE services AUTO_INCREMENT=1000;
 ALTER TABLE records AUTO_INCREMENT=1000;
+
+CREATE TABLE admin(
+admin_id int,
+password varchar(50),
+email varchar(50),
+PRIMARY KEY(admin_id)
+);
