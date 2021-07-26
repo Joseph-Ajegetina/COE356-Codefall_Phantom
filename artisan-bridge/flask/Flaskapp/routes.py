@@ -131,17 +131,16 @@ def edit_artisan(id):
     return {"Info: Done"}
 
 
-app.route('/popular_artisans')
+app.route('/top_Rated_Artisans')
 def popular_artisans():
     #select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
     #select * from top rated artisans
-    #db.select([top_rated_artisans])
+    #db.select([top_Rated_Artisans])
     pass
 
-app.routeI('/popular_services')
+app.routeI('/popular_Services')
 def popularServices():
-    #select * from popular_services
-    #db.select([populars_ervices])
+    #db.select([popular_Services])
     pass
 
  
