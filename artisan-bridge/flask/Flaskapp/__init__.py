@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 import sqlalchemy as db
 from sqlalchemy import create_engine, MetaData
@@ -19,9 +19,10 @@ bcrypt = Bcrypt(app)
 
 # For sessions 
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 # Database configuration
-engine = create_engine('mysql+pymysql://root:root@localhost:3306/artisanbridge')
+engine = create_engine('mysql+pymysql://root:Thekingman9065@localhost:3306/artisanbridge')
 connection = engine.connect()
 metadata = db.MetaData()
 
@@ -30,6 +31,7 @@ artisans = db.Table('artisans', metadata, autoload=True, autoload_with=engine)
 customers = db.Table('customers', metadata, autoload=True, autoload_with=engine)
 services = db.Table('services', metadata, autoload=True, autoload_with=engine)
 records = db.Table('records', metadata, autoload=True, autoload_with=engine)
+admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
 
 # For routes in flask app
 from Flaskapp import routes

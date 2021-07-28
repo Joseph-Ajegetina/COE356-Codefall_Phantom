@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "http://localhost:5000/register"
+url = "http://localhost:5000/admin"
 
 data = {
    "first_name": "Jason",
@@ -14,11 +14,11 @@ data = {
   
  }
 
-#  data = {
-#   "customer_username": "ghost",
-#    "password": "password8"
-  
-# }
+data = {
+  "email": "admin@artisanbridge.com",
+  "customer_username": "ghost",
+  "password": "passwords"
+   }
 
 resp = requests.post(url, data=json.dumps(data))
 
