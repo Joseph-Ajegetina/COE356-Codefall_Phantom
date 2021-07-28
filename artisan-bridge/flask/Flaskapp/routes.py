@@ -1,51 +1,143 @@
-from flask import request
+from flask import request, session
 from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
 from Flaskapp import connection, artisans, services, customers, records, db, admin, popular_services,top_rated_artisans
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
+from Flaskapp.decos import admin_login_required, login_requireds
 
 
 
+# def login_requireds(*args, **kwargs):
+
+#     def wrapper(original):
+#         return original()
+                
+#     if kwargs == True:
+#         return wrapper
+#     else:
+#         return {"Info":"Login required"}
 
 
-@app.route('/dashboard', methods=['GET','POST'])
-@login_required
+
+# State = None
+
+
+
+# admin 🙄🙄😶
+@app.before_request
+def before_request():
+    
+
+    if 'admin' in session:
+        app.config['State_Admin'] = True
+        # print(State)
+    elif 'username' in session:
+        # print(State)
+        app.config['State'] = True
+
+    else:
+        app.config['State'] = None
+        
+
+@app.route('/dashboard', methods=['GET'])
+@login_requireds
 def dashboard():
-    return {"info":'the dashboard'}
+
+    return {"info":f'the dashboard{session}'}
+
+
+
 
 
 # Login form, validation and session to be added
+# ----------------------------------------------------------------------------------------------------
+
 @app.route('/login', methods=['POST','GET'] )
 def login():
+
+    # session['loggedin'] = True
+    # session['username'] = input("Name")
+    # return {"info":"LoggedIn"}
+
     if request.method == 'POST': 
+
         login_details = request.get_json(force=True)
         # login_details = json.loads(login_details)
         form = LoginForm.from_json(login_details)
 
+        # Requires reformating
         if form.validate():
-            email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
-            username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
-            password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+
             
-            if (username or email) and bcrypt.check_password_hash(password[0][0],form.password.data):
-                # login_user(username)
+            user = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.username.data)).fetchall()
+            admin_name = connection.execute(db.select([admin.columns.admin_username]).where(admin.columns.admin_username == form.username.data)).fetchall()
+
+            customer_id = connection.execute(db.select([customers.columns.customer_id]).where(customers.columns.customer_username == form.username.data)).fetchall()
+
+
+            if user:
+                password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.username.data)).fetchall()
+
+                if bcrypt.check_password_hash(password[0][0],form.password.data):
                 #log the user in
-                return {"Info":"logged in"}# return to the dashboard of the user
+
+                # session['loggedin'] = True
+                # session['id'] = customer_id
+                # session['username'] = 'username'
+
+                    return {"Info":"logged in, Customer"}# return to the dashboard of the user
              
+                else:
+                    return {"Info":'invalid credentials'}
+
+
+            elif admin_name:
+                password = connection.execute(db.select([admin.columns.password]).where(admin.columns.admin_username == form.username.data)).fetchall()
+
+                if bcrypt.check_password_hash(password[0][0],form.password.data):
+                #log the user in
+
+                # session['loggedin'] = True
+                # session['id'] = customer_id
+                # session['username'] = 'username'
+                # session['admin'] = True
+
+                    return {"Info":"logged in, Administrator"}# return to the dashboard of the user
+             
+                else:
+                    return {"Info":'invalid credentials'}
+
             else:
                 return {"Info":'invalid credentials'}
 
+        # will be removed on further discussion
         return form.errors # if there are errors return json file back to react frontend
-       
- 
+
+    else:
+        return {"Info": "GET to login"}
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/logout', methods=['GET','POST'])
-@login_required
+@login_requireds
 def logout():
-    logout_user()
+    
+    # session.pop('loggedin', None)
+    # # id
+    # session.pop('username', None)
+
     return {"info":'back to login route'}  
+
 
 
 @app.route('/register', methods=['GET','POST'] )
@@ -66,7 +158,7 @@ def register():
             # Database commiting and further validation 
             connection.execute(db.insert(customers).values([dict(request_react)]))
             #-------------------------------------------
-            return { "Registration": f"Account created for {form.first_name.data}"}
+            return { "Registration":"Registered"}
         else:
             return {"Errors" : form.errors } 
         
@@ -74,31 +166,35 @@ def register():
     return {"Page" : "Sign Up" }# return to dashboard route
 
 
-# -----------------------------------------
 
+@app.route('/register/admin', methods=['GET','POST'] )
+def Admin_register():
 
-@app.route('/admin', methods=['POST','GET'])
-def administrator():
-    if request.method == 'POST': 
+    if request.method == 'POST':
 
-        admin_details = request.get_json(force=True)
-        form = adminForm.from_json(admin_details)
+        request_react = request.get_json(force=True)
+        # hashing password before converting json to form
+        password = bcrypt.generate_password_hash(str(request_react['password'])).decode('utf-8')
+        request_react['password'] = password
+        
+        form = adminForm.from_json(request_react)  
+
 
         if form.validate():
-
-            admin_email = connection.execute(db.select([admin.columns.email]).where(admin.columns.email == form.email.data)).fetchall()
-            password = connection.execute(db.select([admin.columns.password]).where(admin.columns.email == form.email.data)).fetchall()
-            
-            if admin_email and bcrypt.check_password_hash(password[0][0],form.password.data): 
-                
-                return {"Info":"logged in, Administrator"}
-                
-            else:
-                return {"Info":'invalid credentials for admin'}
-
-        return form.errors # if there are errors return json file back to react frontend
+            #-------------------------------------------
+            # Database commiting and further validation 
+            connection.execute(db.insert(admin).values([dict(request_react)]))
+            #-------------------------------------------
+            return { "Registration":"Registered, Administrator"}
+        else:
+            return {"Errors" : form.errors } 
+        
+    # to be changed
+    return {"Page" : "Sign Up" }# return to dashboard route
 
 
+
+# -----------------------------------------
 
 @app.route('/admin/aritsan_table', methods=['GET'])
 def artisan_table():
@@ -125,7 +221,7 @@ def edit_artisan(id):
 
     elif request.method == 'DELETE':
 
-        connection.execute(db.delete(artisans).where(artisans.columns.artisan_id == id))
+        connection.execute(db.delete(artisans).where(artisans.columns.artisan_id == int(id)))
 
     
     return {"Info: Done"}
@@ -153,3 +249,18 @@ def report(customer_id):
     #query to return last 10 transactions of that user
     
 
+
+
+
+# to be changed
+@app.route('/admin/report')
+@login_required
+def reports():
+    return connection.execute(db.select([records]))
+
+@app.route('/services')
+def services():
+    return connection.execute(db.select([services]))
+   
+
+ 

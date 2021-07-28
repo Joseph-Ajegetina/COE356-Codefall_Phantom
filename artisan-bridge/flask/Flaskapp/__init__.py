@@ -35,5 +35,9 @@ admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
 popular_services = db.Table('popular_services', metadata, autoload=True, autoload_with=engine)
 top_rated_artisans = db.Table('top_rated_artisans', metadata, autoload=True, autoload_with=engine)
 
+# variables
+app.config['State'] = None
+app.config['State_Admin'] = None
+
 # For routes in flask app
 from Flaskapp import routes

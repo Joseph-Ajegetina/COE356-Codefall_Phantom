@@ -15,11 +15,15 @@ import { useState } from "react"
 
 function App() {
 
-  const [user,setUser]=useState({username:"",password:"" })
+  const [user,setUser]=useState({customer_username:"",password:"" })
+  
+  const [user_signup, setSign]= useState({first_name:"", last_name:"",email:"", city:"" ,phone:""  ,customer_username:"",password:""})
   
   const log_in = details => {
-    console.log(details);
+    console.log(details.customer_username);
   }
+  const Sign_up= Signup_details => {
+    console.log(Signup_details);}
 
 
   return (
@@ -30,7 +34,7 @@ function App() {
      <Login  log_in={log_in} />
     </Route>
     <Route path="/signup">
-    <Signup />
+    <Signup Sign_up={Sign_up} />
     </Route>
     <Route path="/service">
     <Navigation/>
@@ -78,7 +82,7 @@ function App() {
     </Switch>
     </div>
     </Router>
-  );
+  )
 }
 
 export default App;

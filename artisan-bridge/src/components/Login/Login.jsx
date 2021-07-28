@@ -2,22 +2,31 @@ import React, { useState } from 'react'
 import "./Login.scss"
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import { useHistory} from "react-router-dom"
 
 
 export default function Login({log_in}) {
 
-  const [details,setDetails]= useState ({customer_username:"", password:""});
+  const [details,setDetails]= useState ({username:"", password:""});
   
+  let history= useHistory();
+
   const submithand = e =>{
     e.preventDefault();
     log_in(details);
+    
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5000/login';
+    
     axios.post("http://127.0.0.1:5000/login", details)
     .then(response=>{
       console.log(response)
+      if(response.data.Info=="logged in"){
+        history.push("/dashboard")
+      }    
     }).catch(error=>{
       console.log(error)
     })
+ 
 
   }
   return (
