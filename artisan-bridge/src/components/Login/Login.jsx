@@ -7,7 +7,7 @@ import { useHistory} from "react-router-dom"
 
 export default function Login({log_in}) {
 
-  const [details,setDetails]= useState ({customer_username:"", password:""});
+  const [details,setDetails]= useState ({username:"", password:""});
   
   let history= useHistory();
 
@@ -21,7 +21,7 @@ export default function Login({log_in}) {
     .then(response=>{
       console.log(response)
       if(response.data.Info=="logged in"){
-        history.push("/Dashboard")
+        history.push("/dashboard")
       }    
     }).catch(error=>{
       console.log(error)

@@ -7,19 +7,18 @@ from Flaskapp import connection, artisans, services, customers,records, db
 
 
 class LoginForm(Form):
-    customer_username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
+    username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 200)])
     
 
 
 class signUpForm(Form):
     
-    first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])
-    last_name = StringField('last_name', validators=[DataRequired(), Length(min=4, max=20)])
+    name = StringField('name', validators=[DataRequired(), Length(min=4, max=20)])
     email = StringField('email', validators= [DataRequired(), Email()])
     phone = StringField('phone', validators= [DataRequired()])
-    customer_username = StringField('customer_username', validators= [DataRequired()])
-    city = StringField('city', validators= [DataRequired()])
+    customer_username = StringField('username', validators= [DataRequired()])
+    address = StringField('address', validators= [DataRequired()])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
 
     # confirm_password = PasswordField('confirm password', validators=[DataRequired(),EqualTo('password')])
@@ -50,7 +49,7 @@ class signUpForm(Form):
 
 class adminForm(Form):
 
-    email = StringField('email', validators=[DataRequired(), Email()])
+    admin_username = StringField('admin_username', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
 
     # # Same as login route
