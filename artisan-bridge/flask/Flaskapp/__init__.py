@@ -32,6 +32,8 @@ customers = db.Table('customers', metadata, autoload=True, autoload_with=engine)
 services = db.Table('services', metadata, autoload=True, autoload_with=engine)
 records = db.Table('records', metadata, autoload=True, autoload_with=engine)
 admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
+popular_services = db.Table('popular_services', metadata, autoload=True, autoload_with=engine)
+top_rated_artisans = db.Table('top_rated_artisans', metadata, autoload=True, autoload_with=engine)
 
 # For routes in flask app
 from Flaskapp import routes

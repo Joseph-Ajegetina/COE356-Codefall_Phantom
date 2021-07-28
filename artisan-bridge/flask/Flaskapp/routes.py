@@ -2,7 +2,7 @@ from flask import request
 from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
-from Flaskapp import connection, artisans, services, customers, records, db, admin
+from Flaskapp import connection, artisans, services, customers, records, db, admin, popular_services,top_rated_artisans
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
 
@@ -131,16 +131,25 @@ def edit_artisan(id):
     return {"Info: Done"}
 
 
-app.route('/top_Rated_Artisans')
+@app.route('/top_Rated_Artisans')
 def popular_artisans():
     #select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
     #select * from top rated artisans
-    #db.select([top_Rated_Artisans])
-    pass
+    return(connection.execute(db.select([top_rated_artisans])))
+    
 
-app.routeI('/popular_Services')
+@app.route('/popular_services')
 def popularServices():
-    #db.select([popular_Services])
-    pass
+    return connection.execute(db.select([popular_services]))
+    
 
- 
+@app.route('/report/<int:customer_id>')
+@login_required
+def report(customer_id):
+    return(connection.execute(db.select([records.columns.record_id,
+     records.columns.artisan_id, 
+     records.columns.service_type,
+     records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
+    #query to return last 10 transactions of that user
+    
+
