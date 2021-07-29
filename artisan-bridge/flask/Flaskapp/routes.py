@@ -196,9 +196,9 @@ def Admin_register():
 
 # -----------------------------------------
 
-@app.route('/admin/aritsan_table', methods=['GET'])
+@app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
-    return connection.execute(db.select([artisans]))
+    return {"Data" : str(connection.execute(db.select([artisans])).fetchall())}
 
 # to be tested -----------------------------
 @app.route('/admin/artisan/edit/<string:id>', methods=['POST', 'DELETE'])
@@ -227,11 +227,11 @@ def edit_artisan(id):
     return {"Info: Done"}
 
 
-@app.route('/top_Rated_Artisans')
+@app.route('/top_rated_artisans')
 def popular_artisans():
     #select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
     #select * from top rated artisans
-    return(connection.execute(db.select([top_rated_artisans])))
+    return {"Result" : str(connection.execute(db.select([top_rated_artisans])).fetchall())}
     
 
 @app.route('/popular_services')
@@ -248,8 +248,6 @@ def report(customer_id):
      records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
     #query to return last 10 transactions of that user
     
-
-
 
 
 # to be changed
