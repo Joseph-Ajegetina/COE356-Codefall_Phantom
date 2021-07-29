@@ -14,7 +14,8 @@ DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `customer_id` INT NOT NULL AUTO_INCREMENT,
   `customer_username` varchar(255),
-  `name` varchar(400) NOT NULL,
+  `first_name` varchar(400) NOT NULL,
+  `Last_name` varchar(400) NOT NULL,
   `birth_date` date DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `address` varchar(50) NOT NULL,
