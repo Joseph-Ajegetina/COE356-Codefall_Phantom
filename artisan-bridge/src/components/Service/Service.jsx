@@ -1,6 +1,8 @@
 import React from 'react'
 import "./Service.scss"
 import PopularServices from '../popularServices/PopularServices'
+import { Link } from 'react-router-dom'
+
 
 export default function Service() {
     return (
@@ -23,12 +25,13 @@ export default function Service() {
        </div>
      </div>
           </div>
-          <div className="title">
-          <h3>All Serivces</h3>
+          <div className="title" >
+          <h3 >All Serivces</h3>
           </div>
          
          <div className="container">
            <div className="row">
+             <div className="col" ><PopularServices/></div>
              <div className="col"><PopularServices/></div>
              <div className="col"><PopularServices/></div>
              <div className="col"><PopularServices/></div>
@@ -38,9 +41,8 @@ export default function Service() {
              <div className="col"><PopularServices/></div>
              <div className="col"><PopularServices/></div>
              <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-            
            </div>
+           <a href="#top" className="service-link">Back to top</a>
          </div>
           </div>
     )

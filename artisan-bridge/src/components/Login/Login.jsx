@@ -32,7 +32,7 @@ export default function Login({log_in}) {
   return (
     <div className="login">
       <div className="left ">
-        <h1>ARTISAN<span class="text-warning">BRIDGE</span></h1>
+        <h2>ARTISAN<span class="text-warning">BRIDGE</span></h2>
       </div>
       <div class="login-box">
         <form onSubmit={submithand}>
