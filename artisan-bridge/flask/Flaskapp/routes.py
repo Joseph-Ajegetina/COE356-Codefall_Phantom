@@ -249,6 +249,25 @@ def report(customer_id):
     #query to return last 10 transactions of that user
     
 
+@app.route('/find_artisan')
+@login_required
+def find_artisan():
+    return(connection.execute(db.select([artisans.columns.artisan_id,
+     artisans.columns.address, 
+     artisans.columns.rating])))
+
+
+@app.route('/find_artisan/<int:artisan_id>')
+@login_required
+def find_artisan(artisan_id):
+    return(connection.execute(db.select([artisans.columns.artisan_username,
+     services.columns.service_type, 
+     artisans.columns.rating, 
+     artisans.columns.address, 
+     artisans.columns.contact, 
+     services.columns.description]).where(artisans.columns.artisan_id == artisan_id)))
+
+
 
 # to be changed
 @app.route('/admin/report')
