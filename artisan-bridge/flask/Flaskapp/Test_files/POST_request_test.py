@@ -1,23 +1,23 @@
 import requests
 import json
 
-url = "http://localhost:5000/register"
-
-data = {
-   
-   "name": "John Hack",
-   "customer_username": "hack",
-   "phone": "+2335599111234",
-   "address": "Kumasi",
-   "email": "hackt@gmail.com",
-   "password": "passworded"
-  
- }
+url = "http://localhost:5000/login"
 
 # data = {
-#   "username": "admin1",
-#   "password": "passwordss"
-#   }
+   
+#    "name": "John Hack",
+#    "customer_username": "hack",
+#    "phone": "+2335599111234",
+#    "address": "Kumasi",
+#    "email": "hackt@gmail.com",
+#    "password": "passworded"
+  
+#  }
+
+data = {
+  "username": "ghost",
+  "password": "password"
+  }
 
 # data = {
 #   "admin_username": "admin1",

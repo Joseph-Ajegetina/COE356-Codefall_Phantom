@@ -200,31 +200,36 @@ def Admin_register():
 def artisan_table():
     return {"Data" : str(connection.execute(db.select([artisans])).fetchall())}
 
-# to be tested -----------------------------
-@app.route('/admin/artisan/edit/<string:id>', methods=['POST', 'DELETE'])
-@login_required
-def edit_artisan(id):
 
+# to be tested -----------------------------
+@app.route('/admin/<string:table>/edit/<string:id>', methods=['POST', 'DELETE'])
+# @login_required
+def edit_table(id, table):
+
+    reference = {"artisans": [artisans , artisans.columns.artisan_id], 
+                    "customers":[customers, customers.columns.customer_id]}
+    
     if request.method == 'POST':
 
         artisan = request.get_json(force=True)
         form = artisanForm.from_json(artisan)  
 
+        
+
         if form.validate():
             #-------------------------------------------
             # Database commiting and further validation 
-            connection.execute(db.insert(artisans).values([dict(artisan)]))
+            connection.execute(db.insert(reference[table]).values([dict(artisan)]))
             #-------------------------------------------
-            return { "Registration": f"Account created for {form.first_name.data}"}
+            return { "Registration_from_admin": f"Account created for {form.first_name.data}"}
         else:
             return {"Errors" : form.errors } 
 
     elif request.method == 'DELETE':
-
-        connection.execute(db.delete(artisans).where(artisans.columns.artisan_id == int(id)))
-
-    
-    return {"Info: Done"}
+        
+        
+        connection.execute(db.delete(reference[table][0]).where(reference[table][1] == int(id)))
+        return {"Info": "Done"}
 
 
 @app.route('/top_rated_artisans')
@@ -236,7 +241,7 @@ def popular_artisans():
 
 @app.route('/popular_services')
 def popularServices():
-    return connection.execute(db.select([popular_services]))
+    return {"Result" : str(connection.execute(db.select([popular_services])).fetchall())}
     
 
 @app.route('/report/<int:customer_id>')
@@ -252,13 +257,18 @@ def report(customer_id):
 
 # to be changed
 @app.route('/admin/report')
-@login_required
+# @login_required
 def reports():
-    return connection.execute(db.select([records]))
+    values = connection.execute(db.select([records])).fetchall()
+    
+    
+
+    return {"Result" : str(values)}
+
 
 @app.route('/services')
 def services():
-    return connection.execute(db.select([services]))
+    return {"Result" : str(connection.execute(db.select([popular_services])).fetchall())}
    
 
  
