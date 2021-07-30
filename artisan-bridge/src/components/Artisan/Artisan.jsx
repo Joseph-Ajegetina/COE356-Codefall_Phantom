@@ -44,6 +44,8 @@ export default function Artisan() {
                   <div className="col-4"><TopRatedArtisan/></div>
                   <div className="col-2"><TopRatedArtisan/></div>
               </div> 
+           <a href="#top" className="service-link">Back to top</a>
+
           </div>
         </div>
     )
