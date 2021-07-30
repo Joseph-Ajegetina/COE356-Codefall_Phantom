@@ -1,24 +1,28 @@
 import requests
 import json
 
-url = "http://localhost:5000/admin"
+url = "http://localhost:5000/register"
 
 data = {
-   "first_name": "Jason",
-   "last_name": "Sweet",
-   "customer_username": "ghost",
+   
+   "name": "John Hack",
+   "customer_username": "hack",
    "phone": "+2335599111234",
-   "city": "Kumasi",
-   "email": "jasonsweet@gmail.com",
-   "password": "passwords"
+   "address": "Kumasi",
+   "email": "hackt@gmail.com",
+   "password": "passworded"
   
  }
 
-data = {
-  "email": "admin@artisanbridge.com",
-  "customer_username": "ghost",
-  "password": "passwords"
-   }
+# data = {
+#   "username": "admin1",
+#   "password": "passwordss"
+#   }
+
+# data = {
+#   "admin_username": "admin1",
+#   "password": "passwordss"
+#   }
 
 resp = requests.post(url, data=json.dumps(data))
 

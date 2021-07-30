@@ -19,7 +19,8 @@ export default function Signup({ Sign_up }) {
 
     axios.post("http://127.0.0.1:5000/register", Signup_details)
       .then(response => {
-        if (response.data.Registration == "Account created for Kevin") {
+        console.log(response)
+        if (response.data.Registration == "Registered") {
           history.push("/login")
         }
       }
