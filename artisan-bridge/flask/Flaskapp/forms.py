@@ -40,6 +40,14 @@ class signUpForm(Form):
         # checks if email is already taken
         if email:
             raise ValidationError('Email has already been used')
+
+    def validate_username(self, Username):
+        # Perform query form database
+        username = connection.execute(db.select([artisans.columns.customer_username]).where(customers.columns.customer_username == Username.data)).fetchall()
+        
+        # check if user exists
+        if username:
+            raise ValidationError('Username already taken')
         
 
     def __repr__(self):
@@ -73,4 +81,21 @@ class artisanForm(Form):
     rating = StringField('rating', validators= [DataRequired()])
     core_serivce = StringField('core_service', validators= [DataRequired()])
 
+
+    def validate_email(self, email, artisan_username):
+        # Perform query form database
+        email = connection.execute(db.select([artisans.columns.email]).where(artisans.columns.email == email.data)).fetchall()
+
+        # checks if email is already taken
+        if email:
+            raise ValidationError('Email has already been used')
+
     # some fields will be changed or removed
+
+    def validate_username(self, Username):
+        # Perform query form database
+        username = connection.execute(db.select([artisans.columns.artisan_username]).where(artisans.columns.artisan_username == Username.data)).fetchall()
+        
+        # check if user exists
+        if username:
+            raise ValidationError('Username already taken')

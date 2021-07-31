@@ -166,6 +166,22 @@ def register():
     return {"Page" : "Sign Up" }# return to dashboard route
 
 
+@app.route('/delete_account', methods=['DELETE'])
+@login_required
+def delete_account():
+    print(session['username'])
+    # logout()
+    # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
+
+
+
+
+
+
+# admin routes ------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------
+
 
 @app.route('/register/admin', methods=['GET','POST'] )
 def Admin_register():
@@ -210,12 +226,8 @@ def edit_table(id, table):
                     "customers":[customers, customers.columns.customer_id]}
     
     if request.method == 'POST':
-
         artisan = request.get_json(force=True)
-        form = artisanForm.from_json(artisan)  
-
-        
-
+        form = artisanForm.from_json(artisan) 
         if form.validate():
             #-------------------------------------------
             # Database commiting and further validation 
@@ -226,10 +238,14 @@ def edit_table(id, table):
             return {"Errors" : form.errors } 
 
     elif request.method == 'DELETE':
-        
-        
-        connection.execute(db.delete(reference[table][0]).where(reference[table][1] == int(id)))
-        return {"Info": "Done"}
+        try:
+            connection.exeute(db.delete(records).where(records.columns.artisan_id == int(id)))
+            connection.execute(db.delete(reference[table][0]).where(reference[table][1] == int(id)))
+            return {"Info": "Done"}
+        except:
+            return {"Info": "Artisan does not exist, Done"}
+
+
 
 
 @app.route('/top_rated_artisans')
@@ -244,6 +260,22 @@ def popularServices():
     return {"Result" : str(connection.execute(db.select([popular_services])).fetchall())}
     
 
+@app.route('/services/<int:id>', methods=['POST','GET'])
+def get_services(id):
+    
+    service = request.get_json(force=True)
+    if request.method == 'POST':
+        # adding a service
+        if id == 0:
+            connection.execute(db.insert(services).values([dict(service)]))
+        else:
+            # db query for updating the service
+            pass
+
+    if request.method == 'GET':
+        return {"Result" : str(connection.execute(db.select([services])).fetchall())}
+
+
 @app.route('/report/<int:customer_id>')
 @login_required
 def report(customer_id):
@@ -255,39 +287,40 @@ def report(customer_id):
     
 
 @app.route('/find_artisan')
-@login_required
+# @login_required
 def find_artisan():
-    return(connection.execute(db.select([artisans.columns.artisan_id,
+    return{"DATA": str(connection.execute(db.select([artisans.columns.artisan_id,
      artisans.columns.address, 
-     artisans.columns.rating])))
+     artisans.columns.rating])).fetchall())}
 
 
 @app.route('/find_artisan/<int:artisan_id>')
-@login_required
-def find_artisan(artisan_id):
-    return(connection.execute(db.select([artisans.columns.artisan_username,
-     services.columns.service_type, 
+# @login_required
+def find_artisan_id(artisan_id):
+    # to be edited-----------------------------------------
+    return {"DATA" : str(connection.execute(db.select([services.columns.service_type,
+     artisans.columns.artisan_username, 
      artisans.columns.rating, 
      artisans.columns.address, 
      artisans.columns.contact, 
-     services.columns.description]).where(artisans.columns.artisan_id == artisan_id)))
+     services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
 
 
 
 # to be changed
-@app.route('/admin/report')
+@app.route('/admin/report/<int:id>', methods=['POST', 'DELETE'])
 # @login_required
-def reports():
-    values = connection.execute(db.select([records])).fetchall()
-    
-    
+def reports(id):
 
-    return {"Result" : str(values)}
+    if request.method == 'DELETE':
+        connection.execute(db.delete(records).where(records.columns.record_id == int(id)))
+
+    if request.method == 'GET':
+        values = connection.execute(db.select([records])).fetchall()
+        return {"Result" : str(values)}
 
 
-@app.route('/services')
-def services():
-    return {"Result" : str(connection.execute(db.select([popular_services])).fetchall())}
+
    
 
  
