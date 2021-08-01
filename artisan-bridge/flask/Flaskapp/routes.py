@@ -285,6 +285,7 @@ def report(customer_id):
      records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
     #query to return last 10 transactions of that user
     
+    
 
 @app.route('/find_artisan')
 # @login_required
