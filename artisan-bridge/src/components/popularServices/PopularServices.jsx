@@ -1,25 +1,30 @@
-import "./popularServices.scss"
-import { Link } from 'react-router-dom'
+import "./popularServices.scss";
+import { Link } from "react-router-dom";
 
 export default function popularServices() {
-    return (
-        <div className="popularServices">
-            <div className="wrapper-center">
-                <a href="" className="wrapper-link">
-                <div className="wrapper">
-                    <div className="elipse">
-                        <img src="images/elipseimage1.png" alt="" className="elipseimage" />
-                    </div>
-                    <div className="wrapper-text">
-                      <h3>Electronics</h3>
-                       <p className="text">
-                       Get your blenders, rice cookers, hot plate, fridges etc. fix by trusted Artisan  
-                    </p>
-                    </div>
-                 </div>
-                 </a>
-              
-                {/*  <a href="" className="wrapper-link">
+  return (
+    <div className="popularServices">
+      <div className="wrapper-center">
+        <a href="" className="wrapper-link">
+          <div className="wrapper">
+            <div className="elipse">
+              <img
+                src="images/elipseimage1.png"
+                alt=""
+                className="elipseimage"
+              />
+            </div>
+            <div className="wrapper-text">
+              <h3>Electronics</h3>
+              <p className="text">
+                Get your blenders, rice cookers, hot plate, fridges etc. fix by
+                trusted Artisan
+              </p>
+            </div>
+          </div>
+        </a>
+
+        {/*  <a href="" className="wrapper-link">
                  <div className="wrapper">
                     <div className="elipse">
                     <img src="images/elipseimage2.png" alt="" className="elipseimage2" />
@@ -45,7 +50,7 @@ export default function popularServices() {
                  </div>
                     </div>
                     </a> */}
-            </div>
-        </div>
-    )
+      </div>
+    </div>
+  );
 }

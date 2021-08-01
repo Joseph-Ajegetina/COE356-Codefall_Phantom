@@ -1,63 +1,81 @@
-import "./navigation.scss"
-import { Link } from 'react-router-dom'
-import SearchIcon from '@material-ui/icons/Search';
-
+import "./navigation.scss";
+import { Link } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
 
 export default function navigation() {
-    return (
-        <div className="header">
-            <div className="header-logo">
-            <Link to="/home" className="logo">
-             <h1>
-                 ARTISAN<span className="text-warning">BRIDGE</span></h1>
-             </Link>
-            </div>
-                 <div className="header-search">
-                     <input type="text" placeholder="Search for Artisans and Services..." className="header-input" /><button className="header-searchicon"><SearchIcon />
-                         </button>
-                 </div>
-                 <div className="header-nav">
-                     <div className="header-option">
-                     <Link to="/home" className="nav">
-                     <span><img src="images/home.png" alt="" className="home"/> Home</span>
-                     </Link>
-                     
-                     </div>
-                     <div className="header-option">
-                     <Link to="service" className="nav"> <span><img src="images/services.png" alt="" className="services"/>Services</span></Link>
-                      
-                     </div>
-                     <div className="header-option">
-                     <Link to="/artisan" className="nav">
-                     <span><img src="images/find an artisan.png" alt="" className="services"/>Find an artisan</span>
-                     </Link>
-                     
-                     </div>
-                     <div className="header-option">
-                     <Link to="/records" className="nav">
-                     <span><img src="images/records.png" alt="" className="home"/> Records</span>
-                     </Link>
-                     </div> 
-                     <img src="images/profile.png" alt="" className="services"/>
-                     <div className="header-option">
-                    <span className="LineOne">Hello Guest</span>
-                    <a href="#" className="dropdown" data-toggle="dropdown">
-                         <span className="LineTwo">Sign in</span>
-                         </a>
-                         <div class="dropdown-menu">
-                    <Link to="/login" className="dropdown-item"> 
-                   Sign in
-                    </Link>
-                    <Link to="/signup" className="dropdown-item">
-                    Sign up
-                    </Link>
-                    
-                    </div>
-                     </div>    
-                   
-                 </div>
+  return (
+    <div className="header">
+      <div className="header-logo">
+        <Link to="/home" className="logo">
+          <h1>
+            ARTISAN<span className="text-warning">BRIDGE</span>
+          </h1>
+        </Link>
+      </div>
+      <div className="header-search">
+        <input
+          type="text"
+          placeholder="Search for Artisans and Services..."
+          className="header-input"
+        />
+        <button className="header-searchicon">
+          <SearchIcon />
+        </button>
+      </div>
+      <div className="header-nav">
+        <div className="header-option">
+          <Link to="/home" className="nav">
+            <span>
+              <img src="images/home.png" alt="" className="home" /> Home
+            </span>
+          </Link>
+        </div>
+        <div className="header-option">
+          <Link to="service" className="nav">
+            {" "}
+            <span>
+              <img src="images/services.png" alt="" className="services" />
+              Services
+            </span>
+          </Link>
+        </div>
+        <div className="header-option">
+          <Link to="/artisan" className="nav">
+            <span>
+              <img
+                src="images/find an artisan.png"
+                alt=""
+                className="services"
+              />
+              Find an artisan
+            </span>
+          </Link>
+        </div>
+        <div className="header-option">
+          <Link to="/records" className="nav">
+            <span>
+              <img src="images/records.png" alt="" className="home" /> Records
+            </span>
+          </Link>
+        </div>
+        <img src="images/profile.png" alt="" className="services" />
+        <div className="header-option">
+          <span className="LineOne">Hello Guest</span>
+          <a href="#" className="dropdown" data-toggle="dropdown">
+            <span className="LineTwo">Sign in</span>
+          </a>
+          <div class="dropdown-menu">
+            <Link to="/login" className="dropdown-item">
+              Sign in
+            </Link>
+            <Link to="/signup" className="dropdown-item">
+              Sign up
+            </Link>
+          </div>
+        </div>
+      </div>
 
-          {/*   <div className="left ">
+      {/*   <div className="left ">
                 <Link to="/home" className="logo">
                 <h1>
                  ARTISAN<span className="text-warning">BRIDGE</span></h1>
@@ -105,6 +123,6 @@ export default function navigation() {
 </ul>
 
             </div> */}
-        </div>
-    )
+    </div>
+  );
 }
