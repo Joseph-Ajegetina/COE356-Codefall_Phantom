@@ -19,6 +19,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
+    "recharts": "^2.0.10",
     "sass": "^1.35.2",
     "web-vitals": "^1.1.2"
   },
