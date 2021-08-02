@@ -9,20 +9,6 @@ from Flaskapp.decos import admin_login_required, login_requireds
 
 
 
-# def login_requireds(*args, **kwargs):
-
-#     def wrapper(original):
-#         return original()
-                
-#     if kwargs == True:
-#         return wrapper
-#     else:
-#         return {"Info":"Login required"}
-
-
-
-# State = None
-
 
 
 # admin 🙄🙄😶
@@ -128,7 +114,7 @@ def login():
 
 
 
-@app.route('/logout', methods=['GET','POST'])
+@app.route('/logout', methods=['GET'])
 @login_requireds
 def logout():
     
@@ -136,7 +122,7 @@ def logout():
     # # id
     # session.pop('username', None)
 
-    return {"info":'back to login route'}  
+    return {"Info":'success'}  
 
 
 
@@ -285,7 +271,8 @@ def report(customer_id):
      records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
     #query to return last 10 transactions of that user
     
-    
+
+
 
 @app.route('/find_artisan')
 # @login_required
