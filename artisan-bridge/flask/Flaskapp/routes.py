@@ -136,10 +136,12 @@ def login():
     if request.method == 'POST': 
         login_details = request.get_json(force=True)
         # login_details = json.loads(login_details)
-        form = LoginForm.from_json(login_details)    
+        form = LoginForm.from_json(login_details)   
+        print(form.username.data)
+        print(form.password.data) 
         #email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
-        username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
-        password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+        username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.username.data)).fetchall()
+        password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.username.data)).fetchall()
         
         if username  and bcrypt.check_password_hash(password[0][0],form.password.data):
             return_info["passed"] = True
@@ -155,9 +157,6 @@ def login():
             return_info["message"] = "Invalid credentials"
             return return_info
       
-
-
-
 
 
 
