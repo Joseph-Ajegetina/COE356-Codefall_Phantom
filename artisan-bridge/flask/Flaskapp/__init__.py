@@ -22,7 +22,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 # Database configuration
-engine = create_engine('mysql+pymysql://root:Thekingman9065@localhost:3306/artisanbridge')
+engine = create_engine('mysql+pymysql://root:root@localhost:3306/artisanbridge')
 connection = engine.connect()
 metadata = db.MetaData()
 
@@ -32,6 +32,12 @@ customers = db.Table('customers', metadata, autoload=True, autoload_with=engine)
 services = db.Table('services', metadata, autoload=True, autoload_with=engine)
 records = db.Table('records', metadata, autoload=True, autoload_with=engine)
 admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
+popular_services = db.Table('popular_services', metadata, autoload=True, autoload_with=engine)
+top_rated_artisans = db.Table('top_rated_artisans', metadata, autoload=True, autoload_with=engine)
+
+# variables
+app.config['State'] = None
+app.config['State_Admin'] = None
 
 # For routes in flask app
 from Flaskapp import routes

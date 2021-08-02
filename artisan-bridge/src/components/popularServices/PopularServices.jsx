@@ -1,6 +1,7 @@
-import "./popularServices.scss"
-import { Link } from 'react-router-dom'
+import "./popularServices.scss";
+import { Link } from "react-router-dom";
 
+<<<<<<< HEAD
 export default function popularServices({title, image, description}) {
     return (
         <div className="popularServices">
@@ -20,6 +21,32 @@ export default function popularServices({title, image, description}) {
                  </a>
               
                 {/*  <a href="" className="wrapper-link">
+=======
+export default function popularServices() {
+  return (
+    <div className="popularServices">
+      <div className="wrapper-center">
+        <a href="" className="wrapper-link">
+          <div className="wrapper">
+            <div className="elipse">
+              <img
+                src="images/elipseimage1.png"
+                alt=""
+                className="elipseimage"
+              />
+            </div>
+            <div className="wrapper-text">
+              <h3>Electronics</h3>
+              <p className="text">
+                Get your blenders, rice cookers, hot plate, fridges etc. fix by
+                trusted Artisan
+              </p>
+            </div>
+          </div>
+        </a>
+
+        {/*  <a href="" className="wrapper-link">
+>>>>>>> 4d6bde08b2398833c1441807a5c497ee01892978
                  <div className="wrapper">
                     <div className="elipse">
                     <img src="images/elipseimage2.png" alt="" className="elipseimage2" />
@@ -45,7 +72,7 @@ export default function popularServices({title, image, description}) {
                  </div>
                     </div>
                     </a> */}
-            </div>
-        </div>
-    )
+      </div>
+    </div>
+  );
 }

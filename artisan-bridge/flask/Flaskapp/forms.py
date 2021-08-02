@@ -7,20 +7,18 @@ from Flaskapp import connection, artisans, services, customers,records, db
 
 
 class LoginForm(Form):
-    customer_username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
+    username = StringField('username', validators=[DataRequired(), Length(min=4,max=15)])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 200)])
     
 
 
-
 class signUpForm(Form):
     
-    first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])
-    last_name = StringField('last_name', validators=[DataRequired(), Length(min=4, max=20)])
+    name = StringField('name', validators=[DataRequired(), Length(min=4, max=20)])
     email = StringField('email', validators= [DataRequired(), Email()])
     phone = StringField('phone', validators= [DataRequired()])
-    customer_username = StringField('customer_username', validators= [DataRequired()])
-    city = StringField('city', validators= [DataRequired()])
+    customer_username = StringField('username', validators= [DataRequired()])
+    address = StringField('address', validators= [DataRequired()])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
 
     # confirm_password = PasswordField('confirm password', validators=[DataRequired(),EqualTo('password')])
@@ -42,6 +40,14 @@ class signUpForm(Form):
         # checks if email is already taken
         if email:
             raise ValidationError('Email has already been used')
+
+    def validate_username(self, Username):
+        # Perform query form database
+        username = connection.execute(db.select([artisans.columns.customer_username]).where(customers.columns.customer_username == Username.data)).fetchall()
+        
+        # check if user exists
+        if username:
+            raise ValidationError('Username already taken')
         
 
     def __repr__(self):
@@ -51,7 +57,7 @@ class signUpForm(Form):
 
 class adminForm(Form):
 
-    email = StringField('email', validators=[DataRequired(), Email()])
+    admin_username = StringField('admin_username', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
 
     # # Same as login route
@@ -75,4 +81,21 @@ class artisanForm(Form):
     rating = StringField('rating', validators= [DataRequired()])
     core_serivce = StringField('core_service', validators= [DataRequired()])
 
+
+    def validate_email(self, email, artisan_username):
+        # Perform query form database
+        email = connection.execute(db.select([artisans.columns.email]).where(artisans.columns.email == email.data)).fetchall()
+
+        # checks if email is already taken
+        if email:
+            raise ValidationError('Email has already been used')
+
     # some fields will be changed or removed
+
+    def validate_username(self, Username):
+        # Perform query form database
+        username = connection.execute(db.select([artisans.columns.artisan_username]).where(artisans.columns.artisan_username == Username.data)).fetchall()
+        
+        # check if user exists
+        if username:
+            raise ValidationError('Username already taken')

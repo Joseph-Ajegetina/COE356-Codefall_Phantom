@@ -13,21 +13,28 @@ import AdminPanel from "./components/AdminPanel/AdminPanel.jsx"
 import SideBar from './components/AdminPanelSideBar/sideBar';
 import AdminHome from "./components/AdminPanel/pages/home/home"
 import { useState } from "react"
-
+import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
 
 
 function App() {
+  const [user, setUser] = useState({ customer_username: "", password: "" });
 
-  const [user,setUser]=useState({customer_username:"",password:"" })
-  
-  const [user_signup, setSign]= useState({first_name:"", last_name:"",email:"", city:"" ,phone:""  ,customer_username:"",password:""})
-  
-  const log_in = details => {
+  const [user_signup, setSign] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    city: "",
+    phone: "",
+    customer_username: "",
+    password: "",
+  });
+
+  const log_in = (details) => {
     console.log(details.customer_username);
-  }
-  const Sign_up= Signup_details => {
-    console.log(Signup_details);}
-
+  };
+  const Sign_up = (Signup_details) => {
+    console.log(Signup_details);
+  };
 
   return (
    <Router>
@@ -36,6 +43,13 @@ function App() {
       <Route path="/login">
      <Login  log_in={log_in} />
     </Route>
+    <Route path="/artisan/:id" component={ArtisanSelect}>
+            <Navigation />
+            <div className="sections">
+              <ArtisanSelect />
+              <Footer />
+            </div>
+          </Route>
     <Route path="/admin">
       <AdminPanel/>
       <div className="side">
@@ -92,7 +106,7 @@ function App() {
     </Switch>
     </div>
     </Router>
-  )
+  );
 }
 
 export default App;
