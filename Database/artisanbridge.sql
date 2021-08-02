@@ -70,12 +70,14 @@ FROM artisans
 ORDER BY rating DESC 
 LIMIT 3;
 
-CREATE VIEW popular_Services AS 
-SELECT skill   
-FROM records
-GROUP BY skill 
-ORDER BY COUNT(skill) DESC
-LIMIT 3;
+CREATE VIEW popular_Services AS
+    SELECT 
+        skill
+    FROM
+        records
+    GROUP BY skill
+    ORDER BY COUNT(skill) DESC
+    LIMIT 3;
 
 ALTER TABLE artisans AUTO_INCREMENT=1000;
 ALTER TABLE customers AUTO_INCREMENT=1000;

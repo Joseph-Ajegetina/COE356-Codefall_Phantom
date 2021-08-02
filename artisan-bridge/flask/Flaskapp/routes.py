@@ -1,4 +1,5 @@
-from flask import request, session
+from os import error
+from flask import request, session, Response
 from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
@@ -42,6 +43,8 @@ def before_request():
         
 
 @app.route('/dashboard', methods=['GET'])
+
+
 @login_requireds
 def dashboard():
 
@@ -54,72 +57,104 @@ def dashboard():
 # Login form, validation and session to be added
 # ----------------------------------------------------------------------------------------------------
 
+# @app.route('/login', methods=['POST','GET'] )
+# def login():
+
+#     # session['loggedin'] = True
+#     # session['username'] = input("Name")
+#     # return {"info":"LoggedIn"}
+
+#     if request.method == 'POST': 
+        
+        
+#         login_details = request.get_json(force=True)
+#         # login_details = json.loads(login_details)
+#         form = LoginForm.from_json(login_details)
+
+#         # Requires reformating
+#         if form.validate():
+
+            
+#             user = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.username.data)).fetchall()
+#             admin_name = connection.execute(db.select([admin.columns.admin_username]).where(admin.columns.admin_username == form.username.data)).fetchall()
+
+#             customer_id = connection.execute(db.select([customers.columns.customer_id]).where(customers.columns.customer_username == form.username.data)).fetchall()
+
+
+#             if user:
+#                 password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.username.data)).fetchall()
+
+#                 if bcrypt.check_password_hash(password[0][0],form.password.data):
+#                 #log the user in
+
+#                 # session['loggedin'] = True
+#                 # session['id'] = customer_id
+#                 # session['username'] = 'username'
+
+#                     return {"Info":"logged in, Customer"}# return to the dashboard of the user
+             
+#                 else:
+#                     return {"Info":'invalid credentials'}
+
+
+#             elif admin_name:
+#                 password = connection.execute(db.select([admin.columns.password]).where(admin.columns.admin_username == form.username.data)).fetchall()
+
+#                 if bcrypt.check_password_hash(password[0][0],form.password.data):
+#                 #log the user in
+
+#                 # session['loggedin'] = True
+#                 # session['id'] = customer_id
+#                 # session['username'] = 'username'
+#                 # session['admin'] = True
+
+#                     return {"Info":"logged in, Administrator"}# return to the dashboard of the user
+             
+#                 else:
+#                     return {"Info":'invalid credentials'}
+
+#             else:
+#                 return {"Info":'invalid credentials'}
+
+#         # will be removed on further discussion
+#         return form.errors # if there are errors return json file back to react frontend
+
+#     else:
+#         return {"Info": "GET to login"}
+
+
+
+
+
+# Login form, validation and session to be added
 @app.route('/login', methods=['POST','GET'] )
 def login():
 
-    # session['loggedin'] = True
-    # session['username'] = input("Name")
-    # return {"info":"LoggedIn"}
-
+    #what to be returned
+    return_info = {"alert":"", "message":"", "passed":False}
+    
     if request.method == 'POST': 
-
         login_details = request.get_json(force=True)
         # login_details = json.loads(login_details)
-        form = LoginForm.from_json(login_details)
-
-        # Requires reformating
-        if form.validate():
-
+        form = LoginForm.from_json(login_details)    
+        #email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == form.email.data)).fetchall()
+        username = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+        password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+        
+        if username  and bcrypt.check_password_hash(password[0][0],form.password.data):
+            return_info["passed"] = True
+            return_info["alert"]="success"
+            return_info["message"] = "Successfully logged in"
+            # login_user(username)
+            #log the user in
+            return return_info# return to the dashboard of the user
             
-            user = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.username.data)).fetchall()
-            admin_name = connection.execute(db.select([admin.columns.admin_username]).where(admin.columns.admin_username == form.username.data)).fetchall()
-
-            customer_id = connection.execute(db.select([customers.columns.customer_id]).where(customers.columns.customer_username == form.username.data)).fetchall()
-
-
-            if user:
-                password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.username.data)).fetchall()
-
-                if bcrypt.check_password_hash(password[0][0],form.password.data):
-                #log the user in
-
-                # session['loggedin'] = True
-                # session['id'] = customer_id
-                # session['username'] = 'username'
-
-                    return {"Info":"logged in, Customer"}# return to the dashboard of the user
-             
-                else:
-                    return {"Info":'invalid credentials'}
-
-
-            elif admin_name:
-                password = connection.execute(db.select([admin.columns.password]).where(admin.columns.admin_username == form.username.data)).fetchall()
-
-                if bcrypt.check_password_hash(password[0][0],form.password.data):
-                #log the user in
-
-                # session['loggedin'] = True
-                # session['id'] = customer_id
-                # session['username'] = 'username'
-                # session['admin'] = True
-
-                    return {"Info":"logged in, Administrator"}# return to the dashboard of the user
-             
-                else:
-                    return {"Info":'invalid credentials'}
-
-            else:
-                return {"Info":'invalid credentials'}
-
-        # will be removed on further discussion
-        return form.errors # if there are errors return json file back to react frontend
-
-    else:
-        return {"Info": "GET to login"}
-
-
-
+        else:
+        
+            return_info["alert"] ="danger"
+            return_info["message"] = "Invalid credentials"
+            return return_info
+      
 
 
 
@@ -140,31 +175,58 @@ def logout():
 
 
 
-@app.route('/register', methods=['GET','POST'] )
+# @app.route('/register', methods=['GET','POST'] )
+# def register():
+
+#     if request.method == 'POST':
+
+#         request_react = request.get_json(force=True)
+#         # hashing password before converting json to form
+#         password = bcrypt.generate_password_hash(str(request_react['password'])).decode('utf-8')
+#         request_react['password'] = password
+        
+#         form = signUpForm.from_json(request_react)  
+
+
+#         if form.validate():
+#             #-------------------------------------------
+#             # Database commiting and further validation 
+#             connection.execute(db.insert(customers).values([dict(request_react)]))
+#             #-------------------------------------------
+#             return { "Registration":"Registered"}
+#         else:
+#             return {"Errors" : form.errors } 
+        
+#     # to be changed
+#     return {"Page" : "Sign Up" }# return to dashboard route
+
+
+
+@app.route('/register', methods=['POST'] )
 def register():
 
     if request.method == 'POST':
 
-        request_react = request.get_json(force=True)
+        #Getting customer fields passed from the form
+        form_data = request.get_json(force=True)
+
         # hashing password before converting json to form
-        password = bcrypt.generate_password_hash(str(request_react['password'])).decode('utf-8')
-        request_react['password'] = password
-        
-        form = signUpForm.from_json(request_react)  
+        hashed_password = bcrypt.generate_password_hash(str(form_data['password'])).decode('utf-8')
+        form_data["password"] = hashed_password
 
+        #checking if account already exist with the given email
+        customer_email = form_data.get("email")
+        exist_email = connection.execute(db.select([customers.columns.email]).where(customers.columns.email == customer_email)).fetchall()
 
-        if form.validate():
-            #-------------------------------------------
-            # Database commiting and further validation 
-            connection.execute(db.insert(customers).values([dict(request_react)]))
-            #-------------------------------------------
-            return { "Registration":"Registered"}
+        if exist_email:
+            return {"message":f"Account already exists", "alert":"danger", "passed":False}
         else:
-            return {"Errors" : form.errors } 
-        
-    # to be changed
-    return {"Page" : "Sign Up" }# return to dashboard route
-
+            try:
+                connection.execute(db.insert(customers).values([dict(form_data)]))
+                return {"message": f"Account successfully created for {form_data.get('customer_username')}", "alert":"success", "passed":True}
+            except(error):
+                return Response(status=500)
+                
 
 @app.route('/delete_account', methods=['DELETE'])
 @login_required

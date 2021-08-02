@@ -4,6 +4,7 @@ import "./App.scss";
 import Home from "./components/Home/home.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/Login/Login.jsx";
+import Logout from "./components//Logout/Logout";
 import Signup from "./components/Sign up/Sign up.jsx";
 import Service from "./components/Service/Service";
 import Artisan from "./components/Artisan/Artisan.jsx";
@@ -12,8 +13,12 @@ import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { useState } from "react";
 
+
+
 function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
+  const [isLoggedIn, setIsloggedIn] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [user_signup, setSign] = useState({
     first_name: "",
@@ -38,6 +43,9 @@ function App() {
         <Switch>
           <Route path="/login">
             <Login log_in={log_in} />
+          </Route>
+          <Route path="/logout">
+            <Logout setIsAuthenticated={setIsAuthenticated} setIsLoggedIn={setIsloggedIn}/>
           </Route>
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />

@@ -1,8 +1,24 @@
 import "./navigation.scss";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import SearchIcon from "@material-ui/icons/Search";
+import NavPublic from "./NavPublic";
+import NavLogin from "./NavLogin";
 
-export default function navigation() {
+
+const Navigation = () => {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  useEffect(() =>{
+    const storedUserIsLoggedIn = localStorage.getItem("isLoggedIn");
+    if (storedUserIsLoggedIn === "1") {
+      console.log("Herre 00")
+      setIsLoggedIn(true);
+    }
+  },[])
+  
+
   return (
     <div className="header">
       <div className="header-logo">
@@ -51,28 +67,7 @@ export default function navigation() {
             </span>
           </Link>
         </div>
-        <div className="header-option">
-          <Link to="/records" className="nav">
-            <span>
-              <img src="images/records.png" alt="" className="home" /> Records
-            </span>
-          </Link>
-        </div>
-        <img src="images/profile.png" alt="" className="services" />
-        <div className="header-option">
-          <span className="LineOne">Hello Guest</span>
-          <a href="#" className="dropdown" data-toggle="dropdown">
-            <span className="LineTwo">Sign in</span>
-          </a>
-          <div class="dropdown-menu">
-            <Link to="/login" className="dropdown-item">
-              Sign in
-            </Link>
-            <Link to="/signup" className="dropdown-item">
-              Sign up
-            </Link>
-          </div>
-        </div>
+       {isLoggedIn ?<NavLogin/>: <NavPublic/>}
       </div>
 
       {/*   <div className="left ">
@@ -126,3 +121,4 @@ export default function navigation() {
     </div>
   );
 }
+export default Navigation;
