@@ -299,12 +299,13 @@ def find_artisan():
 # @login_required
 def find_artisan_id(artisan_id):
     # to be edited-----------------------------------------
-    return {"DATA" : str(connection.execute(db.select([services.columns.service_type,
-     artisans.columns.artisan_username, 
+    return {"DATA" : str(connection.execute(db.select([artisans.columns.artisan_username,
+     services.columns.service_type, 
      artisans.columns.rating, 
      artisans.columns.address, 
      artisans.columns.contact, 
-     services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
+     services.columns.description]).select_from(artisans.foin(services,
+     artisans.columns.services_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
 
 
 
