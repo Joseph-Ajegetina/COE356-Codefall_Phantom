@@ -1,0 +1,38 @@
+.sideBar {
+  flex: 1;
+  height: calc(100vh - 70px);
+  background-color: white;
+  position: sticky;
+  top: 70px;
+}
+.sideBarWrapper {
+  padding: 20px;
+  color: #555;
+}
+.sideBar a {
+  text-decoration: none;
+  color: black;
+}
+.sideBar a:hover {
+  text-decoration: none;
+  color: #f59401;
+}
+.sideBarIcon {
+  margin-right: 5px;
+  font-size: 20px !important;
+}
+.sideBarMenu {
+  margin-bottom: 20px;
+}
+.sideBarTitle {
+  font-size: 13px;
+  color: rgb(163, 163, 163);
+}
+.sideBarList {
+  list-style: none;
+  padding: 5px;
+}
+.sideBarListItem {
+  display: flex;
+  align-items: center;
+}
