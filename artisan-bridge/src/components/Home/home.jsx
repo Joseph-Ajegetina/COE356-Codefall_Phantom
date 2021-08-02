@@ -52,7 +52,6 @@ export default function home() {
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button> */}
-<<<<<<< HEAD
 </div>
 <h4>Popular Services</h4>
 <div className="service-home">
@@ -74,27 +73,5 @@ export default function home() {
             </Link>
        </div>
     )
-=======
-      </div>
-      <h4>Popular Services</h4>
-      <div className="service-home">
-        <PopularServices />
-        <PopularServices />
-        <PopularServices />
-      </div>
-      <Link to="/service" className="service-link">
-        All Services
-      </Link>
-      <h4>Top Rated Artisans</h4>
-      <div className="artisan-home">
-        <TopRatedArtisan />
-        <TopRatedArtisan />
-        <TopRatedArtisan />
-      </div>
-      <Link to="artisan" className="service-link">
-        All Artisans
-      </Link>
-    </div>
-  );
->>>>>>> 4d6bde08b2398833c1441807a5c497ee01892978
+   
 }

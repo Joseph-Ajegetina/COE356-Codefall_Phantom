@@ -1,27 +1,6 @@
 import "./popularServices.scss";
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
-export default function popularServices({title, image, description}) {
-    return (
-        <div className="popularServices">
-            <div className="wrapper-center">
-                <a href="" className="wrapper-link">
-                <div className="wrapper">
-                    <div className="elipse">
-                        <img src={image} alt="" className="elipseimage" />
-                    </div>
-                    <div className="wrapper-text">
-                      <h3>{title}</h3>
-                       <p className="text">
-                      {description}  
-                    </p>
-                    </div>
-                 </div>
-                 </a>
-              
-                {/*  <a href="" className="wrapper-link">
-=======
 export default function popularServices() {
   return (
     <div className="popularServices">
@@ -46,7 +25,6 @@ export default function popularServices() {
         </a>
 
         {/*  <a href="" className="wrapper-link">
->>>>>>> 4d6bde08b2398833c1441807a5c497ee01892978
                  <div className="wrapper">
                     <div className="elipse">
                     <img src="images/elipseimage2.png" alt="" className="elipseimage2" />
