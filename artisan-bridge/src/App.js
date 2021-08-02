@@ -1,21 +1,20 @@
-import Navigation from "./components/navigationBar/Navigation.jsx"
-import Footer from "./components/footer/Footer.jsx"
-import "./App.scss"
-import Home from "./components/Home/home.jsx"
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Login from "./components/Login/Login.jsx"
-import Signup from "./components/Sign up/Sign up.jsx"
-import Service from "./components/Service/Service"
-import Artisan from "./components/Artisan/Artisan.jsx"
-import Records from "./components/Records/Records.jsx"
-import Dashboard from "./components/Dashboard/Dashboard.jsx"
-import AdminPanel from "./components/AdminPanel/AdminPanel.jsx"
-import SideBar from './components/AdminPanelSideBar/sideBar';
-import AdminHome from "./components/AdminPanel/pages/home/home"
-import { useState } from "react"
+import Navigation from "./components/navigationBar/Navigation.jsx";
+import Footer from "./components/footer/Footer.jsx";
+import "./App.scss";
+import Home from "./components/Home/home.jsx";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./components/Login/Login.jsx";
+import Signup from "./components/Sign up/Sign up.jsx";
+import Service from "./components/Service/Service";
+import Artisan from "./components/Artisan/Artisan.jsx";
+import Records from "./components/Records/Records.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import { useState } from "react";
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
-
-
+import Logout from "./components/Logout/Logout";
+import RecordRoute from "./components/PrivateRoute/RecordRoute.jsx";
+import AdminRoute from "./components/PrivateRoute/AdminRoute"
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
 
 
 function App() {
@@ -48,7 +47,10 @@ function App() {
             <Login log_in={log_in} />
           </Route>
           <Route path="/logout">
-            <Logout setIsAuthenticated={setIsAuthenticated} setIsLoggedIn={setIsloggedIn}/>
+            <Logout
+              setIsAuthenticated={setIsAuthenticated}
+              setIsLoggedIn={setIsloggedIn}
+            />
           </Route>
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />
@@ -74,61 +76,62 @@ function App() {
               <Footer />
             </div>
           </Route>
-    <Route path="/admin">
-      <AdminPanel/>
-      <div className="side">
-        <SideBar/>
-        <AdminHome/>
+          {/* <Route path="/admin">
+            <AdminPanel />
+            <div className="side">
+              <SideBar />
+              <AdminHome />
+            </div>
+          </Route> */}
+          <PrivateRoute path="/records" component={RecordRoute} />
+          <PrivateRoute path="/admin" component={AdminRoute}/>
+          <Route path="/signup">
+            <Signup Sign_up={Sign_up} />
+          </Route>
+          <Route path="/service">
+            <Navigation />
+            <div className="sections">
+              <Service />
+              <Footer />
+            </div>
+          </Route>
+          <Route path="/artisan">
+            <Navigation />
+            <div className="sections">
+              <Artisan />
+              <Footer />
+            </div>
+          </Route>
+          <Route path="/records">
+            <Navigation />
+            <div className="sections">
+              <Records />
+              <Footer />
+            </div>
+          </Route>
+          <Route path="/Home">
+            <Navigation />
+            <div className="sections">
+              <Home />
+              <Footer />
+            </div>
+          </Route>
+          <Route path="/">
+            <Navigation />
+            <div className="sections">
+              <Home />
+              <Footer />
+            </div>
+          </Route>
+          <Route path="/Dashboard">
+            <Navigation />
+            <div className="sections">
+              <Dashboard />
+              <Footer />
+            </div>
+          </Route>
+        </Switch>
       </div>
-    </Route>
-    <Route path="/signup">
-    <Signup Sign_up={Sign_up} />
-    </Route>
-    <Route path="/service">
-    <Navigation/>
-    <div className="sections"> 
-<Service />
-<Footer/>
-    </div>
-    </Route>
-    <Route path="/artisan">
-     <Navigation/>
-     <div className="sections"> 
-<Artisan />
-<Footer/>
-    </div>
-    </Route>
-    <Route path="/records">
-    <Navigation/>
-    <div className="sections"> 
-<Records/>
-<Footer/>
-    </div>
-    </Route>
-    <Route path="/Home">
-      <Navigation/>
-    <div className="sections">
-      <Home/>
-      <Footer/>
-    </div>
-    </Route>
-    <Route path="/">
-      <Navigation/>
-    <div className="sections">
-      <Home/>
-      <Footer/>
-    </div>
-    </Route>
-    <Route path="/Dashboard">
-      <Navigation/>
-    <div className="sections">
-      <Dashboard/>
-      <Footer/>
-    </div>
-    </Route>
-    
-    </Switch>
-    </div>
     </Router>
   );
 }

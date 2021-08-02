@@ -88,7 +88,7 @@
 import React, { useState, useEffect } from "react";
 import "./Login.scss";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useParams, useLocation, useRouteMatch} from "react-router";
 import { useHistory } from "react-router-dom";
 import Message from "../navigationBar/Message";
 import { useForm } from "react-hook-form";
@@ -100,7 +100,7 @@ const Login = () => {
     username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
   });
-
+  const {messageParams, alertParams} = useParams();
   const {
     register,
     handleSubmit,
@@ -111,7 +111,30 @@ const Login = () => {
   const [alert, setAlert] = useState({});
   const [showAlert, setShowAlert] = useState(false);
 
-  let history = useHistory();
+  const location = useLocation();
+  const history = useHistory();
+  const {url, path} = useRouteMatch();
+  
+  useEffect(() =>{
+      
+  if (location.state) {
+    const messageLocation = location.state.messageParams;
+    const alertLocation = location.state.alertParams;
+
+    if (messageLocation && alertLocation) {
+      setAlert({ message: messageLocation, alert: alertLocation });
+      setShowAlert(true);
+      location.state = null;
+      setTimeout(()=>{
+        setShowAlert(false);
+      }, 3000)
+      history.replace(url);
+
+    }
+  }
+
+  });
+
 
   const submitHandler = (formData) => {
     const userInput = {
@@ -133,6 +156,10 @@ const Login = () => {
           localStorage.setItem("isLoggedIn", "1");
           history.push({
             pathname: "/home",
+            state:{
+              messageParams:"Successfully logged in",
+              alertParams:"success"
+            }
           });
         } else {
           setAlert({ message: loginReturn.message, alert: loginReturn.alert });

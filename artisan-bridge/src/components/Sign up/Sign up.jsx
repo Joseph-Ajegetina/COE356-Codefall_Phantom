@@ -285,7 +285,10 @@ const SignUp = () => {
         if (info.passed) {
           setAlert({ message: info.message, alert: info.alert });
           setShowAlert(true);
-          history.push("/login");
+          history.push({pathname:"/login", state:{
+            messageParams:"Successfully logged in",
+            alertParams:"success"
+          }});
           console.log(info);
         } else {
           setAlert({ message: info.message, alert: info.alert });
