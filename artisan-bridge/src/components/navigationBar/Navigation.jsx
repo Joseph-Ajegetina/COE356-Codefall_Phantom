@@ -29,7 +29,7 @@ export default function navigation() {
                      </div>
                      <div className="header-option">
                      <Link to="/artisan" className="nav">
-                     <span><img src="images/find an artisan.png" alt="" className="services"/>Find an artisan</span>
+                     <span><img src="images/artisan.png" alt="" className="services"/>Find an artisan</span>
                      </Link>
                      
                      </div>

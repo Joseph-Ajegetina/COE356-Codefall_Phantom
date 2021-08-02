@@ -9,6 +9,9 @@ import Service from "./components/Service/Service"
 import Artisan from "./components/Artisan/Artisan.jsx"
 import Records from "./components/Records/Records.jsx"
 import Dashboard from "./components/Dashboard/Dashboard.jsx"
+import AdminPanel from "./components/AdminPanel/AdminPanel.jsx"
+import SideBar from './components/AdminPanelSideBar/sideBar';
+import AdminHome from "./components/AdminPanel/pages/home/home"
 import { useState } from "react"
 
 
@@ -32,6 +35,13 @@ function App() {
       <Switch>
       <Route path="/login">
      <Login  log_in={log_in} />
+    </Route>
+    <Route path="/admin">
+      <AdminPanel/>
+      <div className="side">
+        <SideBar/>
+        <AdminHome/>
+      </div>
     </Route>
     <Route path="/signup">
     <Signup Sign_up={Sign_up} />

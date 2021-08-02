@@ -35,18 +35,18 @@ export default function home() {
 </div>
 <h4>Popular Services</h4>
 <div className="service-home">
-<PopularServices/>
-<PopularServices/>
-<PopularServices/>
+<PopularServices title="Electronics" image="images/elipseimage1.png" description="Get your blenders, rice cookers, hot plates,fridges fixed by a trusted Artisan"/>
+<PopularServices title="Phones and Watches" image="images/elipseimage2.png" description="Get a quick fix on your broken phone screen, or watch battery replacement"/>
+<PopularServices title="Footwear Repair" image="images/elipseimage3.png" description="Mend your shoes, sandals, sneakers, slippers etc."/>
 </div>
 <Link to="/service" className="service-link">
             All Services
             </Link>     
 <h4>Top Rated Artisans</h4>
 <div className="artisan-home">
-<TopRatedArtisan/>
-<TopRatedArtisan/>
-<TopRatedArtisan/>
+<TopRatedArtisan image="images/artisan1.jpg" skillimage="images/artisan.png" skillType="Electrician" skill="Skill"/>
+<TopRatedArtisan image="images/artisan2.jpg" skillType="Plumber" skill="Skill"  skillimage="images/artisan.png"/>
+<TopRatedArtisan image="images/artisan3.jpg" skillType="Electrician" skill="Skill"  skillimage="images/artisan.png"/>
 </div>
 <Link to="artisan" className="service-link">
             All Artisans

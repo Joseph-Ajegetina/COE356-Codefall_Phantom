@@ -4,7 +4,7 @@ import PopularServices from '../popularServices/PopularServices'
 import { Link } from 'react-router-dom'
 
 
-export default function Service() {
+export default function Service({title, image, description}) {
     return (
         <div className="service" id="service">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -31,16 +31,14 @@ export default function Service() {
          
          <div className="container">
            <div className="row">
-             <div className="col" ><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
-             <div className="col"><PopularServices/></div>
+             <div className="col" ><PopularServices title="Electronics" image="images/elipseimage1.png" description="Get your blenders, rice cookers, hot plates fixed by a trusted Artisan"/></div>
+             <div className="col"><PopularServices title="Phones and Watches" image="images/elipseimage2.png" description="Get a quick fix on your broken phone screen, or watch battery replacement"/></div>
+             <div className="col"><PopularServices title="Footwear Repair" image="images/elipseimage3.png" description="Mend your shoes, sandals, sneakers, slippers etc."/></div>
+             <div className="col"><PopularServices title="Plumbering" image="images/elipseimage4.png" description="Do you have a faulty tap, broken pipe? contact our plumbering services"/></div>
+             <div className="col"><PopularServices title="Carpentery" image="images/elipseimage5.png" description="All sorts of furniture services are available here"/></div>
+             <div className="col"><PopularServices title="Mechanic" image="images/elipseimage6.png" description="Our Mechanics work on all brands of cars and all types of faults"/></div>
+             <div className="col"><PopularServices title="Metal Works" image="images/elipseimage7.png" description="Welding services, metal art works and more"/></div>
+             <div className="col"><PopularServices title="Electric and Fridges" image="images/elipseimage8.png" description="Fault meter, lights, fans, fridges and all electrical problems"/></div>
            </div>
            <a href="#top" className="service-link">Back to top</a>
          </div>
