@@ -5,7 +5,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 export default function Login({ log_in }) {
-  const [details, setDetails] = useState({ username: "", password: "" });
+  const [details, setDetails] = useState({ customer_username: "", password: "" });
 
   let history = useHistory();
 
@@ -19,8 +19,11 @@ export default function Login({ log_in }) {
     axios
       .post("http://127.0.0.1:5000/login", details)
       .then((response) => {
-        console.log(response);
-        if (response.data.Info == "logged in") {
+        console.log(response.data);
+        if (response.data.Info == "logged in, Customer") {
+          history.push("/dashboard");
+        }
+        if (response.data.Info == "logged in, Administrator") {
           history.push("/dashboard");
         }
       })

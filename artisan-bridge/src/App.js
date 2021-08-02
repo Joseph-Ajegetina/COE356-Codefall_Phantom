@@ -11,6 +11,7 @@ import Records from "./components/Records/Records.jsx";
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { useState } from "react";
+import Admin_register from "./components/admin_register/Admin_register.jsx";
 
 function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
@@ -25,11 +26,20 @@ function App() {
     password: "",
   });
 
+  const [admin_reg, setAdminSign] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
   const log_in = (details) => {
     console.log(details.customer_username);
   };
   const Sign_up = (Signup_details) => {
     console.log(Signup_details);
+  };
+  const admin_Register = (Admin_details) => {
+    console.log(Admin_details);
   };
 
   return (
@@ -41,6 +51,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />
+          </Route>
+          <Route path="/AdminRegister">
+            <Admin_register admin_Register={admin_Register} />
           </Route>
           <Route path="/service">
             <Navigation />

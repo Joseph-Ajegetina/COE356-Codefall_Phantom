@@ -56,8 +56,8 @@ export default function home() {
       <h4>Popular Services</h4>
       <div className="service-home">
         <PopularServices />
-        <PopularServices />
-        <PopularServices />
+        {/* <PopularServices />
+        <PopularServices /> */}
       </div>
       <Link to="/service" className="service-link">
         All Services
