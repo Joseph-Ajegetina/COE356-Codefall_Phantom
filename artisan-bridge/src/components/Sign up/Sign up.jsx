@@ -1,40 +1,95 @@
+
 import React from "react";
 import "./Sign up.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import Message from "../navigationBar/Message";
 
-export default function Signup({ Sign_up }) {
-  const [Signup_details, setSignup_details] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    city: "",
-    phone: "",
-    customer_username: "",
-    password: "",
+
+
+const SignUp = () => {
+  //Schema for the form validation
+  const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required("FirstName  is required"),
+    firstName: Yup.string().required("lastName is required"),
+    username: Yup.string()
+      .required("Username is required")
+      .min(6, "Username must be at least 6 characters")
+      .max(20, "Username must not exceed 20 characters"),
+    birthdate: Yup.string().required("Birthdate is required"),
+
+    address: Yup.string().required("Location is required"),
+
+    phone: Yup.string()
+      .required("Location is required")
+      .matches(phoneRegex, "Invalid Phone"),
+
+    email: Yup.string().required("Email is required").email("Email is invalid"),
+
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters")
+      .max(40, "Password must not exceed 40 characters"),
+    confirmPassword: Yup.string()
+      .required("Confirm Password is required")
+      .oneOf([Yup.ref("password"), null], "Confirm Password does not match"),
+    acceptTerms: Yup.bool().oneOf([true], "Accept Terms is required"),
   });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(validationSchema) });
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   let history = useHistory();
 
-  const submithand = (e) => {
-    e.preventDefault();
-    Sign_up(Signup_details);
+  const submitHandler = (formData) => {
+    const userInput = {
+      customer_username: formData.username,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      birth_date: formData.birthdate,
+      contact: formData.phone,
+      address: formData.address,
+      email: formData.email,
+      password: formData.password,
+    };
 
-    axios.defaults.headers.post["Access-Control-Allow-Origin"] =
-      "http://127.0.0.1:5000/login";
-
-    axios
-      .post("http://127.0.0.1:5000/register", Signup_details)
+    fetch("http://127.0.0.1:5000/register", {
+      method: "POST",
+      body: JSON.stringify(userInput),
+    })
       .then((response) => {
-        console.log(response);
-        if (response.data.Registration == "Registered") {
-          history.push("/login");
+        if (response.ok) {
+          return response.json();
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .then((info) => {
+        if (info.passed) {
+          setAlert({ message: info.message, alert: info.alert });
+          setShowAlert(true);
+          history.push({pathname:"/login", state:{
+            messageParams:"Successfully logged in",
+            alertParams:"success"
+          }});
+          console.log(info);
+        } else {
+          setAlert({ message: info.message, alert: info.alert });
+          setShowAlert(true);
+          console.log(info);
+        }
       });
   };
 
@@ -47,142 +102,155 @@ export default function Signup({ Sign_up }) {
           </h1>
         </div>
         <div class="login-box">
-          <form onSubmit={submithand}>
-            <label for="">
+          {showAlert ? <Message alertMessage={alert} /> : ""}
+          <form onSubmit={handleSubmit(submitHandler)}>
+            <div className="form-group">
+              <label>First Name</label>
               <input
+                name="firstName"
                 type="text"
-                placeholder="First Name"
-                maxlength="50"
-                required
-                name="first_name"
-                id="first_name"
-                onChange={(e) =>
-                  setSignup_details({
-                    ...Signup_details,
-                    first_name: e.target.value,
-                  })
-                }
-                value={Signup_details.first_name}
+                {...register("firstName")}
+                className={`form-control ${
+                  errors.firstName ? "is-invalid" : ""
+                }`}
               />
-            </label>
-            <label for="">
+              <div className="invalid-feedback">{errors.fisrtName?.message}</div>
+            </div>
+            <div className="form-group">
+              <label>Last Name</label>
               <input
+                name="lastName"
                 type="text"
-                placeholder="Last Name"
-                maxlength="50"
-                required
-                name="last_name"
-                id="last_name"
-                onChange={(e) =>
-                  setSignup_details({
-                    ...Signup_details,
-                    last_name: e.target.value,
-                  })
-                }
-                value={Signup_details.last_name}
+                {...register("lastName")}
+                className={`form-control ${
+                  errors.lastName ? "is-invalid" : ""
+                }`}
               />
-            </label>
-            <label for="">
+              <div className="invalid-feedback">{errors.fisrtName?.message}</div>
+            </div>
+            
+
+            <div className="form-group">
+              <label>Username</label>
               <input
-                type="email"
-                placeholder="Email Address"
-                required
-                name="email"
-                id="email"
-                onChange={(e) =>
-                  setSignup_details({
-                    ...Signup_details,
-                    email: e.target.value,
-                  })
-                }
-                value={Signup_details.email}
-              />
-            </label>
-            <label for="">
-              <input
+                name="username"
                 type="text"
-                placeholder="City"
-                required
-                name="city"
-                id="city"
-                onChange={(e) =>
-                  setSignup_details({ ...Signup_details, city: e.target.value })
-                }
-                value={Signup_details.city}
+                {...register("username")}
+                className={`form-control ${
+                  errors.username ? "is-invalid" : ""
+                }`}
               />
-            </label>
-            <label for="">
+              <div className="invalid-feedback">{errors.username?.message}</div>
+            </div>
+
+            <div className="form-group">
+              <label>Date of Birth</label>
               <input
+                name="birthdate"
+                type="date"
+                {...register("birthdate")}
+                className={`form-control ${
+                  errors.birthdate ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">
+                {errors.birthdate?.message}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Location address</label>
+              <input
+                name="address"
                 type="text"
-                placeholder="Phone"
-                required
+                {...register("address")}
+                className={`form-control ${errors.address ? "is-invalid" : ""}`}
+              />
+              <div className="invalid-feedback">{errors.address?.message}</div>
+            </div>
+
+            <div className="form-group">
+              <label>Phone</label>
+              <input
                 name="phone"
-                id="phone"
-                onChange={(e) =>
-                  setSignup_details({
-                    ...Signup_details,
-                    phone: e.target.value,
-                  })
-                }
-                value={Signup_details.phone}
+                type="tel"
+                {...register("phone")}
+                className={`form-control ${errors.phone ? "is-invalid" : ""}`}
               />
-            </label>
-            <label for="">
+              <div className="invalid-feedback">{errors.phone?.message}</div>
+            </div>
+
+            <div className="form-group">
+              <label>Email</label>
               <input
+                name="email"
                 type="text"
-                placeholder="Username"
-                required
-                name="customer_username"
-                id="customer_username"
-                onChange={(e) =>
-                  setSignup_details({
-                    ...Signup_details,
-                    customer_username: e.target.value,
-                  })
-                }
-                value={Signup_details.customer_username}
+                {...register("email")}
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
               />
-            </label>
-            <label for="">
+              <div className="invalid-feedback">{errors.email?.message}</div>
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
               <input
-                type="password"
-                placeholder="Password"
-                minlength="8"
-                required
                 name="password"
-                id="password"
-                onChange={(e) =>
-                  setSignup_details({
-                    ...Signup_details,
-                    password: e.target.value,
-                  })
-                }
-                value={Signup_details.password}
-              />
-            </label>
-            <label for="">
-              <input
                 type="password"
-                placeholder="Confirm Password"
-                minlength="8"
-                required
+                {...register("password")}
+                className={`form-control ${
+                  errors.password ? "is-invalid" : ""
+                }`}
               />
-            </label>
-            <label for="">
-              <input type="submit" value="Sign Up" />
-            </label>
+              <div className="invalid-feedback">{errors.password?.message}</div>
+            </div>
+
+            <div className="form-group">
+              <label>Confirm Password</label>
+              <input
+                name="confirmPassword"
+                type="password"
+                {...register("confirmPassword")}
+                className={`form-control ${
+                  errors.confirmPassword ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">
+                {errors.confirmPassword?.message}
+              </div>
+            </div>
+
+            <div className="form-group form-check">
+              <input
+                name="acceptTerms"
+                type="checkbox"
+                {...register("acceptTerms")}
+                className={`form-check-input ${
+                  errors.acceptTerms ? "is-invalid" : ""
+                }`}
+              />
+              <label htmlFor="acceptTerms" className="form-check-label">
+                I have read and agree to the Terms
+              </label>
+              <div className="invalid-feedback">
+                {errors.acceptTerms?.message}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">
+                Register
+              </button>
+            </div>
           </form>
-          <p>
-            By clicking the Sign Up button,you agree to our <br />
-            <a href="#">Terms and Condition</a> and{" "}
-            <a href="#">Policy Privacy</a>
-          </p>
-          <p>
-            Already have an account?
-            <Link to="/login">Login</Link>
-          </p>
+          <div className="border-top pt-3">
+            <small>
+              Already Have An Account? <Link to="/login">Login</Link>
+            </small>
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default SignUp;

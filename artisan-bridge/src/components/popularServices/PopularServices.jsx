@@ -1,7 +1,15 @@
 import "./popularServices.scss";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function popularServices() {
+  
+   var Description_str = axios.get("http://127.0.0.1:5000/popular_services")
+   .then((response) => {
+    return response.data.Description
+  } )
+  console.log(Description_str);
+
   return (
     <div className="popularServices">
       <div className="wrapper-center">
@@ -18,7 +26,7 @@ export default function popularServices() {
               <h3>Electronics</h3>
               <p className="text">
                 Get your blenders, rice cookers, hot plate, fridges etc. fix by
-                trusted Artisan
+
               </p>
             </div>
           </div>
