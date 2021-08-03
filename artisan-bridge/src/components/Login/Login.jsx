@@ -1,64 +1,161 @@
-import React, { useState } from 'react'
-import "./Login.scss"
-import { Link } from 'react-router-dom'
-import axios from 'axios';
-import { useHistory} from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import "./Login.scss";
+import {  useLocation, useRouteMatch } from "react-router";
+import { useHistory } from "react-router-dom";
+import Message from "../navigationBar/Message";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
+const Login = () => {
+  //Settings for the validation
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("Username is required"),
+    password: Yup.string().required("Password is required"),
+  });
 
-export default function Login({log_in}) {
+  //useState variables to hold various data
+  const [alert, setAlert] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
+  const { url, path } = useRouteMatch();
 
-  const [details,setDetails]= useState ({username:"", password:""});
-  
-  let history= useHistory();
+  //form hook
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(validationSchema) });
 
-  const submithand = e =>{
-    e.preventDefault();
-    log_in(details);
-    
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5000/login';
-    
-    axios.post("http://127.0.0.1:5000/login", details)
-    .then(response=>{
-      console.log(response)
-      if(response.data.Info=="logged in"){
-        history.push("/dashboard")
-      }    
-    }).catch(error=>{
-      console.log(error)
+  //function to turn off message after 3 seconds
+  const messageOff = () => {
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  };
+
+  //Getting messages passed from other components to the login route like accessing unauthorized routes
+  useEffect(() => {
+    if (location.state) {
+      const messageLocation = location.state.messageParams;
+      const alertLocation = location.state.alertParams;
+
+      if (messageLocation && alertLocation) {
+        //displaying the message
+        setAlert({ message: messageLocation, alert: alertLocation });
+        setShowAlert(true);
+
+        //turning off message flash after three seconds
+        messageOff();
+
+        //removing the message from the route parameters
+        history.replace(url);
+      }
+    }
+  }, [location]);
+
+  //function to handle form submission
+  const submitHandler = (formData) => {
+    const userInput = {
+      customer_username: formData.username,
+      password: formData.password,
+    };
+
+    fetch("http://127.0.0.1:5000/login", {
+      method: "POST",
+      body: JSON.stringify(userInput),
     })
- 
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((loginReturn) => {
+        if (loginReturn.passed) {
+          let userType;
+          localStorage.setItem("isLoggedIn", "1");
+          userType = loginReturn.type;
+          console.log(loginReturn.type.toString());
+          console.log(userType);
+          console.log(loginReturn);
 
-  }
+          //checking if the user is a customer or an administrator
+          if (userType === "customer") {
+            console.log("here");
+            history.push({
+              pathname: "/home",
+              state: {
+                messageParams: "Successfully logged in",
+                alertParams: "success",
+              },
+            });
+          } else {
+            // if adminstrator
+            history.push({
+              pathname: "/admin",
+              state: {
+                messageParams: "Successfully logged in",
+                alertParams: "success",
+              },
+            });
+          }
+        } else {
+          setAlert({ message: loginReturn.message, alert: loginReturn.alert });
+          setShowAlert(true);
+          messageOff();
+        }
+      });
+  };
+
   return (
-    <div className="login">
-      <div className="left ">
-        <h2>ARTISAN<span class="text-warning">BRIDGE</span></h2>
-      </div>
-      <div class="login-box">
-        <form onSubmit={submithand}>
+    <div className="form">
+      <div className="login">
+        <div className="left ">
+          <h1>
+            ARTISAN<span class="text-warning">BRIDGE</span>
+          </h1>
+        </div>
 
-        <div>
-            <label>
-              <input type="text" placeholder="username" name="customer_username" id="username" required onChange={e=> setDetails({...details, customer_username:e.target.value})} value={details.customer_username} />
-            </label>
+        <div class="login-box">
+          {showAlert ? <Message alertMessage={alert} /> : ""}
+          <form onSubmit={handleSubmit(submitHandler)}>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                name="username"
+                type="text"
+                {...register("username")}
+                className={`form-control ${
+                  errors.username ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">{errors.username?.message}</div>
             </div>
-            <div>
-            <label>
-              <input type="password" placeholder="Password" name="password" id="password" required onChange={e=> setDetails({...details,password:e.target.value})} value={details.password} />
-            </label>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                name="password"
+                type="password"
+                {...register("password")}
+                className={`form-control ${
+                  errors.password ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">{errors.password?.message}</div>
             </div>
-            <div>
-            <label for="">
-              <input type="submit" value="Login" />
-            </label>
+            <div className="form-group">
+              <button type="submit" className="btn btn-secondary mt-2">
+                Login
+              </button>
             </div>
-        </form>
-        <label for="">
-          <Link to="/signup" className="signup">
-          <button class="btn btn-md btn-secondary m-2">Create New Account</button>
-          </Link>
-          </label>
-      </div> 
+          </form>
+        </div>
+      </div>
     </div>
-    )
-}
+  );
+};
+
+export default Login;
