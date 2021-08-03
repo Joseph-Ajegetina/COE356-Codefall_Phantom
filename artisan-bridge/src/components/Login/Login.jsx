@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
+<<<<<<< HEAD
 const Login = () => {
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
@@ -20,6 +21,10 @@ const Login = () => {
     reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema) });
+=======
+export default function Login({ log_in }) {
+  const [details, setDetails] = useState({ customer_username: "", password: "" });
+>>>>>>> 5453945afbd04f046d0470b9b56461b5bf8bbb3a
 
   const [alert, setAlert] = useState({});
   const [showAlert, setShowAlert] = useState(false);
@@ -60,8 +65,17 @@ const Login = () => {
       body: JSON.stringify(userInput),
     })
       .then((response) => {
+<<<<<<< HEAD
         if (response.ok) {
           return response.json();
+=======
+        console.log(response.data);
+        if (response.data.Info == "logged in, Customer") {
+          history.push("/dashboard");
+        }
+        if (response.data.Info == "logged in, Administrator") {
+          history.push("/dashboard");
+>>>>>>> 5453945afbd04f046d0470b9b56461b5bf8bbb3a
         }
       })
       .then((loginReturn) => {

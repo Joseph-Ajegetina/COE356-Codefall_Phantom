@@ -75,14 +75,14 @@ def dashboard():
 #         if form.validate():
 
             
-#             user = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.username.data)).fetchall()
-#             admin_name = connection.execute(db.select([admin.columns.admin_username]).where(admin.columns.admin_username == form.username.data)).fetchall()
+            # user = connection.execute(db.select([customers.columns.customer_username]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
+            # admin_name = connection.execute(db.select([admin.columns.username]).where(admin.columns.username == form.customer_username.data)).fetchall()
 
-#             customer_id = connection.execute(db.select([customers.columns.customer_id]).where(customers.columns.customer_username == form.username.data)).fetchall()
+            # customer_id = connection.execute(db.select([customers.columns.customer_id]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
 
 
-#             if user:
-#                 password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.username.data)).fetchall()
+            # if user:
+            #     password = connection.execute(db.select([customers.columns.password]).where(customers.columns.customer_username == form.customer_username.data)).fetchall()
 
 #                 if bcrypt.check_password_hash(password[0][0],form.password.data):
 #                 #log the user in
@@ -97,8 +97,8 @@ def dashboard():
 #                     return {"Info":'invalid credentials'}
 
 
-#             elif admin_name:
-#                 password = connection.execute(db.select([admin.columns.password]).where(admin.columns.admin_username == form.username.data)).fetchall()
+            # elif admin_name:
+            #     password = connection.execute(db.select([admin.columns.password]).where(admin.columns.username == form.customer_username.data)).fetchall()
 
 #                 if bcrypt.check_password_hash(password[0][0],form.password.data):
 #                 #log the user in
@@ -318,7 +318,9 @@ def popular_artisans():
 
 @app.route('/popular_services')
 def popularServices():
-    return {"Result" : str(connection.execute(db.select([popular_services])).fetchall())}
+    return {"Service" : str(connection.execute(db.select([popular_services.columns.skill])).fetchall()),
+            "Description" : str(connection.execute(db.select([popular_services.columns.descriptions])).fetchall())      
+                   }
     
 
 @app.route('/services/<int:id>', methods=['POST','GET'])

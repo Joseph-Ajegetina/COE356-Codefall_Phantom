@@ -11,11 +11,17 @@ import Records from "./components/Records/Records.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { useState } from "react";
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
+<<<<<<< HEAD
 import Logout from "./components/Logout/Logout";
 import RecordRoute from "./components/PrivateRoute/RecordRoute.jsx";
 import AdminRoute from "./components/PrivateRoute/AdminRoute"
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
 
+=======
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import { useState } from "react";
+import Admin_register from "./components/admin_register/Admin_register.jsx";
+>>>>>>> 5453945afbd04f046d0470b9b56461b5bf8bbb3a
 
 function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
@@ -32,11 +38,20 @@ function App() {
     password: "",
   });
 
+  const [admin_reg, setAdminSign] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
   const log_in = (details) => {
     console.log(details.customer_username);
   };
   const Sign_up = (Signup_details) => {
     console.log(Signup_details);
+  };
+  const admin_Register = (Admin_details) => {
+    console.log(Admin_details);
   };
 
   return (
@@ -46,6 +61,7 @@ function App() {
           <Route path="/login">
             <Login log_in={log_in} />
           </Route>
+<<<<<<< HEAD
           <Route path="/logout">
             <Logout
               setIsAuthenticated={setIsAuthenticated}
@@ -55,6 +71,14 @@ function App() {
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />
           </Route>
+=======
+          <Route path="/signup">
+            <Signup Sign_up={Sign_up} />
+          </Route>
+          <Route path="/AdminRegister">
+            <Admin_register admin_Register={admin_Register} />
+          </Route>
+>>>>>>> 5453945afbd04f046d0470b9b56461b5bf8bbb3a
           <Route path="/service">
             <Navigation />
             <div className="sections">
