@@ -65,16 +65,15 @@ PRIMARY KEY(admin_id)
 );
 
 CREATE VIEW top_Rated_Artisans AS 
-SELECT first_name, last_name, rating 
-FROM artisans 
-ORDER BY rating DESC 
+SELECT artisans.first_name, artisans.last_name, artisans.rating, services.skill 
+FROM artisans JOIN services ON artisans.service_id=services.service_id
+ORDER BY artisans.rating DESC 
 LIMIT 3;
 
 CREATE VIEW popular_Services AS 
-SELECT skill   
-FROM records
-GROUP BY skill 
-ORDER BY COUNT(skill) DESC
+SELECT count(records.service_id) AS requests, services.skill, services.descriptions 
+FROM records JOIN services ON records.service_id=services.service_id
+GROUP BY records.service_id
 LIMIT 3;
 
 ALTER TABLE artisans AUTO_INCREMENT=1000;
