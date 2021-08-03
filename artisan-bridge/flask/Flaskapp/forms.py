@@ -7,7 +7,7 @@ from Flaskapp import connection, artisans, services, customers,records, db
 
 
 class LoginForm(Form):
-    customer_username = StringField('customer_username', validators=[DataRequired(), Length(min=4,max=15)])
+    username = StringField('customer_username', validators=[DataRequired(), Length(min=4,max=15)])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 200)])
     
 
