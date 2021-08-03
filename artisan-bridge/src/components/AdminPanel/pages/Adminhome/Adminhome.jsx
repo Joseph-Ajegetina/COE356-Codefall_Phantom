@@ -1,5 +1,5 @@
 import React from 'react'
-import "./home.scss"
+import "./Adminhome.scss"
 import Chart from '../../../ActiveuserChart/chart'
 import { userData } from '../../../../dummydata'
 import Widgetsm from '../../../Widgetsm/Widgetsm'

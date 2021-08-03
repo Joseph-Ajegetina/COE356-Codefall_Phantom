@@ -8,6 +8,8 @@ import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import FeedbackOutlinedIcon from '@material-ui/icons/FeedbackOutlined';
+import { Link } from 'react-router-dom'
+
 
 export default function sideBar() {
     return (
@@ -16,15 +18,21 @@ export default function sideBar() {
             <div className="sideBarMenu">
                 <h5 className="sideBarTitle">DashBoard</h5>
                 <ul className="sideBarList">
+                   <Link to="/admin">
                     <li className="sideBarListItem">
                        <LineStyleIcon className="sideBarIcon"/> <a href="">Home</a>
                     </li>
+                    </Link>
+                    <Link to="/artisans">
                     <li className="sideBarListItem">
                        <PersonOutlineOutlinedIcon className="sideBarIcon"/> <a href="">Artisans</a>
                     </li>
+                    </Link>
+                    <Link to="/services">
                     <li className="sideBarListItem">
                        <ShoppingBasketOutlinedIcon className="sideBarIcon"/> <a href="">Services</a>
                     </li>
+                    </Link>
                     <li className="sideBarListItem">
                        <AssessmentOutlinedIcon className="sideBarIcon"/> <a href="">Transactions</a>
                     </li>

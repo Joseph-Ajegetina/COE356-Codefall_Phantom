@@ -1,7 +1,7 @@
 import Navigation from "./components/navigationBar/Navigation.jsx"
 import Footer from "./components/footer/Footer.jsx"
 import "./App.scss"
-import Home from "./components/Home/home.jsx"
+import Home from "./components/Home/home"
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Login from "./components/Login/Login.jsx"
 import Signup from "./components/Sign up/Sign up.jsx"
@@ -11,9 +11,11 @@ import Records from "./components/Records/Records.jsx"
 import Dashboard from "./components/Dashboard/Dashboard.jsx"
 import AdminPanel from "./components/AdminPanel/AdminPanel.jsx"
 import SideBar from './components/AdminPanelSideBar/sideBar';
-import AdminHome from "./components/AdminPanel/pages/home/home"
+import Adminhome from "./components/AdminPanel/pages/Adminhome/Adminhome"
 import { useState } from "react"
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
+import Artisans from "./components/AdminPanel/pages/artisans/artisans.jsx"
+import Services from "./components/AdminPanel/pages/services/services"
 
 
 function App() {
@@ -54,7 +56,21 @@ function App() {
       <AdminPanel/>
       <div className="side">
         <SideBar/>
-        <AdminHome/>
+        <Adminhome/>
+      </div>
+    </Route>
+    <Route path="/artisans">
+    <AdminPanel/>
+    <div className="side">
+        <SideBar/>
+        <Artisans/>
+      </div>
+    </Route>
+    <Route path="/services">
+    <AdminPanel/>
+    <div className="side">
+        <SideBar/>
+        <Services/>
       </div>
     </Route>
     <Route path="/signup">
