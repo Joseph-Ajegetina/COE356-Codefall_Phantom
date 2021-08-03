@@ -229,7 +229,7 @@ def edit_table(id, table):
             connection.execute(db.delete(reference[table][0]).where(reference[table][1] == int(id)))
             return {"Info": "Done"}
         except:
-            return {"Info": "Artisan does not exist, Done"}
+            return {"Info": "Done", "More":"Artisan does not exist"}
 
 
 
@@ -265,10 +265,11 @@ def get_services(id):
 @app.route('/report/<int:customer_id>')
 @login_required
 def report(customer_id):
-    return(connection.execute(db.select([records.columns.record_id,
+    #Further editing
+    return{"Result":str(connection.execute(db.select([records.columns.record_id,
      records.columns.artisan_id, 
      records.columns.service_type,
-     records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
+     records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))}
     #query to return last 10 transactions of that user
     
 
@@ -277,9 +278,18 @@ def report(customer_id):
 @app.route('/find_artisan')
 # @login_required
 def find_artisan():
-    return{"DATA": str(connection.execute(db.select([artisans.columns.artisan_id,
+
+    query = connection.execute(db.select([services.columns.service_id,services.columns.service_type])).fetchall()
+
+    result = {}
+    for i in query:
+        artisan_group = connection.execute(db.select([artisans.columns.name,
      artisans.columns.address, 
-     artisans.columns.rating])).fetchall())}
+     artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
+        result[i[1]] = f"{artisan_group}"
+
+    return result
+
 
 
 @app.route('/find_artisan/<int:artisan_id>')

@@ -77,3 +77,83 @@ Response
 ```
 
 
+## Load Artisan Table   - - - -   ```/admin/artisan_table```
+
+### GET
+
+```
+Response 
+
+{"Data": "[(Row 1),(Row 2), ...]" }
+
+```
+
+
+
+## Edit table   - - - -   ```/admin/<string:table>/edit/<string:id>```
+
+### POST
+
+```
+Sample Data
+{"artisan_username":"kofi", "password":"password"}
+
+
+Response 
+
+#Success
+{"Registration":"Registered"}
+
+#Fail
+{"Errors":(Dictonary of errors)}
+
+```
+### DELETE
+```
+{"Info": "Done"}
+or
+{"Info": "Done", "More":"Artisan does not exist"}
+```
+
+
+## Popular Artisans - - - - ```/top_rated_artisans```
+```
+{"Result": "[(Name, Rating), (...), ...]"}
+```
+
+## Popular Services - - - - ```/popular_services```
+```
+{"Result": "[(1st), (2nd), ...]"}
+```
+
+## Get services - - - - ```/services/<int:id>```
+### POST 
+```for id == 0```
+ Adding a service
+```
+Sample Data
+{"service_type":"A service", "description": "Some Description"}
+Data will be inserted
+```
+
+```for id != 0``` Updating a service
+Sample Data
+```
+{"service_type":"A service", "description": "Some Description"}
+```
+Data at ```id``` will be overwritten by new data
+
+
+### GET
+```
+{"Result": "[(Row 1), ...]"}
+```
+
+## Report
+### GET - - - -  ```/report/<int:customer_id>```
+```
+{"Result":"[(1st),...]"}
+
+Order (1st) - ('record_id','artisan_id','service_type','date')
+```
+
