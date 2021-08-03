@@ -11,7 +11,7 @@ import Records from "./components/Records/Records.jsx"
 import Dashboard from "./components/Dashboard/Dashboard.jsx"
 import AdminPanel from "./components/AdminPanel/AdminPanel.jsx"
 import SideBar from './components/AdminPanelSideBar/sideBar';
-import Adminhome from "./components/AdminPanel/pages/Adminhome/Adminhome"
+import AdminHome from "./components/AdminPanel/pages/Adminhome/Adminhome"
 import { useState } from "react"
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
 import Artisans from "./components/AdminPanel/pages/artisans/artisans.jsx"
@@ -20,7 +20,6 @@ import Logout from "./components/Logout/Logout";
 import RecordRoute from "./components/PrivateRoute/RecordRoute.jsx";
 import AdminRoute from "./components/PrivateRoute/AdminRoute"
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
-import { useState } from "react";
 import Admin_register from "./components/admin_register/Admin_register.jsx";
 
 function App() {

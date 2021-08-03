@@ -1,7 +1,7 @@
 import React from "react";
 import AdminPanel from "../AdminPanel/AdminPanel";
 import SideBar from "../AdminPanelSideBar/sideBar";
-import AdminHome from "../AdminPanel/pages/home/home";
+import AdminHome from "../AdminPanel/pages/Adminhome/Adminhome"
 
 const RecordRoute = () => {
   return (
