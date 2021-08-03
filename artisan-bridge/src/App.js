@@ -66,7 +66,9 @@ function App() {
               setIsLoggedIn={setIsloggedIn}
             />
           </Route>
-
+          <Route path="/signup">
+            <Signup Sign_up={Sign_up} />
+          </Route>
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />
           </Route>

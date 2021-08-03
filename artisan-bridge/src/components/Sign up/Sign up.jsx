@@ -78,17 +78,14 @@ const SignUp = () => {
       })
       .then((info) => {
         if (info.passed) {
-          setAlert({ message: info.message, alert: info.alert });
-          setShowAlert(true);
           history.push({pathname:"/login", state:{
-            messageParams:"Successfully logged in",
-            alertParams:"success"
+            messageParams:info.message,
+            alertParams:info.alert
           }});
           console.log(info);
         } else {
           setAlert({ message: info.message, alert: info.alert });
           setShowAlert(true);
-          console.log(info);
         }
       });
   };
