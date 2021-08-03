@@ -1,6 +1,6 @@
-import React from 'react'
-import "./Artisan.scss"
-import TopRatedArtisan from '../topRatedArtisan/TopRatedArtisan'
+import React from "react";
+import "./Artisan.scss";
+import TopRatedArtisan from "../topRatedArtisan/TopRatedArtisan";
 
 export default function Artisan() {
     return (
@@ -29,24 +29,32 @@ export default function Artisan() {
           <div >
               <div className="row">
                   <h4 className="job-title">Electricians</h4>
-                  <div className="col-4"><TopRatedArtisan/></div>
-                  <div className="col-4"><TopRatedArtisan/></div>
-                  <div className="col-2"><TopRatedArtisan/></div>
+                  <div className="col-4"><TopRatedArtisan image="images/artisan1.jpg" 
+                  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
+                  <div className="col-4"><TopRatedArtisan image="images/artisan4.jpg"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
+                  <div className="col-2"><TopRatedArtisan
+                  image="images/artisan3.jpg"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
               </div>
               <div className="row">
               <h4 className="job-title">Plumbers</h4>
-                  <div className="col-4"><TopRatedArtisan/></div>
-                  <div className="col-4"><TopRatedArtisan/></div>
-                  <div className="col-2"><TopRatedArtisan/></div>
+                  <div className="col-4"><TopRatedArtisan
+                  image="images/artisan5.jfif"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
+                  <div className="col-4"><TopRatedArtisan
+                  image="images/artisan2.jpg"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
+                  <div className="col-2"><TopRatedArtisan
+                  image="images/artisan6.jfif"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
               </div> <div className="row">
               <h4 className="job-title">Footwear Repair</h4>
-                  <div className="col-4"><TopRatedArtisan/></div>
-                  <div className="col-4"><TopRatedArtisan/></div>
-                  <div className="col-2"><TopRatedArtisan/></div>
+                  <div className="col-4"><TopRatedArtisan
+                  image="images/artisan7.jfif"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
+                  <div className="col-4"><TopRatedArtisan
+                  image="images/artisan8.jfif"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
+                  <div className="col-2"><TopRatedArtisan
+                  image="images/artisan9.jpg"  skillimage="images/location.png" skillType="Kotei" skill="Location"/></div>
               </div> 
            <a href="#top" className="service-link">Back to top</a>
 
-          </div>
-        </div>
-    )
+</div>
+    </div>
+  );
 }

@@ -1,25 +1,38 @@
-import "./popularServices.scss"
-import { Link } from 'react-router-dom'
+import "./popularServices.scss";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function popularServices() {
-    return (
-        <div className="popularServices">
-            <div className="wrapper-center">
-                <a href="" className="wrapper-link">
-                <div className="wrapper">
-                    <div className="elipse">
-                        <img src="images/elipseimage1.png" alt="" className="elipseimage" />
-                    </div>
-                    <div className="wrapper-text">
-                      <h3>Electronics</h3>
-                       <p className="text">
-                       Get your blenders, rice cookers, hot plate, fridges etc. fix by trusted Artisan  
-                    </p>
-                    </div>
-                 </div>
-                 </a>
-              
-                {/*  <a href="" className="wrapper-link">
+  
+   var Description_str = axios.get("http://127.0.0.1:5000/popular_services")
+   .then((response) => {
+    return response.data.Description
+  } )
+  console.log(Description_str);
+
+  return (
+    <div className="popularServices">
+      <div className="wrapper-center">
+        <a href="" className="wrapper-link">
+          <div className="wrapper">
+            <div className="elipse">
+              <img
+                src="images/elipseimage1.png"
+                alt=""
+                className="elipseimage"
+              />
+            </div>
+            <div className="wrapper-text">
+              <h3>Electronics</h3>
+              <p className="text">
+                Get your blenders, rice cookers, hot plate, fridges etc. fix by
+
+              </p>
+            </div>
+          </div>
+        </a>
+
+        {/*  <a href="" className="wrapper-link">
                  <div className="wrapper">
                     <div className="elipse">
                     <img src="images/elipseimage2.png" alt="" className="elipseimage2" />
@@ -45,7 +58,7 @@ export default function popularServices() {
                  </div>
                     </div>
                     </a> */}
-            </div>
-        </div>
-    )
+      </div>
+    </div>
+  );
 }
