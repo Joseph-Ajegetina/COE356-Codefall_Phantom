@@ -157,3 +157,28 @@ Data at ```id``` will be overwritten by new data
 Order (1st) - ('record_id','artisan_id','service_type','date')
 ```
 
+## find an Artisan page - - - - ```/find_artisan```
+### GET
+```
+Returns
+{"service_type":"[(name, location, rating), ...]", "service_type":"[(name, location, rating), ...]", ...}
+```
+
+## find an Artisan with id - - - - ```/find_artisan/<int:artisan_id>```
+
+### GET
+```
+Returns
+{"Data":"[(name, service_type, rating, address, contact, description)]"}
+```
+
+## Reports Admin - - - - ```/admin/report/<int:id>```
+
+### DELETE
+```No response, Refresh component after request```
+
+### GET 
+```
+Returns
+```
+```Still working on it```
