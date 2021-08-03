@@ -42,17 +42,17 @@ CREATE TABLE artisans (
   FOREIGN KEY (service_id) REFERENCES services(service_id)
   );
 
-
 DROP TABLE IF EXISTS records;
 CREATE TABLE records (
   record_id INT NOT NULL AUTO_INCREMENT,
   customer_id INT NOT NULL,
   artisan_id INT NOT NULL,
+  service_id INT NOT NULL,
   date DATETIME DEFAULT NOW(),
-  skill VARCHAR(255) NOT NULL,
   PRIMARY KEY (record_id),
   FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
-  FOREIGN KEY (artisan_id) REFERENCES artisans(artisan_id)
+  FOREIGN KEY (artisan_id) REFERENCES artisans(artisan_id),
+  FOREIGN KEY (service_id) REFERENCES services(service_id)
 );
 
 DROP TABLE IF EXISTS admin;
