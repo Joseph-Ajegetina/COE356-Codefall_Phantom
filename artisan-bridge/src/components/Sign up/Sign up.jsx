@@ -18,13 +18,11 @@ const SignUp = () => {
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("FirstName  is required"),
-    firstName: Yup.string().required("lastName is required"),
+    lastName: Yup.string().required("lastName is required"),
     username: Yup.string()
       .required("Username is required")
       .min(6, "Username must be at least 6 characters")
       .max(20, "Username must not exceed 20 characters"),
-    birthdate: Yup.string().required("Birthdate is required"),
-
     address: Yup.string().required("Location is required"),
 
     phone: Yup.string()
@@ -35,8 +33,8 @@ const SignUp = () => {
 
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Password must be at least 6 characters")
-      .max(40, "Password must not exceed 40 characters"),
+      .min(8, "Password must be at least 6 characters")
+      .max(80, "Password must not exceed 40 characters"),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
       .oneOf([Yup.ref("password"), null], "Confirm Password does not match"),
@@ -60,9 +58,8 @@ const SignUp = () => {
       customer_username: formData.username,
       first_name: formData.firstName,
       last_name: formData.lastName,
-      birth_date: formData.birthdate,
-      contact: formData.phone,
-      address: formData.address,
+      phone: formData.phone,
+      city: formData.address,
       email: formData.email,
       password: formData.password,
     };
@@ -78,12 +75,14 @@ const SignUp = () => {
       })
       .then((info) => {
         if (info.passed) {
+          console.log("passed")
           history.push({pathname:"/login", state:{
             messageParams:info.message,
             alertParams:info.alert
           }});
           console.log(info);
         } else {
+          console.log(info)
           setAlert({ message: info.message, alert: info.alert });
           setShowAlert(true);
         }
@@ -138,21 +137,6 @@ const SignUp = () => {
                 }`}
               />
               <div className="invalid-feedback">{errors.username?.message}</div>
-            </div>
-
-            <div className="form-group">
-              <label>Date of Birth</label>
-              <input
-                name="birthdate"
-                type="date"
-                {...register("birthdate")}
-                className={`form-control ${
-                  errors.birthdate ? "is-invalid" : ""
-                }`}
-              />
-              <div className="invalid-feedback">
-                {errors.birthdate?.message}
-              </div>
             </div>
 
             <div className="form-group">

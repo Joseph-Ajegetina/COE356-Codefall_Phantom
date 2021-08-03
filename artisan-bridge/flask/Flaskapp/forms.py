@@ -7,14 +7,15 @@ from Flaskapp import connection, artisans, services, customers,records, db
 
 
 class LoginForm(Form):
-    username = StringField('customer_username', validators=[DataRequired(), Length(min=4,max=15)])
-    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 200)])
+    customer_username = StringField('customer_username', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
     
 
 
 class signUpForm(Form):
     
-    first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('first_name', validators=[DataRequired()])
     email = StringField('email', validators= [DataRequired(), Email()])
     phone = StringField('phone', validators= [DataRequired()])
     customer_username = StringField('username', validators= [DataRequired()])
