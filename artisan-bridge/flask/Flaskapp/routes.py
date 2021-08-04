@@ -249,9 +249,8 @@ def popularServices():
     result = {}
 
     for num, i in enumerate(query):
-        description = connection.execute(db.select([services]).where(services.columns.skill == i[0])).fetchall()
-        result[num]['Service'] = i[0]
-        result[num]['Description'] = description[0][0]
+        result[num]['Service'] = i[2]
+        result[num]['Description'] = i[3]
 
     return result
 
