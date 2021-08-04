@@ -23,8 +23,6 @@ const SignUp = () => {
       .required("Username is required")
       .min(6, "Username must be at least 6 characters")
       .max(20, "Username must not exceed 20 characters"),
-   
-
     address: Yup.string().required("Location is required"),
 
     phone: Yup.string()
@@ -35,8 +33,8 @@ const SignUp = () => {
 
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Password must be at least 6 characters")
-      .max(40, "Password must not exceed 40 characters"),
+      .min(8, "Password must be at least 6 characters")
+      .max(80, "Password must not exceed 40 characters"),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
       .oneOf([Yup.ref("password"), null], "Confirm Password does not match"),
@@ -77,12 +75,14 @@ const SignUp = () => {
       })
       .then((info) => {
         if (info.passed) {
+          console.log("passed")
           history.push({pathname:"/login", state:{
             messageParams:info.message,
             alertParams:info.alert
           }});
           console.log(info);
         } else {
+          console.log(info)
           setAlert({ message: info.message, alert: info.alert });
           setShowAlert(true);
         }

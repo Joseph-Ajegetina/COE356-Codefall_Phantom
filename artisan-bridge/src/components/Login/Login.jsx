@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Login.scss";
-import { Link } from "react-router-dom";
-import { useParams, useLocation, useRouteMatch} from "react-router";
+import {  useLocation, useRouteMatch } from "react-router";
 import { useHistory } from "react-router-dom";
 import Message from "../navigationBar/Message";
 import { useForm } from "react-hook-form";
@@ -9,11 +8,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 const Login = () => {
+  //Settings for the validation
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
   });
-  const {messageParams, alertParams} = useParams();
+
+  //useState variables to hold various data
+  const [alert, setAlert] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
+  const { url, path } = useRouteMatch();
+
+  //form hook
   const {
     register,
     handleSubmit,
@@ -21,37 +29,37 @@ const Login = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema) });
 
-  const [alert, setAlert] = useState({});
-  const [showAlert, setShowAlert] = useState(false);
+  //function to turn off message after 3 seconds
+  const messageOff = () => {
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  };
 
-  const location = useLocation();
-  const history = useHistory();
-  const {url, path} = useRouteMatch();
-  
-  useEffect(() =>{
-      
-  if (location.state) {
-    const messageLocation = location.state.messageParams;
-    const alertLocation = location.state.alertParams;
+  //Getting messages passed from other components to the login route like accessing unauthorized routes
+  useEffect(() => {
+    if (location.state) {
+      const messageLocation = location.state.messageParams;
+      const alertLocation = location.state.alertParams;
 
-    if (messageLocation && alertLocation) {
-      setAlert({ message: messageLocation, alert: alertLocation });
-      setShowAlert(true);
-      location.state = null;
-      setTimeout(()=>{
-        setShowAlert(false);
-      }, 3000)
-      history.replace(url);
+      if (messageLocation && alertLocation) {
+        //displaying the message
+        setAlert({ message: messageLocation, alert: alertLocation });
+        setShowAlert(true);
 
+        //turning off message flash after three seconds
+        messageOff();
+
+        //removing the message from the route parameters
+        history.replace(url);
+      }
     }
-  }
+  }, [location]);
 
-  });
-
-
+  //function to handle form submission
   const submitHandler = (formData) => {
     const userInput = {
-      username: formData.username,
+      customer_username: formData.username,
       password: formData.password,
     };
 
@@ -66,18 +74,37 @@ const Login = () => {
       })
       .then((loginReturn) => {
         if (loginReturn.passed) {
+          let userType;
           localStorage.setItem("isLoggedIn", "1");
-          history.push({
-            pathname: "/home",
-            state:{
-              messageParams:"Successfully logged in",
-              alertParams:"success"
-            }
-          });
+          userType = loginReturn.type;
+          console.log(loginReturn.type.toString());
+          console.log(userType);
+          console.log(loginReturn);
+
+          //checking if the user is a customer or an administrator
+          if (userType === "customer") {
+            console.log("here");
+            history.push({
+              pathname: "/home",
+              state: {
+                messageParams: "Successfully logged in",
+                alertParams: "success",
+              },
+            });
+          } else {
+            // if adminstrator
+            history.push({
+              pathname: "/admin",
+              state: {
+                messageParams: "Successfully logged in",
+                alertParams: "success",
+              },
+            });
+          }
         } else {
           setAlert({ message: loginReturn.message, alert: loginReturn.alert });
-          console.log(loginReturn);
           setShowAlert(true);
+          messageOff();
         }
       });
   };
