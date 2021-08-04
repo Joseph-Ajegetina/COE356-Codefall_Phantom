@@ -32,7 +32,7 @@ CREATE TABLE artisans (
   service_id INT NOT NULL,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
-  rating DECIMAL(2,2) CONSTRAINT chk_Rating CHECK (rating >= 0 AND rating <=5),
+  rating DECIMAL(2,1) UNSIGNED CONSTRAINT chk_Rating CHECK (rating >= 0.00 AND rating <=5.00),
   address VARCHAR(255) DEFAULT NULL,
   contact VARCHAR(255) NOT NULL,
   password VARCHAR(400) NOT NULL,
@@ -71,7 +71,7 @@ ORDER BY artisans.rating DESC
 LIMIT 3;
 
 CREATE VIEW popular_Services AS 
-SELECT COUNT(records.service_id) AS requests, services.skill, services.description 
+SELECT count(records.service_id) AS requests, services.skill, services.description
 FROM records JOIN services ON records.service_id=services.service_id
 GROUP BY records.service_id
 LIMIT 3;
