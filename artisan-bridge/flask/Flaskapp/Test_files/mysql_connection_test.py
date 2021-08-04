@@ -18,17 +18,17 @@ popular_services = db.Table('popular_services', metadata, autoload=True, autoloa
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
 # print(connection.execute(db.select([admin.columns.email]).where(admin.columns.email == 'ghost')).fetchall())
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
-# print(connection.execute("select * from customers").fetchall())
-con = connection.execute(db.select([records])).fetchall()
-go = []
-for i in con:
-    go.append(list(i))
+print(connection.execute("select * from popular_services").fetchall())
+# con = connection.execute(db.select([records])).fetchall()
+# go = []
+# for i in con:
+#     go.append(list(i))
 
-word = str(go[0][3])
-print(word)
+# word = str(go[0][3])
+# print(word)
 
-for num, i in enumerate(go):
-    go[num][3] = str(go[num][3])
+# for num, i in enumerate(go):
+#     go[num][3] = str(go[num][3])
 
-print(go)
+# print(go)
 # print(con)
