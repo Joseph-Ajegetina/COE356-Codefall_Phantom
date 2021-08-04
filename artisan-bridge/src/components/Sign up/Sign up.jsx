@@ -58,8 +58,8 @@ const SignUp = () => {
       customer_username: formData.username,
       first_name: formData.firstName,
       last_name: formData.lastName,
-      phone: formData.phone,
-      city: formData.address,
+      contact: formData.phone,
+      address: formData.address,
       email: formData.email,
       password: formData.password,
     };
@@ -82,7 +82,6 @@ const SignUp = () => {
           }});
           console.log(info);
         } else {
-          console.log(info)
           setAlert({ message: info.message, alert: info.alert });
           setShowAlert(true);
         }

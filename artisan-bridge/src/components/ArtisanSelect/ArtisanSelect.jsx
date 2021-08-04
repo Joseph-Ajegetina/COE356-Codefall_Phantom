@@ -26,8 +26,8 @@ const ArtisanSelect = () => {
             <div className="d-block">
               <h4 className="display-12">
                 {" "}
-                <span className="skill">Rating:</span>{" "}
-                <img src="/images/rating.png" alt="" className="ratingimg" />
+                <span className="skill">Rating:</span>
+                <img src="/images/rating.png" alt="" width="20px" height="20px" className="ratingimg" />
               </h4>
             </div>
           </div>
