@@ -32,7 +32,7 @@ CREATE TABLE artisans (
   service_id INT NOT NULL,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
-  rating DECIMAL(2,2) CONSTRAINT chk_Rating CHECK (rating >= 0 AND rating <=5),
+  rating DECIMAL(2,1) UNSIGNED CONSTRAINT chk_Rating CHECK (rating >= 0.00 AND rating <=5.00),
   address VARCHAR(255) DEFAULT NULL,
   contact VARCHAR(255) NOT NULL,
   password VARCHAR(400) NOT NULL,
@@ -94,4 +94,8 @@ INSERT INTO services (skill, description) VALUES ('Potter', 'Creates pots, dishe
 INSERT INTO services (skill, description) VALUES ('Sculptor', 'Designs and creates three dimensional(3D) forms or models as a way of artistic expression'); 
 INSERT INTO services (skill, description) VALUES ('Weaver', 'Workes in textile production and operates, monitors and maintains highly technical computerised weaving looms to manufacture woven fabrics and materials.');
 INSERT INTO services (skill, description) VALUES ('Plumber', 'Assembles, installs, maintains and pressure tests all pipes, fittings and fixtures of heating, water, drainage, sprinkler, and gas systems according to specifications and plumbing codes.');
+<<<<<<< HEAD
 INSERT INTO services (skill, description) VALUES ('Bricklayer/Brickmason', 'Lays bricks, pre-cuts stone and concrete blocks in mortar. Constructs, extends and repairs domestic and commercial buildings and other structures');
+=======
+INSERT INTO services (skill, description) VALUES ('Bricklayer/Brickmason', 'Lays bricks, pre-cuts stone and concrete blocks in mortar. Constructs, extends and repairs domestic and commercial buildings and other structures');
+>>>>>>> database
