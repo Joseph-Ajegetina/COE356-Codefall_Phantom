@@ -71,16 +71,15 @@ class adminForm(Form):
 
 class artisanForm(Form):
 
-    first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])
-    last_name = StringField('last_name', validators=[DataRequired(), Length(min=4, max=20)])
-    email = StringField('email', validators= [DataRequired(), Email()])
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
     contact = StringField('phone', validators= [DataRequired()])
     service_id = StringField('service_id', validators= [DataRequired()])
     artisan_username = StringField('customer_username', validators= [DataRequired()])
-    location = StringField('city', validators= [DataRequired()])
-    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
+    address = StringField('city', validators= [DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
     rating = StringField('rating', validators= [DataRequired()])
-    core_serivce = StringField('core_service', validators= [DataRequired()])
+    
 
 
     def validate_email(self, email, artisan_username):

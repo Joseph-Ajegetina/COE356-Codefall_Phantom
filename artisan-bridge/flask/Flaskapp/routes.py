@@ -222,14 +222,14 @@ def edit_table(id, table):
     reference = {"artisans": [artisans, artisans.columns.artisan_id],
                  "customers": [customers, customers.columns.customer_id]}
 
-    if request.method == 'POST':
+    if request.method == 'POST': 
         artisan = request.get_json(force=True)
         form = artisanForm.from_json(artisan)
         if form.validate():
             # -------------------------------------------
             # Database commiting and further validation
             connection.execute(
-                db.insert(reference[table]).values([dict(artisan)]))
+                db.insert(artisans).values([dict(artisan)]))
             # -------------------------------------------
             return {"Registration_from_admin": f"Account created for {form.first_name.data}"}
         else:
@@ -286,7 +286,7 @@ def report(customer_id):
     # query to return last 10 transactions of that user
 
 
-@app.route('/find_artisan')
+@app.route('/find_artisan') 
 # @login_required
 def find_artisan():
     return{"DATA": str(connection.execute(db.select([artisans.columns.artisan_id,
