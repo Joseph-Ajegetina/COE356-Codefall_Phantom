@@ -96,15 +96,15 @@ function App() {
               <Footer />
             </div>
           </Route>
-           <Route path="/admin">
-            <AdminPanel />
-            <div className="side">
-              <SideBar />
-              <AdminHome />
-            </div>
-          </Route> 
           <PrivateRoute path="/records" component={RecordRoute} />
           <PrivateRoute path="/admin" component={AdminRoute}/>
+          <Route path="/artisans">
+            <AdminPanel/>
+            <div className="side">
+            <SideBar/>
+            <Artisans/>
+            </div>
+          </Route>
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />
           </Route>

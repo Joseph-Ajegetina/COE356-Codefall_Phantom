@@ -18,12 +18,12 @@ const SignUp = () => {
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("FirstName  is required"),
-    firstName: Yup.string().required("lastName is required"),
+    lastName: Yup.string().required("lastName is required"),
     username: Yup.string()
       .required("Username is required")
       .min(6, "Username must be at least 6 characters")
       .max(20, "Username must not exceed 20 characters"),
-    birthdate: Yup.string().required("Birthdate is required"),
+   
 
     address: Yup.string().required("Location is required"),
 
@@ -60,9 +60,8 @@ const SignUp = () => {
       customer_username: formData.username,
       first_name: formData.firstName,
       last_name: formData.lastName,
-      birth_date: formData.birthdate,
-      contact: formData.phone,
-      address: formData.address,
+      phone: formData.phone,
+      city: formData.address,
       email: formData.email,
       password: formData.password,
     };
@@ -138,21 +137,6 @@ const SignUp = () => {
                 }`}
               />
               <div className="invalid-feedback">{errors.username?.message}</div>
-            </div>
-
-            <div className="form-group">
-              <label>Date of Birth</label>
-              <input
-                name="birthdate"
-                type="date"
-                {...register("birthdate")}
-                className={`form-control ${
-                  errors.birthdate ? "is-invalid" : ""
-                }`}
-              />
-              <div className="invalid-feedback">
-                {errors.birthdate?.message}
-              </div>
             </div>
 
             <div className="form-group">
