@@ -247,9 +247,16 @@ def popular_artisans():
 
 @app.route('/popular_service')
 def popularServices():
-    return {"Service": str(connection.execute(db.select([popular_services.columns.skill])).fetchall()),
-            "Description": str(connection.execute(db.select([popular_services.columns.description])).fetchall())
-            }
+
+    query = connection.execute(db.select([popular_services])).fetchall()
+    result = {}
+
+    for num, i in enumerate(query):
+        result[num]['Service'] = i[2]
+        result[num]['Description'] = i[3]
+
+    return result
+
 
 
 @app.route('/services/<int:id>', methods=['POST', 'GET'])
