@@ -65,13 +65,13 @@ PRIMARY KEY(admin_id)
 );
 
 CREATE VIEW top_Rated_Artisans AS 
-SELECT artisans.first_name, artisans.last_name, artisans.rating, services.skill 
+SELECT artisan_id, artisans.first_name, artisans.last_name, artisans.rating, services.skill 
 FROM artisans JOIN services ON artisans.service_id=services.service_id
 ORDER BY artisans.rating DESC 
 LIMIT 3;
 
 CREATE VIEW popular_Services AS 
-SELECT count(records.service_id) AS requests, services.skill, services.description
+SELECT records.service_id, COUNT(records.service_id) AS requests, services.skill, services.description
 FROM records JOIN services ON records.service_id=services.service_id
 GROUP BY records.service_id
 LIMIT 3;
