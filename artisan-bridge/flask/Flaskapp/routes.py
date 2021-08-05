@@ -7,6 +7,7 @@ from Flaskapp import connection, artisans, services, customers, records, db, adm
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
 from Flaskapp.decos import admin_login_required, login_requireds
+from datetime import datetime
 
 
 
@@ -322,3 +323,11 @@ def reports(id):
         #To be updated
         values = connection.execute(db.select([records])).fetchall()
         return {"Result": str(values)}
+
+
+@app.route('/confirm_order/<int:artisan_id>/<service_type>/<int:customer_id>')
+#@login_requireds
+def confirm_id(artisan_id,service_type, customer_id):
+    records.update().values(customer_id=customer_id,
+     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
+
