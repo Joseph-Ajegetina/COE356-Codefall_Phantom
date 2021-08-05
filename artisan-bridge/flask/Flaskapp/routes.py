@@ -9,6 +9,18 @@ from Flaskapp import app, bcrypt, db
 from Flaskapp.decos import admin_login_required, login_requireds
 
 
+# def login_requireds(*args, **kwargs):
+
+#     def wrapper(original):
+#         return original()
+
+#     if kwargs == True:
+#         return wrapper
+#     else:
+#         return {"Info":"Login required"}
+
+
+# State = None
 
 
 # admin 🙄🙄😶
@@ -117,7 +129,7 @@ def login():
             return return_info
 
 
-@app.route('/logout', methods=['GET'])
+@app.route('/logout', methods=['GET', 'POST'])
 @login_requireds
 def logout():
 
@@ -125,8 +137,7 @@ def logout():
     # # id
     # session.pop('username', None)
 
-    return {"Info":'success'}  
-
+    return {"info": 'back to login route'}
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -211,14 +222,14 @@ def edit_table(id, table):
     reference = {"artisans": [artisans, artisans.columns.artisan_id],
                  "customers": [customers, customers.columns.customer_id]}
 
-    if request.method == 'POST': 
+    if request.method == 'POST':
         artisan = request.get_json(force=True)
         form = artisanForm.from_json(artisan)
         if form.validate():
             # -------------------------------------------
             # Database commiting and further validation
             connection.execute(
-                db.insert(artisans).values([dict(artisan)]))
+                db.insert(reference[table]).values([dict(artisan)]))
             # -------------------------------------------
             return {"Registration_from_admin": f"Account created for {form.first_name.data}"}
         else:
@@ -232,7 +243,7 @@ def edit_table(id, table):
                 reference[table][1] == int(id)))
             return {"Info": "Done"}
         except:
-            return {"Info": "Done", "More":"Artisan does not exist"}
+            return {"Info": "Artisan does not exist, Done"}
 
 
 @app.route('/top_rated_artisans')
@@ -244,13 +255,11 @@ def popular_artisans():
 
 @app.route('/popular_services')
 def popularServices():
-
     query = connection.execute(db.select([popular_services])).fetchall()
     result = {}
-
+    
     for num, i in enumerate(query):
-        result[num]['Service'] = i[2]
-        result[num]['Description'] = i[3]
+        result[str(num)]={"service":f"{i[1]}","Description":f"{i[2]}","image":f"{i[3]}"}
 
     return result
 
@@ -275,45 +284,31 @@ def get_services(id):
 @app.route('/report/<int:customer_id>')
 @login_required
 def report(customer_id):
-    #Further editing
-    return{"Result":str(connection.execute(db.select([records.columns.record_id,
-     records.columns.artisan_id, 
-     records.columns.service_type,
-     records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))}
-    #query to return last 10 transactions of that user
-    
+    return(connection.execute(db.select([records.columns.record_id,
+                                         records.columns.artisan_id,
+                                         records.columns.service_type,
+                                         records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
+    # query to return last 10 transactions of that user
 
 
-
-@app.route('/find_artisan') 
+@app.route('/find_artisan')
 # @login_required
 def find_artisan():
-
-    query = connection.execute(db.select([services.columns.service_id,services.columns.service_type])).fetchall()
-
-    result = {}
-    for i in query:
-        artisan_group = connection.execute(db.select([artisans.columns.name,
-     artisans.columns.address, 
-     artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
-        result[i[1]] = f"{artisan_group}"
-
-    return result
-
+    return{"DATA": str(connection.execute(db.select([artisans.columns.artisan_id,
+                                                     artisans.columns.address,
+                                                     artisans.columns.rating])).fetchall())}
 
 
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
 def find_artisan_id(artisan_id):
     # to be edited-----------------------------------------
-    return {"Data" : str(connection.execute(db.select([artisans.columns.artisan_username,
-     services.columns.service_type, 
-     artisans.columns.rating, 
-     artisans.columns.address, 
-     artisans.columns.contact, 
-     services.columns.description]).select_from(artisans.join(services,
-     artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
-
+    return {"DATA": str(connection.execute(db.select([services.columns.service_type,
+                                                      artisans.columns.artisan_username,
+                                                      artisans.columns.rating,
+                                                      artisans.columns.address,
+                                                      artisans.columns.contact,
+                                                      services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
 
 
 # to be changed
@@ -326,6 +321,5 @@ def reports(id):
             records.columns.record_id == int(id)))
 
     if request.method == 'GET':
-        #To be updated
         values = connection.execute(db.select([records])).fetchall()
         return {"Result": str(values)}

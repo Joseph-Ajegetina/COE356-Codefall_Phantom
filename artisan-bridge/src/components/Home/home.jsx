@@ -5,7 +5,7 @@ import { Link, useLocation, useHistory, useRouteMatch } from "react-router-dom";
 import Message from "../navigationBar/Message";
 import { useState, useEffect } from "react";
 
-export default function Home() {
+export default function Home(props) {
   const [alertMessage, setAlertMessage] = useState({});
   const [showAlert, setShowAlert] = useState(null);
 
@@ -90,21 +90,10 @@ export default function Home() {
         </div>
         <h4>Popular Services</h4>
         <div className="service-home">
-          <PopularServices
-            title="Electronics"
-            image="images/elipseimage1.png"
-            description="Get your blenders, rice cookers, hot plates,fridges fixed by a trusted Artisan"
-          />
-          <PopularServices
-            title="Phones and Watches"
-            image="images/elipseimage2.png"
-            description="Get a quick fix on your broken phone screen, or watch battery replacement"
-          />
-          <PopularServices
-            title="Footwear Repair"
-            image="images/elipseimage3.png"
-            description="Mend your shoes, sandals, sneakers, slippers etc."
-          />
+          <PopularServices serv1={props.servs1} dess1={props.des1}
+           serv2={props.servs2} dess2={props.des2} serv3={props.servs3} 
+           dess3={props.des3} image1={props.ima1} image2={props.ima2} image3={props.ima3}/>
+
         </div>
         <Link to="/service" className="service-link">
           All Services
