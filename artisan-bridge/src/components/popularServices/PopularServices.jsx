@@ -4,11 +4,11 @@ import axios from "axios";
 
 export default function popularServices() {
   
-   var Description_str = axios.get("http://127.0.0.1:5000/popular_services")
-   .then((response) => {
-    return response.data.Description
-  } )
-  console.log(Description_str);
+  //  var Description_str = axios.get("http://127.0.0.1:5000/popular_services")
+  //  .then((response) => {
+  //   return response.data.Description
+  // } )
+  // console.log(Description_str);
 
   return (
     <div className="popularServices">

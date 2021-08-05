@@ -8,35 +8,47 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const [alertMessage, setAlertMessage] = useState({});
   const [showAlert, setShowAlert] = useState(null);
-
-
+  const [topArtisans, setTopArtisans] = useState([]);
+  const [topArtisansList, setTopArtisansList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const location = useLocation();
   const history = useHistory();
-  const {url, path} = useRouteMatch();
-  
+  const { url, path } = useRouteMatch();
 
-  useEffect(() =>{
+  const fetchTopRatedArtisansData = () => {
+    fetch("http://127.0.0.1:5000/top_rated_artisans")
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        setTopArtisans(data);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setIsError(true);
+        console.log(error);
+      });
+  };
 
+  useEffect(() => {
+    if (location.state) {
+      const messageLocation = location.state.messageParams;
+      const alertLocation = location.state.alertParams;
 
-  if (location.state) {
-    const messageLocation = location.state.messageParams;
-    const alertLocation = location.state.alertParams;
-
-    if (messageLocation && alertLocation) {
-      setAlertMessage({ message: messageLocation, alert: alertLocation });
-      setShowAlert(true);
-      setTimeout(()=>{
-        setShowAlert(false);
-      }, 3000);
-      history.replace(url)
-      
+      if (messageLocation && alertLocation) {
+        setAlertMessage({ message: messageLocation, alert: alertLocation });
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+        history.replace(url);
+      }
     }
-  }
-  },[])
- 
-  console.log(showAlert, "show alert");
-  console.log(alertMessage, "alert message");
+
+    fetchTopRatedArtisansData();
+  }, []);
+
   return (
     <>
       {showAlert ? <Message alertMessage={alertMessage} /> : ""}
@@ -79,14 +91,6 @@ export default function Home() {
               <img src="images/slide3.jpg" class="sliderimg" alt="..." />
             </div>
           </div>
-          {/*  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button> */}
         </div>
         <h4>Popular Services</h4>
         <div className="service-home">
@@ -111,24 +115,18 @@ export default function Home() {
         </Link>
         <h4>Top Rated Artisans</h4>
         <div className="artisan-home">
-          <TopRatedArtisan
-            image="images/artisan1.jpg"
-            skillimage="images/artisan.png"
-            skillType="Electrician"
-            skill="Skill"
-          />
-          <TopRatedArtisan
-            image="images/artisan2.jpg"
-            skillType="Plumber"
-            skill="Skill"
-            skillimage="images/artisan.png"
-          />
-          <TopRatedArtisan
-            image="images/artisan3.jpg"
-            skillType="Electrician"
-            skill="Skill"
-            skillimage="images/artisan.png"
-          />
+          {topArtisans.map((artisan) => {
+            return (
+              <link to={`${url}/${1}`}>
+                <TopRatedArtisan
+                  image="images/artisan1.jpg"
+                  skillimage="images/artisan.png"
+                  skillType="Electrician"
+                  skill={artisan.skill}
+                />
+          </link>
+            );
+          })}
         </div>
         <Link to="artisan" className="service-link">
           All Artisans

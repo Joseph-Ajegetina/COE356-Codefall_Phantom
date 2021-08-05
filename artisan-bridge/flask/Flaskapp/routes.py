@@ -239,13 +239,16 @@ def edit_table(id, table):
 def popular_artisans():
     # select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
     # select * from top rated artisans
-    return {"Result": str(connection.execute(db.select([top_rated_artisans])).fetchall())}
+    top_rated_artisans_list = connection.execute(db.select([top_rated_artisans])).fetchall()
+    return_items = [{**row} for row in top_rated_artisans_list]
+    return_items = json.dumps(return_items, default=str)
+    return return_items
 
 
-@app.route('/popular_services')
+@app.route('/popular_service')
 def popularServices():
     return {"Service": str(connection.execute(db.select([popular_services.columns.skill])).fetchall()),
-            "Description": str(connection.execute(db.select([popular_services.columns.descriptions])).fetchall())
+            "Description": str(connection.execute(db.select([popular_services.columns.description])).fetchall())
             }
 
 

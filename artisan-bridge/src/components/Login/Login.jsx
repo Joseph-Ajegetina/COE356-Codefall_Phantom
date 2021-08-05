@@ -70,6 +70,8 @@ const Login = () => {
       .then((response) => {
         if (response.ok) {
           return response.json();
+        }else{
+          console.log(response)
         }
       })
       .then((loginReturn) => {
