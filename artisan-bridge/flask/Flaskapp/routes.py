@@ -250,8 +250,7 @@ def popularServices():
     result = {}
 
     for num, i in enumerate(query):
-        result[num]['Service'] = i[2]
-        result[num]['Description'] = i[3]
+        result[str(num)] = {"Service":f"{i[1]}", "Description": f"{i[2]}"}
 
     return result
 
