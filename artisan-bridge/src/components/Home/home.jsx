@@ -9,13 +9,13 @@ export default function Home() {
   const [alertMessage, setAlertMessage] = useState({});
   const [showAlert, setShowAlert] = useState(null);
   const [topArtisans, setTopArtisans] = useState([]);
-  const [topArtisansList, setTopArtisansList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const location = useLocation();
   const history = useHistory();
   const { url, path } = useRouteMatch();
+  console.log("url :", url,  "path: ", path)
 
   const fetchTopRatedArtisansData = () => {
     fetch("http://127.0.0.1:5000/top_rated_artisans")
@@ -48,6 +48,9 @@ export default function Home() {
 
     fetchTopRatedArtisansData();
   }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -117,16 +120,19 @@ export default function Home() {
         <div className="artisan-home">
           {topArtisans.map((artisan) => {
             return (
-              <link to={`${url}/${1}`}>
+              // <link to={`${url}/${1}`}>
                 <TopRatedArtisan
                   image="images/artisan1.jpg"
                   skillimage="images/artisan.png"
                   skillType="Electrician"
                   skill={artisan.skill}
+                  urlPath={`${url}/artisans/${artisan.id}`}
                 />
-          </link>
+          // </link>
             );
-          })}
+          }) }
+
+          
         </div>
         <Link to="artisan" className="service-link">
           All Artisans
