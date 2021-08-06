@@ -117,6 +117,7 @@ def login():
                 return_info["alert"] = "success"
                 return_info["message"] = "Successfully logged in"
                 return_info["type"] = "admin"
+                return return_info
 
             else:
                 return_info["alert"] = "danger"
@@ -306,12 +307,13 @@ def find_artisan():
 # @login_required
 def find_artisan_id(artisan_id):
     # to be edited-----------------------------------------
-    return {"DATA": str(connection.execute(db.select([services.columns.service_type,
-                                                      artisans.columns.artisan_username,
+    return {"DATA": str(connection.execute(db.select([services.columns.service_id,
+                                                      artisans.columns.first_name,
+                                                      artisans.columns.last_name,
                                                       artisans.columns.rating,
                                                       artisans.columns.address,
                                                       artisans.columns.contact,
-                                                      services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
+                                                      services.columns.description ]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
 
 
 # to be changed

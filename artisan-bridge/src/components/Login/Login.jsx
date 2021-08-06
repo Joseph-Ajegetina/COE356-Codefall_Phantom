@@ -63,6 +63,8 @@ const Login = () => {
       password: formData.password,
     };
 
+
+    //Verifying credentials with the server
     fetch("http://127.0.0.1:5000/login", {
       method: "POST",
       body: JSON.stringify(userInput),
@@ -79,9 +81,6 @@ const Login = () => {
           let userType;
           localStorage.setItem("isLoggedIn", "1");
           userType = loginReturn.type;
-          console.log(loginReturn.type.toString());
-          console.log(userType);
-          console.log(loginReturn);
 
           //checking if the user is a customer or an administrator
           if (userType === "customer") {

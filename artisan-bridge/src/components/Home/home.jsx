@@ -113,9 +113,9 @@ export default function Home(props) {
                 <TopRatedArtisan
                   image="images/artisan1.jpg"
                   skillimage="images/artisan.png"
-                  skillType="Electrician"
                   skill={artisan.skill}
-                  urlPath={`${url}/artisans/${artisan.id}`}
+                  rating={artisan.rating}
+                  urlPath={`/artisan/${artisan.artisan_id}`}
                 />
           // </link>
             );
