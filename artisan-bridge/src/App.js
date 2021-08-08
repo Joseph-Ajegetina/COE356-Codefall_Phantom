@@ -65,7 +65,7 @@ function App() {
   }, []);
   
   const getPopular_services = () =>{
-  axios.get("http://127.0.0.1:5000/popular_services")
+  axios.get("http://127.0.0.1:5000/popular_service")
    .then((response) => {
     const sev1 = response.data[0].service
     getservs1(sev1)
