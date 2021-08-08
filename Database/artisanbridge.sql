@@ -62,7 +62,7 @@ PRIMARY KEY(admin_id)
 );
 
 CREATE VIEW top_Rated_Artisans AS 
-SELECT artisans.first_name, artisans.last_name, artisans.rating, services.skill, artisans.profile_image_path  
+SELECT artisans.artisan_id, artisans.first_name, artisans.last_name, artisans.rating, artisans.address, artisans.contact, services.skill, artisans.profile_image_path  
 FROM artisans JOIN services ON artisans.service_id=services.service_id
 ORDER BY artisans.rating DESC 
 LIMIT 3;
