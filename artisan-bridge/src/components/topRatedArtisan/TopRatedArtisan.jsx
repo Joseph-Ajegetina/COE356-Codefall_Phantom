@@ -1,41 +1,43 @@
 import "./topRatedArtisan.scss";
-import { Link, Route, useRouteMatch } from "react-router-dom";
-import ArtisanSelect from "../ArtisanSelect/ArtisanSelect"
+import { Link } from "react-router-dom";
 
-export default function topRatedArtisan({
-  image,
-  rating,
-  skillimage,
-  artisanID,
-  skill,
-  urlPath
-}) {
+export default function topRatedArtisan({ artisan, skillimage }) {
   return (
     <div className="topRatedArtisan">
       <div className="artisan-wrapper-center">
-          <Link to={urlPath} className="wrapper-link">
-            <div className="artisan-wrapper">
-              <div>
-                <img src={image} alt="" className="artisan-img img-fluid" />
-              </div>
-              <div className="artisan-elipse">
-                <div className="description">
-                  <img src={skillimage} alt="" className="rating-img" />
-                  <span className="skill display-12">Service:electrician</span>
-             
-                  
-                 
-                </div>
-              </div>
-              <div className="artisan-elipse">
-                <div className="description">
-                  <img src="images/rating.png" alt="" className="rating-img" />
-                  <span className="skill display-12">Rating:{rating}</span>
-                  
-                </div>
+        <Link
+          to={{
+            pathname: `/artisan/${artisan.artisan_id}`,
+            state: { artisan: artisan },
+          }}
+          className="wrapper-link"
+        >
+          <div className="artisan-wrapper">
+            <div>
+              <img
+                src={artisan.profile_image_path}
+                alt=""
+                className="artisan-img img-fluid"
+              />
+            </div>
+            <div className="artisan-elipse">
+              <div className="description">
+                <img src={skillimage} alt="" className="rating-img" />
+                <span className="skill display-12">
+                  Service:{artisan.skill}
+                </span>
               </div>
             </div>
-          </Link>
+            <div className="artisan-elipse">
+              <div className="description">
+                <img src="images/rating.png" alt="" className="rating-img" />
+                <span className="skill display-12">
+                  Rating:{artisan.rating}
+                </span>
+              </div>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   );
