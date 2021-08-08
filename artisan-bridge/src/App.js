@@ -88,6 +88,100 @@ function App() {
   } )
 }
 
+const [service1, getservice1] =useState(" ");
+const [description1, getdescription1] =useState(" ");
+const [image1, getimage1]= useState(" ")
+const [service2,  getservice2] =useState(" ");
+const [description2, getdescription2] =useState(" ");
+const [image2, getimage2]= useState(" ")
+const [service3, getservice3] =useState(" ");
+const [description3, getdescription3] =useState(" ");
+const [image3, getimage3]= useState(" ")
+const [service4, getservice4] =useState(" ");
+const [description4, getdescription4] =useState(" ");
+const [image4, getimage4]= useState(" ")
+const [service5, getservice5] =useState(" ");
+const [description5, getdescription5] =useState(" ");
+const [image5, getimage5]= useState(" ")
+const [service6, getservice6] =useState(" ");
+const [description6, getdescription6] =useState(" ");
+const [image6, getimage6]= useState(" ")
+const [service7, getservice7] =useState(" ");
+const [description7, getdescription7] =useState(" ");
+const [image7, getimage7]= useState(" ")
+const [service8, getservice8] =useState(" ");
+const [description8, getdescription8] =useState(" ");
+const [image8, getimage8]= useState(" ")
+const [service9, getservice9] =useState(" ");
+const [description9, getdescription9] =useState(" ");
+const [image9, getimage9]= useState(" ")
+
+useEffect(() => {
+  getservices();
+}, []);
+
+const getservices = () =>{
+axios.get("http://127.0.0.1:5000/service")
+ .then((response) => {
+  const sev1 = response.data[0].service
+  getservice1(sev1)
+  const dess1 = response.data[0].Description
+  getdescription1(dess1)
+  const image1=response.data[0].image
+  getimage1(image1)
+  const sev2 = response.data[1].service
+  getservice2(sev2)
+ const dess2 = response.data[1].Description
+ getdescription2(dess2)
+  const image2=response.data[1].image
+  getimage2(image2)
+  const sev3 = response.data[2].service
+  getservice3(sev3)
+const dess3 = response.data[2].Description
+getdescription3(dess3)
+  const image3=response.data[2].image
+  getimage3(image3)
+  const sev4 = response.data[3].service
+  getservice4(sev4)
+const dess4 = response.data[3].Description
+getdescription4(dess4)
+  const image4=response.data[3].image
+  getimage4(image4)
+  const sev5 = response.data[4].service
+  getservice5(sev5)
+const dess5 = response.data[4].Description
+getdescription5(dess5)
+  const image5=response.data[4].image
+  getimage5(image5)
+  const sev6 = response.data[5].service
+  getservice6(sev6)
+const dess6 = response.data[5].Description
+getdescription6(dess6)
+  const image6=response.data[5].image
+  getimage6(image6)
+  const sev7 = response.data[6].service
+  getservice7(sev7)
+const dess7 = response.data[6].Description
+getdescription7(dess7)
+  const image7=response.data[6].image
+  getimage7(image7)
+  const sev8 = response.data[7].service
+  getservice8(sev8)
+const dess8 = response.data[7].Description
+getdescription8(dess8)
+  const image8=response.data[7].image
+  getimage8(image8)
+  const sev9 = response.data[8].service
+  getservice9(sev9)
+const dess9 = response.data[8].Description
+getdescription9(dess9)
+  const image9=response.data[8].image
+  getimage9(image9)
+ 
+} )
+}
+
+
 
  
   return (
@@ -115,7 +209,15 @@ function App() {
           <Route path="/service">
             <Navigation />
             <div className="sections">
-              <Service />
+              <Service service1={service1} service2={service2} service3={service3}
+              service4={service4}service5={service5}service6={service6}
+              service7={service7}service8={service8} service9={service9} 
+              description1={description1} description2={description2} description3={description3}
+              description4={description4} description5={description5} description6={description6}
+              description7={description7} description8={description8} description9={description9}
+              image1={image1} image2={image2} image3={image3} image4={image4} image5={image5}
+              image6={image6} image7={image7} image8={image8} image9={image9}
+              />
               <Footer />
             </div>
           </Route>
@@ -196,7 +298,10 @@ function App() {
         </Switch>
       </div>
     </Router>
-  );
+  )
+  
 }
+
+
 
 export default App;
