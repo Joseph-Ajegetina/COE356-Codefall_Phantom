@@ -9,13 +9,14 @@ import Service from "./components/Service/Service";
 import Artisan from "./components/Artisan/Artisan.jsx";
 import Records from "./components/Records/Records.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
 import Logout from "./components/Logout/Logout";
 import RecordRoute from "./components/PrivateRoute/RecordRoute.jsx";
 import AdminRoute from "./components/PrivateRoute/AdminRoute"
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
 import Admin_register from "./components/admin_register/Admin_register.jsx";
+import axios from "axios";
 
 function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
@@ -48,6 +49,47 @@ function App() {
     console.log(Admin_details);
   };
 
+  const [servs1, getservs1] =useState(" ");
+  const [des1, getdes1] =useState(" ");
+  const [ima1,getima1]= useState(" ")
+  const [servs2, getservs2] =useState(" ");
+  const [des2, getdes2] =useState(" ");
+  const [ima2,getima2]= useState(" ")
+  const [servs3, getservs3] =useState(" ");
+  const [des3, getdes3] =useState(" ");
+  const [ima3,getima3]= useState(" ")
+
+
+  useEffect(() => {
+    getPopular_services();
+  }, []);
+  
+  const getPopular_services = () =>{
+  axios.get("http://127.0.0.1:5000/popular_service")
+   .then((response) => {
+    const sev1 = response.data[0].service
+    getservs1(sev1)
+    const dess1 = response.data[0].Description
+    getdes1(dess1)
+    const image1=response.data[0].image
+    getima1(image1)
+    const sev2 = response.data[1].service
+   getservs2(sev2)
+   const dess2 = response.data[1].Description
+    getdes2(dess2)
+    const image2=response.data[1].image
+    getima2(image2)
+    const sev3 = response.data[2].service
+  getservs3(sev3)
+  const dess3 = response.data[2].Description
+    getdes3(dess3)
+    const image3=response.data[2].image
+    getima3(image3)
+  } )
+}
+
+
+ 
   return (
     <Router>
       <div className="app">
@@ -127,14 +169,20 @@ function App() {
           <Route path="/Home">
             <Navigation />
             <div className="sections">
-              <Home />
+              <Home servs1={servs1} des1={des1} 
+              servs2={servs2} des2={des2}
+              servs3={servs3} des3={des3}
+              ima1={ima1} ima2={ima2} ima3={ima3} />
               <Footer />
             </div>
           </Route>
           <Route path="/">
             <Navigation />
             <div className="sections">
-              <Home />
+              <Home servs1={servs1} des1={des1} 
+              servs2={servs2} des2={des2}
+              servs3={servs3} des3={des3}
+              ima1={ima1} ima2={ima2} ima3={ima3}/>
               <Footer />
             </div>
           </Route>
