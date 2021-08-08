@@ -15,7 +15,7 @@ export default function Home(props) {
   const location = useLocation();
   const history = useHistory();
   const { url, path } = useRouteMatch();
-  console.log("url :", url,  "path: ", path)
+  console.log("url :", url, "path: ", path);
 
   const fetchTopRatedArtisansData = () => {
     fetch("http://127.0.0.1:5000/top_rated_artisans")
@@ -97,10 +97,17 @@ export default function Home(props) {
         </div>
         <h4>Popular Services</h4>
         <div className="service-home">
-          <PopularServices serv1={props.servs1} dess1={props.des1}
-           serv2={props.servs2} dess2={props.des2} serv3={props.servs3} 
-           dess3={props.des3} image1={props.ima1} image2={props.ima2} image3={props.ima3}/>
-
+          <PopularServices
+            serv1={props.servs1}
+            dess1={props.des1}
+            serv2={props.servs2}
+            dess2={props.des2}
+            serv3={props.servs3}
+            dess3={props.des3}
+            image1={props.ima1}
+            image2={props.ima2}
+            image3={props.ima3}
+          />
         </div>
         <Link to="/service" className="service-link">
           All Services
@@ -109,19 +116,12 @@ export default function Home(props) {
         <div className="artisan-home">
           {topArtisans.map((artisan) => {
             return (
-              // <link to={`${url}/${1}`}>
-                <TopRatedArtisan
-                  image="images/artisan1.jpg"
-                  skillimage="images/artisan.png"
-                  skill={artisan.skill}
-                  rating={artisan.rating}
-                  urlPath={`/artisan/${artisan.artisan_id}`}
-                />
-          // </link>
+              <TopRatedArtisan
+                skillimage="images/artisan.png"
+                artisan={artisan}
+              />
             );
-          }) }
-
-          
+          })}
         </div>
         <Link to="artisan" className="service-link">
           All Artisans
