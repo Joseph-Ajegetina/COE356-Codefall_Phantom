@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ArtisanSelect.module.css";
+import { useParams } from "react-router";
 
 const ArtisanSelect = () => {
+  const {id} = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [artisan, setArtisan] = useState([]);
+  console.log(id)
+
+  const fetchArtisanData = () => {
+    fetch(`http://127.0.0.1:5000/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        setArtisan(data);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setIsError(true);
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchArtisanData();
+  })
+
+  console.log(artisan)
+
+
+
+
   return (
     <div className="container" style={{ background: "#c4c4c4" }}>
       <div className="row ">

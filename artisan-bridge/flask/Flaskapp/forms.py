@@ -15,24 +15,15 @@ class LoginForm(Form):
 class signUpForm(Form):
     
     first_name = StringField('first_name', validators=[DataRequired()])
-    last_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
     email = StringField('email', validators= [DataRequired(), Email()])
-    phone = StringField('phone', validators= [DataRequired()])
+    contact = StringField('contact', validators= [DataRequired()])
     customer_username = StringField('username', validators= [DataRequired()])
     city = StringField('city', validators= [DataRequired()])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
 
     # confirm_password = PasswordField('confirm password', validators=[DataRequired(),EqualTo('password')])
-    
 
-    # def validate_username(self, Username):
-    #     # Perform query form database
-    #     user = db.select([customers.columns.username]).where(customers.columns.username == Username)
-        
-    #     # check if user exists
-    #     if user:
-    #         raise ValidationError('Username already taken')
-        
 
     def validate_email(self, email):
         # Perform query form database
