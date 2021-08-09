@@ -11,6 +11,7 @@ export default function home() {
             <div className="homeWidget">
             <Widgetsm/>
             <Widgetlg/>
+           
             </div>
         </div>
     )

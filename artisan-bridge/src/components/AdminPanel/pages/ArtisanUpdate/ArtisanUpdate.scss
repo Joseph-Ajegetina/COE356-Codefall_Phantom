@@ -1,0 +1,122 @@
+.artisanUpdate {
+  flex: 4;
+  padding: 20px;
+  border: none;
+}
+.artisanEditContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.addArtisanButton {
+  width: 80px;
+  border: none;
+  padding: 5px;
+  background-color: teal;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+}
+.artisanContainer {
+  display: flex;
+  margin-top: 20px;
+}
+.artisanShow {
+  flex: 1;
+  padding: 20px;
+  box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  -moz-box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+}
+.artisanEdit {
+  flex: 2;
+  padding: 20px;
+  box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  -moz-box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  margin-left: 20px;
+}
+.artisanShowTop {
+  display: flex;
+  align-items: center;
+}
+.artisanShowImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.artisanshowTopTItle {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+.artisanShowName {
+  font-weight: 600;
+}
+.artisanShowartisanTitle {
+  font-weight: 300;
+}
+.artisanShowBottom {
+  margin-top: 20px;
+}
+.artisanShowTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(104, 101, 101);
+}
+.artisanShowInfo {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #444;
+}
+.artisanShowIcon {
+  font-size: 16px !important;
+}
+.artisanShowInfoTitle {
+  margin-left: 10px;
+}
+
+.artisanEditImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+.leftRight {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.artisanEditTitle {
+  font-size: 24px;
+  font-weight: 600;
+}
+.artisanEditItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+.artisanEditRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.artisanEditUpload {
+  display: flex;
+  align-items: center;
+}
+.publishButton {
+  cursor: pointer;
+}
+.artisanUpdateButton {
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+}

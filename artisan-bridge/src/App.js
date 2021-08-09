@@ -14,13 +14,17 @@ import SideBar from './components/AdminPanelSideBar/sideBar';
 import AdminHome from "./components/AdminPanel/pages/Adminhome/Adminhome"
 import { useState } from "react"
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
-import Artisans from "./components/AdminPanel/pages/artisans/artisans.jsx"
+import AddArtisans from "./components/AdminPanel/pages/AddArtisans/AddArtisans.jsx"
 import Services from "./components/AdminPanel/pages/services/services"
 import Logout from "./components/Logout/Logout";
 import RecordRoute from "./components/PrivateRoute/RecordRoute.jsx";
 import AdminRoute from "./components/PrivateRoute/AdminRoute"
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
 import Admin_register from "./components/admin_register/Admin_register.jsx";
+import ArtisanUpdate from "./components/AdminPanel/pages/ArtisanUpdate/ArtisanUpdate.jsx"
+import NewArtisan from "./components/AdminPanel/pages/NewArtisan/NewArtisan.jsx"
+import ServiceUpdate from "./components/AdminPanel/pages/ServiceUpdate/ServiceUpdate.jsx"
+import NewService from "./components/AdminPanel/pages/NewService/NewService.jsx"
 
 function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
@@ -102,7 +106,42 @@ function App() {
             <AdminPanel/>
             <div className="side">
             <SideBar/>
-            <Artisans/>
+           <AddArtisans/>
+            </div>
+          </Route>
+          <Route path="/services">
+            <AdminPanel/>
+            <div className="side">
+            <SideBar/>
+           <Services/>
+            </div>
+          </Route>
+          <Route path="/newArtisan">
+            <AdminPanel/>
+            <div className="side">
+            <SideBar/>
+           <NewArtisan/>
+            </div>
+          </Route>
+          <Route path="/newService">
+            <AdminPanel/>
+            <div className="side">
+            <SideBar/>
+           <NewService/>
+            </div>
+          </Route>
+          <Route path="/artisanEdit/:artisanId">
+            <AdminPanel/>
+            <div className="side">
+            <SideBar/>
+           <ArtisanUpdate/>
+            </div>
+          </Route>
+          <Route path="/serviceEdit/:serviceId">
+            <AdminPanel/>
+            <div className="side">
+            <SideBar/>
+           <ServiceUpdate/>
             </div>
           </Route>
           <Route path="/signup">

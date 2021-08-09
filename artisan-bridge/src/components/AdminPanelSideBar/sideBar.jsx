@@ -33,9 +33,12 @@ export default function sideBar() {
                        <ShoppingBasketOutlinedIcon className="sideBarIcon"/> <a href="">Services</a>
                     </li>
                     </Link>
+                    <Link to="/transactions">
                     <li className="sideBarListItem">
                        <AssessmentOutlinedIcon className="sideBarIcon"/> <a href="">Transactions</a>
                     </li>
+                    </Link>
+                   
                     <li className="sideBarListItem">
                        <ReportOutlinedIcon className="sideBarIcon"/> <a href="">Reports</a>
                     </li>

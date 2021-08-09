@@ -1,4 +1,4 @@
-import "./services.scss"
+import "./AddArtisans.scss"
 import React, {useState, useEffect} from "react"
 import { DataGrid } from "@material-ui/data-grid";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
  
     
   useEffect(() => {
-      fetch("http://localhost:3000/services")
+      fetch("http://localhost:3000/users")
       .then((data) => data.json())
       .then((data) => setTableData(data))
       }) 
@@ -29,23 +29,35 @@ import { Link } from "react-router-dom";
   const columns = [
     { field: 'id', headerName: 'ID', width: 150 },
     {
-      field: 'Service',
-      headerName: 'Service',
+      field: 'Name',
+      headerName: 'First name',
       width: 200,
       editable: true,
      renderCell: (params) => {
-         return(
-             <div className="artisanListartisan"> 
-                 <img src={params.row.image} alt="" className="artisanListImg"/>
-                 {params.row.serviceName}
-             </div>
-         )
+       return (
+         <div className="artisanListartisan">
+           <img src={params.row.avatar} alt="" className="artisanListImg"/>
+           {params.row.firstName}
+         </div>
+       )
      }
     },
     {
-      field: 'Description',
-      headerName: 'Description',
-      width: 500,
+      field: 'lastName',
+      headerName: 'Last name',
+      width: 200,
+      editable: true,
+    },
+    {
+      field : "jobDescription",
+      headerName: "Job Title",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 200,
       editable: true,
     },
     {
@@ -55,7 +67,7 @@ import { Link } from "react-router-dom";
         renderCell: (params) => {
             return(
                 <div className="action"> 
-                <Link to={"/serviceEdit/"+params.row.id}>
+                <Link to={"/artisanEdit/"+params.row.id}>
                <EditIcon className="artisanEditList"/>
                 </Link>
                 <DeleteOutlineIcon className="artisanListDelete" onClick={() => handleDelete(params.row.id)} />
