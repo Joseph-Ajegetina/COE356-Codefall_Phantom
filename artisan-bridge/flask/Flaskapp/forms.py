@@ -15,24 +15,15 @@ class LoginForm(Form):
 class signUpForm(Form):
     
     first_name = StringField('first_name', validators=[DataRequired()])
-    last_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
     email = StringField('email', validators= [DataRequired(), Email()])
-    phone = StringField('phone', validators= [DataRequired()])
+    contact = StringField('contact', validators= [DataRequired()])
     customer_username = StringField('username', validators= [DataRequired()])
     city = StringField('city', validators= [DataRequired()])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
 
     # confirm_password = PasswordField('confirm password', validators=[DataRequired(),EqualTo('password')])
-    
 
-    # def validate_username(self, Username):
-    #     # Perform query form database
-    #     user = db.select([customers.columns.username]).where(customers.columns.username == Username)
-        
-    #     # check if user exists
-    #     if user:
-    #         raise ValidationError('Username already taken')
-        
 
     def validate_email(self, email):
         # Perform query form database
@@ -71,16 +62,15 @@ class adminForm(Form):
 
 class artisanForm(Form):
 
-    first_name = StringField('first_name', validators=[DataRequired(), Length(min=4, max=20)])
-    last_name = StringField('last_name', validators=[DataRequired(), Length(min=4, max=20)])
-    email = StringField('email', validators= [DataRequired(), Email()])
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
     contact = StringField('phone', validators= [DataRequired()])
     service_id = StringField('service_id', validators= [DataRequired()])
     artisan_username = StringField('customer_username', validators= [DataRequired()])
-    location = StringField('city', validators= [DataRequired()])
-    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max= 80)])
+    address = StringField('city', validators= [DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
     rating = StringField('rating', validators= [DataRequired()])
-    core_serivce = StringField('core_service', validators= [DataRequired()])
+    
 
 
     def validate_email(self, email, artisan_username):

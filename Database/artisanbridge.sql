@@ -7,6 +7,7 @@ CREATE TABLE services (
   service_id INT NOT NULL AUTO_INCREMENT,
   skill VARCHAR(255) NOT NULL,
   description VARCHAR(2000) DEFAULT NULL,
+  image_path VARCHAR(400) DEFAULT NULL,
   PRIMARY KEY (service_id)
 ); 
 
@@ -16,7 +17,6 @@ CREATE TABLE customers (
   customer_username VARCHAR(255),
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
-  birth_date DATE DEFAULT NULL,
   contact VARCHAR(255) DEFAULT NULL,
   address VARCHAR(50) NOT NULL,
   email VARCHAR(255) DEFAULT NULL,
@@ -28,15 +28,12 @@ CREATE TABLE customers (
 DROP TABLE IF EXISTS artisans;
 CREATE TABLE artisans (
   artisan_id INT NOT NULL AUTO_INCREMENT,
-  artisan_username VARCHAR(255),
   service_id INT NOT NULL,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
-  rating DECIMAL(2,2) CONSTRAINT chk_Rating CHECK (rating >= 0 AND rating <=5),
+  rating DECIMAL(2,1) UNSIGNED CONSTRAINT chk_Rating CHECK (rating >= 0.00 AND rating <=5.00),
   address VARCHAR(255) DEFAULT NULL,
   contact VARCHAR(255) NOT NULL,
-  password VARCHAR(400) NOT NULL,
-  birth_date DATE DEFAULT NULL,
   profile_image_path VARCHAR(400),
   PRIMARY KEY (artisan_id),
   FOREIGN KEY (service_id) REFERENCES services(service_id)
@@ -65,13 +62,13 @@ PRIMARY KEY(admin_id)
 );
 
 CREATE VIEW top_Rated_Artisans AS 
-SELECT artisans.first_name, artisans.last_name, artisans.rating, services.skill 
+SELECT artisans.artisan_id, artisans.first_name, artisans.last_name, artisans.rating, artisans.address, artisans.contact, services.skill, artisans.profile_image_path  
 FROM artisans JOIN services ON artisans.service_id=services.service_id
 ORDER BY artisans.rating DESC 
 LIMIT 3;
 
 CREATE VIEW popular_Services AS 
-SELECT COUNT(records.service_id) AS requests, services.skill, services.description 
+SELECT count(records.service_id) AS requests, services.skill, services.description, artisanbridge.services.image_path AS image
 FROM records JOIN services ON records.service_id=services.service_id
 GROUP BY records.service_id
 LIMIT 3;
@@ -82,16 +79,13 @@ ALTER TABLE services AUTO_INCREMENT=1000;
 ALTER TABLE records AUTO_INCREMENT=1000;
 ALTER TABLE admin AUTO_INCREMENT=1000;
 
-INSERT INTO services (skill, description) VALUES ('Electrician', 'A tradesman specializing in electrical wiring of buildings, transmission lines, stationary machines, and related equipment.');
-INSERT INTO services (skill, description) VALUES ('Welder', 'Cuts, shapes and combines materials, mostly metals to make different parts');
-INSERT INTO services (skill, description) VALUES ('Fitter', 'Puts together or installs machinery, engine parts, or other equipment.');
-INSERT INTO services (skill, description) VALUES ('Carpenter', 'Cutting, shaping and installation of building materials during the construction of buildings, ships, timber bridges, concrete formwork, etc.');
-INSERT INTO services (skill, description) VALUES ('Jeweler', 'Makes or repairs jewelery');
-INSERT INTO services (skill, description) VALUES ('Leatherworker', 'Works primarily with leather, crafting leather goods');
-INSERT INTO services (skill, description) VALUES ('Metalworker', 'Monitors, adjusts, and controls various basic or elaborate machines to cut, cast, or mold metals');
-INSERT INTO services (skill, description) VALUES ('Painter', 'Smoothes and prepares surfaces for painting. Paints surfaces, using brushes, spray gun, or paint rollers.');
-INSERT INTO services (skill, description) VALUES ('Potter', 'Creates pots, dishes, mugs, vases, and other types of artwork');
-INSERT INTO services (skill, description) VALUES ('Sculptor', 'Designs and creates three dimensional(3D) forms or models as a way of artistic expression'); 
-INSERT INTO services (skill, description) VALUES ('Weaver', 'Workes in textile production and operates, monitors and maintains highly technical computerised weaving looms to manufacture woven fabrics and materials.');
-INSERT INTO services (skill, description) VALUES ('Plumber', 'Assembles, installs, maintains and pressure tests all pipes, fittings and fixtures of heating, water, drainage, sprinkler, and gas systems according to specifications and plumbing codes.');
-INSERT INTO services (skill, description) VALUES ('Bricklayer/Brickmason', 'Lays bricks, pre-cuts stone and concrete blocks in mortar. Constructs, extends and repairs domestic and commercial buildings and other structures');
+
+INSERT INTO services (skill, description, image_path) VALUES ('Electronics', 'Get your blenders, rice cookers, hot plate, etc.','images/Electronics.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Phones and Watches', 'Get a quick fix on your phone screen, or watch battery replacement.','images/PhoneandWatch.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Footwear Repair', 'Mend your shoes, sandals, sneakers, slippers, etc.','images/FootwearRepair.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Carpentry', 'All sorts of furniture services are available here.','images/Carpentry.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Painting', 'Quality personnel available for all types of paint work','images/painting.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Tailoring', 'Get beautiful clothing from our exceptional tailors','images/Tailoring.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Plumbering', 'Do you have faulty tap, broken pipe? Contact for plumbing services.','images/Plumbering.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Metalworks', 'Welding services, metal art works and more','images/Metal works.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Electric and Fridges', 'Fault meter, light, fans, fridges and all electrical problems','images/ElectricandFridges.png');

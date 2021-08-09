@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ArtisanSelect.module.css";
+import { useLocation } from "react-router";
 
 const ArtisanSelect = () => {
+  const [artisan, setArtisan] = useState({});
+  const location = useLocation();
+
+  useEffect(() => {
+    setArtisan(location.state.artisan);
+  });
+
   return (
     <div className="container" style={{ background: "#c4c4c4" }}>
       <div className="row ">
@@ -10,7 +18,7 @@ const ArtisanSelect = () => {
             <div className="row pt-3">
               <img
                 className="artisan-select-img"
-                src="/images/artisan1.jpg"
+                src={`/${artisan.profile_image_path}`}
                 alt=""
                 class="rounded-circle img-fluid"
               />
@@ -18,16 +26,15 @@ const ArtisanSelect = () => {
           </div>
           <div className="row mt-4">
             <div className="d-block">
-              <h4 className="display-12">Name: Kweku Manu</h4>
+              <h4 className="display-12">Name: {artisan.first_name}</h4>
             </div>
             <div className="d-block my-4">
-              <h4 className="display-12">Expertise: Electric Repairs</h4>
+              <h4 className="display-12">Expertise: {artisan.skill} </h4>
             </div>
             <div className="d-block">
               <h4 className="display-12">
                 {" "}
-                <span className="skill">Rating:</span>{" "}
-                <img src="/images/rating.png" alt="" className="ratingimg" />
+                <span className="skill">Rating: {artisan.rating}</span>
               </h4>
             </div>
           </div>
@@ -45,7 +52,7 @@ const ArtisanSelect = () => {
               <h4 className="display-12 ">Location</h4>
 
               <div className=" ml-auto my-auto">
-                <p className="lead">I am writing some text</p>
+                <p className="lead">{artisan.address}</p>
               </div>
             </div>
           </div>
@@ -59,7 +66,7 @@ const ArtisanSelect = () => {
               <h4 className="display-12 ">Core Services</h4>
 
               <div className="ml-auto my-auto ">
-                <p className="lead">I am writing some text</p>
+                <p className="lead">{artisan.skill}</p>
               </div>
             </div>
           </div>
@@ -73,7 +80,7 @@ const ArtisanSelect = () => {
               <h4 className="display-12 ">Regular Charge</h4>
 
               <div className="ml-auto my-auto">
-                <p className="lead">I am writing some text</p>
+                <p className="lead">ghc 30</p>
               </div>
             </div>
           </div>
@@ -88,7 +95,7 @@ const ArtisanSelect = () => {
               <h4 className="display-12 ">Contact</h4>
 
               <div className=" ml-auto my-auto ">
-                <p className="lead">I am writing some text</p>
+                <p className="lead">{artisan.contact}</p>
               </div>
             </div>
           </div>
