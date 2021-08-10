@@ -87,5 +87,5 @@ INSERT INTO services (skill, description, image_path) VALUES ('Carpentry', 'All 
 INSERT INTO services (skill, description, image_path) VALUES ('Painting', 'Quality personnel available for all types of paint work','images/painting.png');
 INSERT INTO services (skill, description, image_path) VALUES ('Tailoring', 'Get beautiful clothing from our exceptional tailors','images/Tailoring.png');
 INSERT INTO services (skill, description, image_path) VALUES ('Plumbering', 'Do you have faulty tap, broken pipe? Contact for plumbing services.','images/Plumbering.png');
-INSERT INTO services (skill, description, image_path) VALUES ('Metal works', 'Welding services, metal art works and more','images/Metal works.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Metalworks', 'Welding services, metal art works and more','images/Metal works.png');
 INSERT INTO services (skill, description, image_path) VALUES ('Electric and Fridges', 'Fault meter, light, fans, fridges and all electrical problems','images/ElectricandFridges.png');
