@@ -7,6 +7,7 @@ from Flaskapp import connection, artisans, services, customers, records, db, adm
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
 from Flaskapp.decos import admin_login_required, login_requireds
+from datetime import datetime
 
 
 # def login_requireds(*args, **kwargs):
@@ -64,18 +65,17 @@ def login():
         # what to be returned
         return_info = {"alert": "", "message": "", "passed": False, "type": ""}
         # Requires reformating
-    
+
         user = connection.execute(db.select([customers.columns.customer_username]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchall()
 
         admin_name = connection.execute(db.select([admin.columns.username]).where(
             admin.columns.username == form.customer_username.data)).fetchall()
-        print("user ", user)
-        print("admin ",admin_name)
 
         customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
-            customers.columns.customer_username == form.customer_username.data)).fetchall()
-
+            customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
+        print(customer_id)
+    
         if user:
             password = connection.execute(db.select([customers.columns.password]).where(
                 customers.columns.customer_username == form.customer_username.data)).fetchall()
@@ -92,6 +92,7 @@ def login():
                 return_info["alert"] = "success"
                 return_info["message"] = "Successfully logged in"
                 return_info["type"] = "customer"
+                return_info["user"]=str(customer_id)
 
                 return return_info
 
@@ -165,10 +166,6 @@ def register():
                 return Response(status=500)
 
 
-
-
-
-
 @app.route('/delete_account', methods=['DELETE'])
 @login_required
 def delete_account():
@@ -212,6 +209,7 @@ def Admin_register():
 
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
+    
     return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
 
 
@@ -251,7 +249,8 @@ def edit_table(id, table):
 def popular_artisans():
     # select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
     # select * from top rated artisans
-    top_rated_artisans_list = connection.execute(db.select([top_rated_artisans])).fetchall()
+    top_rated_artisans_list = connection.execute(
+        db.select([top_rated_artisans])).fetchall()
     return_items = [{**row} for row in top_rated_artisans_list]
     return_items = json.dumps(return_items, default=str)
     return return_items
@@ -261,12 +260,12 @@ def popular_artisans():
 def popularServices():
     query = connection.execute(db.select([popular_services])).fetchall()
     result = {}
-    
+
     for num, i in enumerate(query):
-        result[str(num)]={"service":f"{i[1]}","Description":f"{i[2]}","image":f"{i[3]}"}
+        result[str(num)] = {"service": f"{i[1]}",
+                            "Description": f"{i[2]}", "image": f"{i[3]}"}
 
     return result
-
 
 
 @app.route('/services/<int:id>', methods=['POST', 'GET'])
@@ -286,22 +285,29 @@ def get_services(id):
 
 
 @app.route('/report/<int:customer_id>')
-@login_required
+# @login_required
 def report(customer_id):
     return(connection.execute(db.select([records.columns.record_id,
                                          records.columns.artisan_id,
-                                         records.columns.service_type,
+                                         records.columns.service_id,
                                          records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
     # query to return last 10 transactions of that user
 
 
-@app.route('/find_artisan')
+@app.route('/find_artisan') 
 # @login_required
 def find_artisan():
-    return{"DATA": str(connection.execute(db.select([artisans.columns.artisan_id,
-                                                     artisans.columns.address,
-                                                     artisans.columns.rating])).fetchall())}
 
+    query = connection.execute(db.select([services.columns.service_id,services.columns.service_type])).fetchall()
+
+    result = {}
+    for i in query:
+        artisan_group = connection.execute(db.select([artisans.columns.name,
+     artisans.columns.address, 
+     artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
+        result[i[1]] = f"{artisan_group}"
+
+    return result
 
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
@@ -313,7 +319,7 @@ def find_artisan_id(artisan_id):
                                                       artisans.columns.rating,
                                                       artisans.columns.address,
                                                       artisans.columns.contact,
-                                                      services.columns.description ]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
+                                                      services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
 
 
 # to be changed
@@ -328,3 +334,11 @@ def reports(id):
     if request.method == 'GET':
         values = connection.execute(db.select([records])).fetchall()
         return {"Result": str(values)}
+
+
+@app.route('/confirm_order/<int:artisan_id>/<service_type>/<int:customer_id>')
+#@login_requireds
+def confirm_id(artisan_id,service_type, customer_id):
+    records.update().values(customer_id=customer_id,
+     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
+

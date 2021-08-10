@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Login.scss";
-import {  useLocation, useRouteMatch } from "react-router";
+import { useLocation, useRouteMatch } from "react-router";
 import { useHistory } from "react-router-dom";
 import Message from "../navigationBar/Message";
 import { useForm } from "react-hook-form";
@@ -19,7 +19,7 @@ const Login = () => {
   const [showAlert, setShowAlert] = useState(false);
   const location = useLocation();
   const history = useHistory();
-  const { url, path } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   //form hook
   const {
@@ -41,7 +41,7 @@ const Login = () => {
     if (location.state) {
       const messageLocation = location.state.messageParams;
       const alertLocation = location.state.alertParams;
-
+      
       if (messageLocation && alertLocation) {
         //displaying the message
         setAlert({ message: messageLocation, alert: alertLocation });
@@ -63,7 +63,6 @@ const Login = () => {
       password: formData.password,
     };
 
-
     //Verifying credentials with the server
     fetch("http://127.0.0.1:5000/login", {
       method: "POST",
@@ -72,15 +71,19 @@ const Login = () => {
       .then((response) => {
         if (response.ok) {
           return response.json();
-        }else{
-          console.log(response)
+        } else {
         }
       })
       .then((loginReturn) => {
         if (loginReturn.passed) {
-          let userType;
+          //Getting info from login fetch
+          const user = loginReturn.user
           localStorage.setItem("isLoggedIn", "1");
-          userType = loginReturn.type;
+          if (user){
+            localStorage.setItem("user",user)
+          }
+          let userType = loginReturn.type;
+         
 
           //checking if the user is a customer or an administrator
           if (userType === "customer") {

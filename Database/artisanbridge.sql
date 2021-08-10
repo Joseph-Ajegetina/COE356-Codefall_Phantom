@@ -79,12 +79,13 @@ ALTER TABLE services AUTO_INCREMENT=1000;
 ALTER TABLE records AUTO_INCREMENT=1000;
 ALTER TABLE admin AUTO_INCREMENT=1000;
 
-INSERT INTO services (skill, description) VALUES ('Electronics', 'Get your blenders, rice cookers, hot plate, etc.','images\Electronics.png');
-INSERT INTO services (skill, description) VALUES ('Phones and Watches', 'Get a quick fix on your phone screen, or watch battery replacement.','images\PhoneandWatch.png');
-INSERT INTO services (skill, description) VALUES ('Footwear Repair', 'Mend your shoes, sandals, sneakers, slippers, etc.','images\FootwearRepair.png');
-INSERT INTO services (skill, description) VALUES ('Carpentry', 'All sorts of furniture services are available here.','images\Carpentry.png');
-INSERT INTO services (skill, description) VALUES ('Painting', 'Quality personnel available for all types of paint work','images\painting.png');
-INSERT INTO services (skill, description) VALUES ('Tailoring', 'Get beautiful clothing from our exceptional tailors','images\Tailoring.png');
-INSERT INTO services (skill, description) VALUES ('Plumbering', 'Do you have faulty tap, broken pipe? Contact for plumbing services.','images\Plumbering.png');
-INSERT INTO services (skill, description) VALUES ('Metal works', 'Welding services, metal art works and more','images\Metal works.png');
-INSERT INTO services (skill, description) VALUES ('Electric and Fridges', 'Fault meter, light, fans, fridges and all electrical problems','images\ElectricandFridges.png');
+
+INSERT INTO services (skill, description, image_path) VALUES ('Electronics', 'Get your blenders, rice cookers, hot plate, etc.','images/Electronics.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Phones and Watches', 'Get a quick fix on your phone screen, or watch battery replacement.','images/PhoneandWatch.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Footwear Repair', 'Mend your shoes, sandals, sneakers, slippers, etc.','images/FootwearRepair.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Carpentry', 'All sorts of furniture services are available here.','images/Carpentry.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Painting', 'Quality personnel available for all types of paint work','images/painting.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Tailoring', 'Get beautiful clothing from our exceptional tailors','images/Tailoring.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Plumbering', 'Do you have faulty tap, broken pipe? Contact for plumbing services.','images/Plumbering.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Metalworks', 'Welding services, metal art works and more','images/Metal works.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Electric and Fridges', 'Fault meter, light, fans, fridges and all electrical problems','images/ElectricandFridges.png');
