@@ -70,12 +70,11 @@ def login():
 
         admin_name = connection.execute(db.select([admin.columns.username]).where(
             admin.columns.username == form.customer_username.data)).fetchall()
-        print("user ", user)
-        print("admin ", admin_name)
 
         customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
-            customers.columns.customer_username == form.customer_username.data)).fetchall()
-
+            customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
+        print(customer_id)
+    
         if user:
             password = connection.execute(db.select([customers.columns.password]).where(
                 customers.columns.customer_username == form.customer_username.data)).fetchall()
@@ -92,6 +91,7 @@ def login():
                 return_info["alert"] = "success"
                 return_info["message"] = "Successfully logged in"
                 return_info["type"] = "customer"
+                return_info["user"]=str(customer_id)
 
                 return return_info
 

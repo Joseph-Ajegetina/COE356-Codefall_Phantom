@@ -14,8 +14,8 @@ export default function Home(props) {
 
   const location = useLocation();
   const history = useHistory();
-  const { url, path } = useRouteMatch();
-  console.log("url :", url, "path: ", path);
+  const { url } = useRouteMatch();
+
 
   const fetchTopRatedArtisansData = () => {
     fetch("http://127.0.0.1:5000/top_rated_artisans")
@@ -27,7 +27,6 @@ export default function Home(props) {
       .catch((error) => {
         setIsLoading(false);
         setIsError(true);
-        console.log(error);
       });
   };
 
