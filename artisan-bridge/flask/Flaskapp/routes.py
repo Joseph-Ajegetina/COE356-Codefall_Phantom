@@ -7,6 +7,7 @@ from Flaskapp import connection, artisans, services, customers, records, db, adm
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
 from Flaskapp.decos import admin_login_required, login_requireds
+from datetime import datetime
 
 
 # def login_requireds(*args, **kwargs):
@@ -208,6 +209,7 @@ def Admin_register():
 
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
+    
     return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
 
 
@@ -283,6 +285,7 @@ def get_services(id):
 
 
 @app.route('/report/<int:customer_id>')
+# @login_required
 def report(customer_id):
     return(connection.execute(db.select([records.columns.record_id,
                                          records.columns.artisan_id,
@@ -291,13 +294,20 @@ def report(customer_id):
     # query to return last 10 transactions of that user
 
 
-@app.route('/find_artisan')
+@app.route('/find_artisan') 
 # @login_required
 def find_artisan():
-    return{"DATA": str(connection.execute(db.select([artisans.columns.artisan_id,
-                                                     artisans.columns.address,
-                                                     artisans.columns.rating])).fetchall())}
 
+    query = connection.execute(db.select([services.columns.service_id,services.columns.service_type])).fetchall()
+
+    result = {}
+    for i in query:
+        artisan_group = connection.execute(db.select([artisans.columns.name,
+     artisans.columns.address, 
+     artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
+        result[i[1]] = f"{artisan_group}"
+
+    return result
 
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
@@ -324,3 +334,11 @@ def reports(id):
     if request.method == 'GET':
         values = connection.execute(db.select([records])).fetchall()
         return {"Result": str(values)}
+
+
+@app.route('/confirm_order/<int:artisan_id>/<service_type>/<int:customer_id>')
+#@login_requireds
+def confirm_id(artisan_id,service_type, customer_id):
+    records.update().values(customer_id=customer_id,
+     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
+

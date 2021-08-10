@@ -4,8 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-/flask/__pycache__
-/flask/Flaskapp/__pycache__
+__pycache__/
 
 # testing
 /coverage
