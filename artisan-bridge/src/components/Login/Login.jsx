@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Login.scss";
-import {  useLocation, useRouteMatch } from "react-router";
+import { useLocation, useRouteMatch } from "react-router";
 import { useHistory } from "react-router-dom";
 import Message from "../navigationBar/Message";
 import { useForm } from "react-hook-form";
@@ -19,7 +19,7 @@ const Login = () => {
   const [showAlert, setShowAlert] = useState(false);
   const location = useLocation();
   const history = useHistory();
-  const { url, path } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   //form hook
   const {
@@ -63,6 +63,7 @@ const Login = () => {
       password: formData.password,
     };
 
+    //Verifying credentials with the server
     fetch("http://127.0.0.1:5000/login", {
       method: "POST",
       body: JSON.stringify(userInput),
@@ -70,6 +71,8 @@ const Login = () => {
       .then((response) => {
         if (response.ok) {
           return response.json();
+        } else {
+          console.log(response);
         }
       })
       .then((loginReturn) => {
@@ -77,9 +80,6 @@ const Login = () => {
           let userType;
           localStorage.setItem("isLoggedIn", "1");
           userType = loginReturn.type;
-          console.log(loginReturn.type.toString());
-          console.log(userType);
-          console.log(loginReturn);
 
           //checking if the user is a customer or an administrator
           if (userType === "customer") {
