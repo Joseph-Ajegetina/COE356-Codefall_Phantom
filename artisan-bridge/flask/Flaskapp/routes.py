@@ -201,6 +201,7 @@ def Admin_register():
 
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
+    
     return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
 
 
