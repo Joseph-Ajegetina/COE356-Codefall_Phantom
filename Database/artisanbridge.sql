@@ -20,7 +20,7 @@ CREATE TABLE customers (
   contact VARCHAR(255) DEFAULT NULL,
   address VARCHAR(50) NOT NULL,
   email VARCHAR(255) DEFAULT NULL,
-  password VARCHAR(400) NOT NULL,
+  password VARCHAR(400) NOT NULL UNIQUE,
   profile_image_path VARCHAR(400),
   PRIMARY KEY (customer_id)
 );
@@ -31,7 +31,7 @@ CREATE TABLE artisans (
   service_id INT NOT NULL,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
-  rating DECIMAL(2,1) UNSIGNED CONSTRAINT chk_Rating CHECK (rating >= 0.00 AND rating <=5.00),
+  rating DECIMAL(2,1) UNSIGNED, CONSTRAINT chk_Rating CHECK (rating >= 0.00 AND rating <=5.00),
   address VARCHAR(255) DEFAULT NULL,
   contact VARCHAR(255) NOT NULL,
   profile_image_path VARCHAR(400),
