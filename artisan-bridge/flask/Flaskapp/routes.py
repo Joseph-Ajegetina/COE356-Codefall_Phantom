@@ -285,6 +285,7 @@ def get_services(id):
 
 
 @app.route('/report/<int:customer_id>')
+# @login_required
 def report(customer_id):
     return(connection.execute(db.select([records.columns.record_id,
                                          records.columns.artisan_id,
@@ -293,13 +294,20 @@ def report(customer_id):
     # query to return last 10 transactions of that user
 
 
-@app.route('/find_artisan')
+@app.route('/find_artisan') 
 # @login_required
 def find_artisan():
-    return{"DATA": str(connection.execute(db.select([artisans.columns.artisan_id,
-                                                     artisans.columns.address,
-                                                     artisans.columns.rating])).fetchall())}
 
+    query = connection.execute(db.select([services.columns.service_id,services.columns.service_type])).fetchall()
+
+    result = {}
+    for i in query:
+        artisan_group = connection.execute(db.select([artisans.columns.name,
+     artisans.columns.address, 
+     artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
+        result[i[1]] = f"{artisan_group}"
+
+    return result
 
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
