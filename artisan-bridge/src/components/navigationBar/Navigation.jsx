@@ -55,7 +55,7 @@ const Navigation = () => {
           </Link>
         </div>
         <div className="header-option">
-          <Link to="/artisan" className="nav">
+          <Link to="/find" className="nav">
             <span>
               <img
                 src="images/find an artisan.png"
