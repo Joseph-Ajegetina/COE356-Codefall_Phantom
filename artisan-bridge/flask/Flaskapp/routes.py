@@ -342,3 +342,6 @@ def confirm_id(artisan_id,service_type, customer_id):
     records.update().values(customer_id=customer_id,
      artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
 
+@app.route('/find')
+def find():
+    return {"electrician":[{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}], "plumbers":[{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}],"sellers":[{"name":"Kojo", "age":20, "location":"Happy family"},{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}]}
