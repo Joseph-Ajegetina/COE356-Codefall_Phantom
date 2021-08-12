@@ -247,8 +247,8 @@ def edit_table(id, table):
 
 @app.route('/top_rated_artisans')
 def popular_artisans():
-    # select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
-    # select * from top rated artisans
+  
+    # To be changed
     top_rated_artisans_list = connection.execute(
         db.select([top_rated_artisans])).fetchall()
     return_items = [{**row} for row in top_rated_artisans_list]
@@ -305,7 +305,9 @@ def find_artisan():
         artisan_group = connection.execute(db.select([artisans.columns.name,
      artisans.columns.address, 
      artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
-        result[i[1]] = f"{artisan_group}"
+
+        artisan_group_list = [{"Name":f"{i[0]}", "Address": f"{i[1]}", "Location":f"{i[2]}"} for i in artisan_group]
+        result[i[1]] = artisan_group_list
 
     return result
 
