@@ -249,7 +249,7 @@ def delete_account():
     # logout()
     # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
 
-
+# To be worked on
 @app.route('/report/<int:customer_id>')
 # @login_required
 def report(customer_id):
@@ -260,11 +260,14 @@ def report(customer_id):
     # query to return last 10 transactions of that user
 
 
-@app.route('/confirm_order/<int:artisan_id>/<service_type>/<int:customer_id>')
+@app.route('/confirm_order/<int:artisan_id>/<int:customer_id>')
 #@login_requireds
-def confirm_id(artisan_id,service_type, customer_id):
-    records.update().values(customer_id=customer_id,
-     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
+def confirm_id(artisan_id, customer_id):
+    service = connection.execute(db.select(artisans.columns.service_id).where(artisans.columns.artisan_id == artisan_id)).fetchall()
+
+    db.insert(records).values(customer_id=customer_id,
+     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_id = service[0][0])
+
 
 
 #-------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
@@ -273,14 +276,17 @@ def confirm_id(artisan_id,service_type, customer_id):
 # @login_required
 def find_artisan():
 
-    query = connection.execute(db.select([services.columns.service_id,services.columns.service_type])).fetchall()
+    query = connection.execute(db.select([services.columns.service_id,services.columns.skill])).fetchall()
 
     result = {}
     for i in query:
-        artisan_group = connection.execute(db.select([artisans.columns.name,
+        artisan_group = connection.execute(db.select([artisans.columns.first_name, 
      artisans.columns.address, 
-     artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
-        result[i[1]] = f"{artisan_group}"
+     artisans.columns.rating,
+     artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
+        
+        artisan_group_list = [{"Name":f"{i[0]}", "Address": f"{i[1]}", "Location":f"{i[2]}", "Path": f"{i[3]}"} for i in artisan_group]
+        result[i[1]] = artisan_group_list
 
     return result
 
@@ -288,7 +294,7 @@ def find_artisan():
 # @login_required
 def find_artisan_id(artisan_id):
     # to be edited-----------------------------------------
-    return {"DATA": str(connection.execute(db.select([services.columns.service_id,
+    return {"Data": str(connection.execute(db.select([services.columns.service_id,
                                                       artisans.columns.first_name,
                                                       artisans.columns.last_name,
                                                       artisans.columns.rating,

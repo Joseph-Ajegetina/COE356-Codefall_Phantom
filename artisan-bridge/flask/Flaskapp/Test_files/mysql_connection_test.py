@@ -18,7 +18,8 @@ popular_services = db.Table('popular_services', metadata, autoload=True, autoloa
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
 # print(connection.execute(db.select([admin.columns.email]).where(admin.columns.email == 'ghost')).fetchall())
 # print(connection.execute(db.select([rounds.columns.amount])).fetchall())
-print(connection.execute("select * from popular_services").fetchall())
+print(connection.execute(db.select(artisans.columns.service_id).where(artisans.columns.artisan_id == 1000)).fetchall()
+)
 # con = connection.execute(db.select([records])).fetchall()
 # go = []
 # for i in con:
