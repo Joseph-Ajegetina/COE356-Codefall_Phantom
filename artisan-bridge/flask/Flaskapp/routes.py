@@ -10,44 +10,8 @@ from Flaskapp.decos import admin_login_required, login_requireds
 from datetime import datetime
 
 
-# def login_requireds(*args, **kwargs):
+#--------------------------------------------------------------- LOGIN --------------------------------------------------------------------
 
-#     def wrapper(original):
-#         return original()
-
-#     if kwargs == True:
-#         return wrapper
-#     else:
-#         return {"Info":"Login required"}
-
-
-# State = None
-
-
-# admin 🙄🙄😶
-@app.before_request
-def before_request():
-
-    if 'admin' in session:
-        app.config['State_Admin'] = True
-        # print(State)
-    elif 'username' in session:
-        # print(State)
-        app.config['State'] = True
-
-    else:
-        app.config['State'] = None
-
-
-@app.route('/dashboard', methods=['GET'])
-@login_requireds
-def dashboard():
-
-    return {"info": f'the dashboard{session}'}
-
-
-# Login form, validation and session to be added
-# ----------------------------------------------------------------------------------------------------
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -131,16 +95,7 @@ def login():
             return return_info
 
 
-@app.route('/logout', methods=['GET', 'POST'])
-@login_requireds
-def logout():
-
-    # session.pop('loggedin', None)
-    # # id
-    # session.pop('username', None)
-
-    return {"info": 'back to login route'}
-
+#----------------------------------------------------------------- SIGN UP ----------------------------------------------------------
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -166,18 +121,8 @@ def register():
                 return Response(status=500)
 
 
-@app.route('/delete_account', methods=['DELETE'])
-@login_required
-def delete_account():
-    print(session['username'])
-    # logout()
-    # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
 
-
-# admin routes ------------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------------------------
-
+#------------------------------------------------------- ADMINISTRATOR -------------------------------------------------------
 
 @app.route('/register/admin', methods=['GET', 'POST'])
 def Admin_register():
@@ -205,7 +150,6 @@ def Admin_register():
     return {"Page": "Sign Up"}  # return to dashboard route
 
 
-# -----------------------------------------
 
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
@@ -245,10 +189,25 @@ def edit_table(id, table):
             return {"Info": "Artisan does not exist, Done"}
 
 
+# to be changed
+@app.route('/admin/report/<int:id>', methods=['POST', 'DELETE'])
+# @login_required
+def reports(id):
+
+    if request.method == 'DELETE':
+        connection.execute(db.delete(records).where(
+            records.columns.record_id == int(id)))
+
+    if request.method == 'GET':
+        values = connection.execute(db.select([records])).fetchall()
+        return {"Result": str(values)}
+
+
+#-------------------------------------------------------------- VIEWS -----------------------------------------------------------------
+
 @app.route('/top_rated_artisans')
 def popular_artisans():
-  
-    # To be changed
+    # select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
     top_rated_artisans_list = connection.execute(
         db.select([top_rated_artisans])).fetchall()
     return_items = [{**row} for row in top_rated_artisans_list]
@@ -268,20 +227,27 @@ def popularServices():
     return result
 
 
-@app.route('/services/<int:id>', methods=['POST', 'GET'])
-def get_services(id):
+#-------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
 
-    service = request.get_json(force=True)
-    if request.method == 'POST':
-        # adding a service
-        if id == 0:
-            connection.execute(db.insert(services).values([dict(service)]))
-        else:
-            # db query for updating the service
-            pass
+@app.route('/logout', methods=['GET', 'POST'])
+@login_requireds
+def logout():
 
-    if request.method == 'GET':
-        return {"Result": str(connection.execute(db.select([services])).fetchall())}
+    # session.pop('loggedin', None)
+    # # id
+    # session.pop('username', None)
+
+    return {"info": 'back to login route'}
+
+
+
+
+@app.route('/delete_account', methods=['DELETE'])
+@login_required
+def delete_account():
+    print(session['username'])
+    # logout()
+    # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
 
 
 @app.route('/report/<int:customer_id>')
@@ -294,6 +260,15 @@ def report(customer_id):
     # query to return last 10 transactions of that user
 
 
+@app.route('/confirm_order/<int:artisan_id>/<service_type>/<int:customer_id>')
+#@login_requireds
+def confirm_id(artisan_id,service_type, customer_id):
+    records.update().values(customer_id=customer_id,
+     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
+
+
+#-------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
+
 @app.route('/find_artisan') 
 # @login_required
 def find_artisan():
@@ -305,9 +280,7 @@ def find_artisan():
         artisan_group = connection.execute(db.select([artisans.columns.name,
      artisans.columns.address, 
      artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
-
-        artisan_group_list = [{"Name":f"{i[0]}", "Address": f"{i[1]}", "Location":f"{i[2]}"} for i in artisan_group]
-        result[i[1]] = artisan_group_list
+        result[i[1]] = f"{artisan_group}"
 
     return result
 
@@ -324,26 +297,79 @@ def find_artisan_id(artisan_id):
                                                       services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
 
 
-# to be changed
-@app.route('/admin/report/<int:id>', methods=['POST', 'DELETE'])
-# @login_required
-def reports(id):
+@app.route('/services/<int:id>', methods=['POST', 'GET'])
+def get_services(id):
 
-    if request.method == 'DELETE':
-        connection.execute(db.delete(records).where(
-            records.columns.record_id == int(id)))
+    service = request.get_json(force=True)
+    if request.method == 'POST':
+        # adding a service
+        if id == 0:
+            connection.execute(db.insert(services).values([dict(service)]))
+        else:
+            # db query for updating the service
+            pass
 
     if request.method == 'GET':
-        values = connection.execute(db.select([records])).fetchall()
-        return {"Result": str(values)}
+        return {"Result": str(connection.execute(db.select([services])).fetchall())}
 
 
-@app.route('/confirm_order/<int:artisan_id>/<service_type>/<int:customer_id>')
-#@login_requireds
-def confirm_id(artisan_id,service_type, customer_id):
-    records.update().values(customer_id=customer_id,
-     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
+
+
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# def login_requireds(*args, **kwargs):
+
+#     def wrapper(original):
+#         return original()
+
+#     if kwargs == True:
+#         return wrapper
+#     else:
+#         return {"Info":"Login required"}
+
+
+# State = None
+
+
+# admin 🙄🙄😶
+@app.before_request
+def before_request():
+
+    if 'admin' in session:
+        app.config['State_Admin'] = True
+        # print(State)
+    elif 'username' in session:
+        # print(State)
+        app.config['State'] = True
+
+    else:
+        app.config['State'] = None
+
+
+@app.route('/dashboard', methods=['GET'])
+@login_requireds
+def dashboard():
+
+    return {"info": f'the dashboard{session}'}
+
 
 @app.route('/find')
 def find():
-    return {"electrician":[{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}], "plumbers":[{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}],"sellers":[{"name":"Kojo", "age":20, "location":"Happy family"},{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}]}
+    return {"electrician":[{"name":"Kojo", "age":20, "location":"Happy family"},
+                         {"name":"Kofi", "age":20, "location":"Happy family"},
+                         {"name":"Joseph", "age":20, "location":"Happy family"}],
+            "plumbers":[{"name":"Kojo", "age":20, "location":"Happy family"},
+                         {"name":"Kofi", "age":20, "location":"Happy family"},
+                         {"name":"Joseph", "age":20, "location":"Happy family"}],
+            "sellers":[{"name":"Kojo", "age":20, "location":"Happy family"},
+                         {"name":"Kojo", "age":20, "location":"Happy family"},
+                         {"name":"Kofi", "age":20, "location":"Happy family"},
+                         {"name":"Joseph", "age":20, "location":"Happy family"}]}
