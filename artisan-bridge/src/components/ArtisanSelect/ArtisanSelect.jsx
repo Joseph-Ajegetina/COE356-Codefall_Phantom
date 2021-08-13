@@ -98,7 +98,7 @@ const ArtisanSelect = () => {
                 <h4 className="display-12">Name: {artisan.Name}</h4>
               </div>
               <div className="d-block my-4">
-                <h4 className="display-12">Expertise: {artisan.skill} </h4>
+                <h4 className="display-12">Expertise: {artisan.Expertise} </h4>
               </div>
               <div className="d-block">
                 <h4 className="display-12">
