@@ -322,6 +322,7 @@ def find_artisan():
 def find_artisan_id(artisan_id):
 
     query = connection.execute(db.select([artisans.columns.service_id,
+<<<<<<< HEAD
                                           artisans.columns.artisan_id,
                                           artisans.columns.first_name,
                                           artisans.columns.last_name,
@@ -336,6 +337,28 @@ def find_artisan_id(artisan_id):
             "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
             "description": f"{query[0][7]}",
             "Path": f"{query[0][8]}"}
+=======
+                                                    artisans.columns.artisan_id,
+                                                      artisans.columns.first_name,
+                                                      artisans.columns.last_name,
+                                                      artisans.columns.rating,
+                                                      artisans.columns.address,
+                                                      artisans.columns.contact,
+                                                      services.columns.description,
+                                                      artisans.columns.profile_image_path,
+                                                        services.columns.skill
+                                                      ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
+
+
+    return {"service_id":f"{query[0][0]}", "artisan_id":f"{query[0][1]}","Name":f"{query[0][2]} {query[0][3]}",
+                "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
+                "description":f"{query[0][7]}",
+                "Path": f"{query[0][8]}", "Expertise":f"{i[0][9]}"}
+
+
+
+
+>>>>>>> 49cfb4826fd9d6ce522dbf936480cb73cc2ecac4
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------

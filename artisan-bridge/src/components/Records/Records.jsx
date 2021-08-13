@@ -1,5 +1,6 @@
 import "./Records.scss";
 import React, { useEffect, useState } from "react";
+import Message from "../navigationBar/Message";
 
 export default function Records() {
   const [records, setRecords] = useState([]);
@@ -10,7 +11,8 @@ export default function Records() {
   //Fetching the artisan details using the id
   const fetchRecordData = () => {
     fetch(`http://127.0.0.1:5000/report/${localStorage.getItem("user")}`)
-      .then((response) => response.json())
+      .then((response) => { setIsLoading(true) 
+        return response.json()})
       .then((data) => {
         setIsLoading(false);
         const recordList = Object.entries(data);
@@ -27,12 +29,12 @@ export default function Records() {
     fetchRecordData();
   }, [refreshKey]);
 
-  console.log("Records", records);
 
   return (
     <div className="records">
       <div className="container">
-        <div className="jumbotron">
+      {isError ? <Message alertMessage={{message:"An Error occured while fetching customer records", alert:"danger"}}/> : ""}
+      {isLoading ?  <Message alertMessage={{message:"Loading customer records", alert:"info"}}/>:   <div className="jumbotron">
           <div className="record-details">
             <strong> Activity</strong>
             <table class="table">
@@ -90,7 +92,8 @@ export default function Records() {
               </ul>
             </nav>
           </div>
-        </div>
+        </div>}
+      
       </div>
     </div>
   );
