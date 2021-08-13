@@ -309,7 +309,7 @@ def confirm_id(artisan_id, customer_id):
     service = connection.execute(db.select(artisans.columns.service_id).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
     db.insert(records).values(customer_id=customer_id,
-     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_id = service[0][0])
+     artisan_id = artisan_id, date = datetime.datetime.today(), service_id = service[0][0])
 
 
 
@@ -352,7 +352,7 @@ def find_artisan_id(artisan_id):
                                                       artisans.columns.contact,
                                                       services.columns.description,
                                                       artisans.columns.profile_image_path
-                                                      ]).select_from(artisans.join(services, artisans.columns.state == services.columns.name)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
+                                                      ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
 
     return {"service_id":f"{query[0]}", "artisan_id":f"{query[1]}","Name":f"{query[2]} {query[3]}",
