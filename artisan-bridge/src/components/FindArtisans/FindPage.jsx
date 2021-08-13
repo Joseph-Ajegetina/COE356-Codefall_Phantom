@@ -11,7 +11,7 @@ const FindPage = () => {
   const [isError, setIsError] = useState(false);
 
   const fetchArtisansData = () => {
-    fetch("http://127.0.0.1:5000/find")
+    fetch("http://127.0.0.1:5000/find_artisan")
       .then((response) => response.json())
       .then((data) => {
         setIsLoading(false);
@@ -26,15 +26,18 @@ const FindPage = () => {
 
   useEffect(() => {
     fetchArtisansData();
-  },[]);
- 
+  });
+
   return (
     <>
       <Slider />
-      {artisans.map(artisan =>{
-          return <FindPageComponent skill={artisan[0]} data={artisan[1]} />
+      {artisans.map((artisan) => {
+        const skillList = artisan[1];
+        const skill = artisan[0];
+        if (skillList.length != 0) {
+          return <FindPageComponent skill={skill} data={skillList} />;
+        }
       })}
-      
     </>
   );
 };
