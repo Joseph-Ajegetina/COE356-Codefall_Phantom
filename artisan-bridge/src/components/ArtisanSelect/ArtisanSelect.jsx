@@ -1,40 +1,78 @@
 import React, { useEffect, useState } from "react";
 import "./ArtisanSelect.module.css";
-import { useLocation } from "react-router";
+import { useParams } from "react-router";
 import Message from "../navigationBar/Message";
 
 const ArtisanSelect = () => {
+ 
+
+  //State variables that will change
   const [artisan, setArtisan] = useState({});
   const [userId, setUserId] = useState();
   const [request, setRequest] = useState();
   const [showAlert, setShowAlert] = useState();
   const [alertMessage, setAlertMessage] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  const location = useLocation();
+  //getting the artisan id from the parameters
+  const { artisanId } = useParams();
 
+   //Getting the user id
+   setUserId(localStorage.getItem("user"));
+
+
+  //Fetching the artisan details using the id
+  const fetchArtisanData = () => {
+    fetch(`http://127.0.0.1:5000/find_artisan/${artisanId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        setArtisan(data);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setIsError(true);
+      });
+  };
+
+  //useEffect to run once
   useEffect(() => {
-    setArtisan(location.state.artisan);
-    setUserId(localStorage.getItem("user"));
+    fetchArtisanData();
+  
   });
 
   //request handelr
   const requestHandler = () => {
-    //setting request to true indicating service request
-    setRequest(true);
+    //sending data to the backend
+    fetch(`http://127.0.0.1:5000/${artisanId}/${userId}`, {
+      method: "POST",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response;
+        }
+      })
+      .then((data) => {
+        if (data) {
+          //setting request to true indicating service request
+          setRequest(true);
 
-    //sending alert message
-    setAlertMessage({
-      message: `${artisan.first_name} has been requested`,
-      alert: "success",
-    });
+          //sending alert message
+          setAlertMessage({
+            message: `${artisan.first_name} has been requested`,
+            alert: "success",
+          });
 
-    //displaying alert
-    setShowAlert(true);
+          //displaying alert
+          setShowAlert(true);
 
-    //timeout for alert to disappear after 3 seconds
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 3000);
+          //timeout for alert to disappear after 3 seconds
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
+        }
+      });
   };
   return (
     <>

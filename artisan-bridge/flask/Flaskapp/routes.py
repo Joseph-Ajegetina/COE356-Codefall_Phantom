@@ -42,7 +42,7 @@ def login():
 
         customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
-        print(customer_id)
+
     
         if user:
             password = connection.execute(db.select([customers.columns.password]).where(
@@ -309,7 +309,7 @@ def confirm_id(artisan_id, customer_id):
     service = connection.execute(db.select(artisans.columns.service_id).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
     db.insert(records).values(customer_id=customer_id,
-     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_id = service[0][0])
+     artisan_id = artisan_id, date = datetime.today().split()[0], service_id = service[0][0])
 
 
 

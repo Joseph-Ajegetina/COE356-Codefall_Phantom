@@ -17,7 +17,6 @@ export default function Home(props) {
   const history = useHistory();
   const { url } = useRouteMatch();
 
-
   const fetchTopRatedArtisansData = () => {
     fetch("http://127.0.0.1:5000/top_rated_artisans")
       .then((response) => response.json())
@@ -56,7 +55,7 @@ export default function Home(props) {
     <>
       {showAlert ? <Message alertMessage={alertMessage} /> : ""}
       <div className="imageSlider" id="imageSlider">
-        <Slider/>
+        <Slider />
         <h4>Popular Services</h4>
         <div className="service-home">
           <PopularServices

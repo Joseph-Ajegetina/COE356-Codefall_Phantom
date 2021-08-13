@@ -232,7 +232,7 @@ getdescription9(dess9)
               <Footer />
             </div>
           </Route>
-          <Route path="/artisan/:id" component={ArtisanSelect}>
+          <Route path="/artisan/:artisanId" component={ArtisanSelect}>
             <Navigation />
             <div className="sections">
               <ArtisanSelect />
