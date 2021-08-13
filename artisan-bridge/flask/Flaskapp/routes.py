@@ -236,6 +236,18 @@ def popularServices():
     for num, i in enumerate(query):
         result[str(num)] = {"service": f"{i[1]}",
                             "Description": f"{i[2]}", "image": f"{i[3]}"}
+                        
+
+    return result
+
+@app.route('/service')
+def Services():
+    query = connection.execute(db.select([services])).fetchall()
+    result = {}
+
+    for num, i in enumerate(query):
+        result[str(num)] = {"service": f"{i[1]}",
+                            "Description": f"{i[2]}", "image": f"{i[3]}"}
 
     return result
 
