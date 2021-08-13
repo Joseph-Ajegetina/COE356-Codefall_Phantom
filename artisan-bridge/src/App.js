@@ -8,6 +8,7 @@ import Signup from "./components/Sign up/Sign up.jsx";
 import Service from "./components/Service/Service";
 import Artisan from "./components/Artisan/Artisan.jsx";
 import Records from "./components/Records/Records.jsx";
+import AdminPanel from "./components/AdminPanel/AdminPanel.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import {  useEffect, useState } from "react";
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
@@ -15,6 +16,7 @@ import AddArtisans from "./components/AdminPanel/pages/AddArtisans/AddArtisans.j
 import Services from "./components/AdminPanel/pages/services/services"
 import Logout from "./components/Logout/Logout";
 import RecordRoute from "./components/PrivateRoute/RecordRoute.jsx";
+import SideBar from "./components/AdminPanelSideBar/sideBar.jsx";
 import AdminRoute from "./components/PrivateRoute/AdminRoute"
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
 import Admin_register from "./components/admin_register/Admin_register.jsx";
