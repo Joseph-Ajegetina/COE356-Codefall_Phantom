@@ -10,11 +10,7 @@ from Flaskapp.decos import admin_login_required, login_requireds
 from datetime import datetime
 
 
-
-
-
-
-#--------------------------------------------------------------- LOGIN --------------------------------------------------------------------
+# --------------------------------------------------------------- LOGIN --------------------------------------------------------------------
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -43,7 +39,6 @@ def login():
         customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
 
-    
         if user:
             password = connection.execute(db.select([customers.columns.password]).where(
                 customers.columns.customer_username == form.customer_username.data)).fetchall()
@@ -60,7 +55,7 @@ def login():
                 return_info["alert"] = "success"
                 return_info["message"] = "Successfully logged in"
                 return_info["type"] = "customer"
-                return_info["user"]=str(customer_id)
+                return_info["user"] = str(customer_id)
 
                 return return_info
 
@@ -99,12 +94,7 @@ def login():
             return return_info
 
 
-
-
-
-
-
-#----------------------------------------------------------------- SIGN UP ----------------------------------------------------------
+# ----------------------------------------------------------------- SIGN UP ----------------------------------------------------------
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -130,14 +120,7 @@ def register():
                 return Response(status=500)
 
 
-
-
-
-
-
-
-
-#------------------------------------------------------- ADMINISTRATOR -------------------------------------------------------
+# ------------------------------------------------------- ADMINISTRATOR -------------------------------------------------------
 
 @app.route('/register/admin', methods=['GET', 'POST'])
 def Admin_register():
@@ -165,10 +148,9 @@ def Admin_register():
     return {"Page": "Sign Up"}  # return to dashboard route
 
 
-
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
-    
+
     return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
 
 
@@ -234,12 +216,7 @@ def get_admin_services(id):
         return {"Result": str(connection.execute(db.select([services])).fetchall())}
 
 
-
-
-
-
-
-#-------------------------------------------------------------- VIEWS -----------------------------------------------------------------
+# -------------------------------------------------------------- VIEWS -----------------------------------------------------------------
 
 @app.route('/top_rated_artisans')
 def popular_artisans():
@@ -263,14 +240,7 @@ def popularServices():
     return result
 
 
-
-
-
-
-
-
-
-#-------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
+# -------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_requireds
@@ -281,8 +251,6 @@ def logout():
     # session.pop('username', None)
 
     return {"info": 'back to login route'}
-
-
 
 
 @app.route('/delete_account', methods=['DELETE'])
@@ -304,65 +272,57 @@ def report(customer_id):
 
 
 @app.route('/confirm_order/<int:artisan_id>/<int:customer_id>')
-#@login_requireds
+# @login_requireds
 def confirm_id(artisan_id, customer_id):
-    service = connection.execute(db.select(artisans.columns.service_id).where(artisans.columns.artisan_id == artisan_id)).fetchall()
+    service = connection.execute(db.select(artisans.columns.service_id).where(
+        artisans.columns.artisan_id == artisan_id)).fetchall()
 
     db.insert(records).values(customer_id=customer_id,
-     artisan_id = artisan_id, date = datetime.today().split()[0], service_id = service[0][0])
+                              artisan_id=artisan_id, date=datetime.datetime.today(), service_id=service[0][0])
 
 
+# -------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
 
-
-
-
-
-
-
-#-------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
-
-@app.route('/find_artisan') 
+@app.route('/find_artisan')
 # @login_required
 def find_artisan():
 
-    query = connection.execute(db.select([services.columns.service_id,services.columns.skill])).fetchall()
+    query = connection.execute(
+        db.select([services.columns.service_id, services.columns.skill])).fetchall()
 
     result = {}
     for i in query:
-        artisan_group = connection.execute(db.select([artisans.columns.artisan_id ,artisans.columns.first_name, 
-     artisans.columns.address, 
-     artisans.columns.rating,
-     artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
-        
-        artisan_group_list = [{"id":f"{i[0]}","Name":f"{i[1]}", "Address": f"{i[2]}", "rating":f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
+        artisan_group = connection.execute(db.select([artisans.columns.artisan_id, artisans.columns.first_name,
+                                                      artisans.columns.address,
+                                                      artisans.columns.rating,
+                                                      artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
+
+        artisan_group_list = [{"id": f"{i[0]}", "Name": f"{i[1]}", "Address": f"{i[2]}",
+                               "rating": f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
         result[i[1]] = artisan_group_list
 
     return result
+
 
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
 def find_artisan_id(artisan_id):
 
     query = connection.execute(db.select([artisans.columns.service_id,
-                                                    artisans.columns.artisan_id,
-                                                      artisans.columns.first_name,
-                                                      artisans.columns.last_name,
-                                                      artisans.columns.rating,
-                                                      artisans.columns.address,
-                                                      artisans.columns.contact,
-                                                      services.columns.description,
-                                                      artisans.columns.profile_image_path
-                                                      ]).select_from(artisans.join(services, artisans.columns.state == services.columns.name)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
+                                          artisans.columns.artisan_id,
+                                          artisans.columns.first_name,
+                                          artisans.columns.last_name,
+                                          artisans.columns.rating,
+                                          artisans.columns.address,
+                                          artisans.columns.contact,
+                                          services.columns.description,
+                                          artisans.columns.profile_image_path
+                                          ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
-
-    return {"service_id":f"{query[0]}", "artisan_id":f"{query[1]}","Name":f"{query[2]} {query[3]}",
-                "rating": f"{query[4]}", "Address": f"{query[5]}", "contact": f"{query[6]}",
-                "description":f"{query[7]}",
-                "Path": f"{query[8]}"}
-
-
-
-
+    return {"service_id": f"{query[0]}", "artisan_id": f"{query[1]}", "Name": f"{query[2]} {query[3]}",
+            "rating": f"{query[4]}", "Address": f"{query[5]}", "contact": f"{query[6]}",
+            "description": f"{query[7]}",
+            "Path": f"{query[8]}"}
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
@@ -409,13 +369,13 @@ def dashboard():
 
 @app.route('/find')
 def find():
-    return {"electrician":[{"name":"Kojo", "age":20, "location":"Happy family"},
-                         {"name":"Kofi", "age":20, "location":"Happy family"},
-                         {"name":"Joseph", "age":20, "location":"Happy family"}],
-            "plumbers":[{"name":"Kojo", "age":20, "location":"Happy family"},
-                         {"name":"Kofi", "age":20, "location":"Happy family"},
-                         {"name":"Joseph", "age":20, "location":"Happy family"}],
-            "sellers":[{"name":"Kojo", "age":20, "location":"Happy family"},
-                         {"name":"Kojo", "age":20, "location":"Happy family"},
-                         {"name":"Kofi", "age":20, "location":"Happy family"},
-                         {"name":"Joseph", "age":20, "location":"Happy family"}]}
+    return {"electrician": [{"name": "Kojo", "age": 20, "location": "Happy family"},
+                            {"name": "Kofi", "age": 20, "location": "Happy family"},
+                            {"name": "Joseph", "age": 20, "location": "Happy family"}],
+            "plumbers": [{"name": "Kojo", "age": 20, "location": "Happy family"},
+                         {"name": "Kofi", "age": 20, "location": "Happy family"},
+                         {"name": "Joseph", "age": 20, "location": "Happy family"}],
+            "sellers": [{"name": "Kojo", "age": 20, "location": "Happy family"},
+                        {"name": "Kojo", "age": 20, "location": "Happy family"},
+                        {"name": "Kofi", "age": 20, "location": "Happy family"},
+                        {"name": "Joseph", "age": 20, "location": "Happy family"}]}
