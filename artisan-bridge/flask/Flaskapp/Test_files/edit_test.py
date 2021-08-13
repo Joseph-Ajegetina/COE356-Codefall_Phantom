@@ -21,11 +21,17 @@
 # # print(out)
 
 
-query = [('aim', 'app'), ('correct', 'score')]
-result = {}
+# query = [('aim', 'app'), ('correct', 'score')]
+# result = {}
 
-for num, i in enumerate(query):
-    result[str(num)] = {"Service":f"{i[0]}", "Description": f"{i[1]}"}
-    # result[str(num)]['Description'] = i[1]
+# for num, i in enumerate(query):
+#     result[str(num)] = {"Service":f"{i[0]}", "Description": f"{i[1]}"}
+#     # result[str(num)]['Description'] = i[1]
 
-print(result)
+# print(result)
+
+
+
+import datetime
+
+print(str(datetime.datetime.today()))

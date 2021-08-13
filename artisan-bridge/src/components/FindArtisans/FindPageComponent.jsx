@@ -13,7 +13,7 @@ const FindPageComponent = ({ skill, data }) => {
                 <div className="artisan-wrapper-center">
                   <Link
                     to={{
-                      pathname: `/artisan/${artisan.artisan_id}`,
+                      pathname: `/artisan/${artisan.id}`,
                       state: { artisan: artisan },
                     }}
                     className="wrapper-link"
@@ -21,16 +21,16 @@ const FindPageComponent = ({ skill, data }) => {
                     <div className="artisan-wrapper">
                       <div>
                         <img
-                          src={artisan.profile_image_path}
+                          src={artisan.Path}
                           alt=""
                           className="artisan-img img-fluid"
                         />
                       </div>
                       <div className="artisan-elipse">
                         <div className="description">
-                          {/* <img src={skillimage} alt="" className="rating-img" /> */}
+                          <img src="/images/location.png" alt="" className="rating-img" />
                           <span className="skill display-12">
-                            Service:{artisan.skill}
+                            Location:{artisan.Address}
                           </span>
                         </div>
                       </div>
