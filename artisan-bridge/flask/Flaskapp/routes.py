@@ -1,6 +1,6 @@
 from os import error
 from flask import request, session, Response
-from flask_login.utils import login_required, login_user, logout_user
+# from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
 from Flaskapp import connection, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
@@ -254,21 +254,32 @@ def logout():
 
 
 @app.route('/delete_account', methods=['DELETE'])
-@login_required
+# @login_required
 def delete_account():
     print(session['username'])
     # logout()
     # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
 
 # To be worked on
-@app.route('/report/<int:customer_id>')
+@app.route('/report/<int:customer_Id>')
 # @login_required
-def report(customer_id):
-    return(connection.execute(db.select([records.columns.record_id,
-                                         records.columns.artisan_id,
-                                         records.columns.service_id,
-                                         records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
-    # query to return last 10 transactions of that user
+def report(customer_Id):
+    # query = connection.execute(db.select([records.columns.record_id,
+    #                 artisans.columns.first_name,
+    #                 artisans.columns.last_name,
+    #                 services.columns.skill,
+    #                 records.columns.date]).select_from(records.join(services,
+    #                 records.columns.service_id == services.columns.service_id )).select_from(records.join(artisans,
+    #                 records.columns.artisan_id == artisans.columns.artisan_id)).where(records.columns.customer_id == customer_Id).order_by(db.desc(records.columns.date)))
+
+    query = connection.execute("SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = 1000 ORDER BY r1.date DESC ").fetchall()
+
+    result = {}
+    for i in query:
+        result[str(i[0])] = {"Artisan_name": f"{i[1]} {i[2]}",
+                             "Skill": f"{i[3]}", "Date": f"{i[4]}"}
+
+    return result
 
 
 @app.route('/confirm_order/<int:artisan_id>/<int:customer_id>')
@@ -277,8 +288,10 @@ def confirm_id(artisan_id, customer_id):
     service = connection.execute(db.select(artisans.columns.service_id).where(
         artisans.columns.artisan_id == artisan_id)).fetchall()
 
-    db.insert(records).values(customer_id=customer_id,
-                              artisan_id=artisan_id, date=datetime.datetime.today(), service_id=service[0][0])
+    connection.execute(db.insert(records).values(customer_id=customer_id,
+                                                 artisan_id=artisan_id, service_id=service[0][0]))
+
+    return {"info": 1}
 
 
 # -------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------

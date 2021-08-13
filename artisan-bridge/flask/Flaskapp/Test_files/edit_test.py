@@ -34,4 +34,4 @@
 
 import datetime
 
-print(datetime.datetime.today())
+print(str(datetime.datetime.today()))
