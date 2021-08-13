@@ -1,52 +1,93 @@
 import React, { useEffect, useState } from "react";
 import "./ArtisanSelect.module.css";
-import { useLocation } from "react-router";
+import { useParams } from "react-router";
 import Message from "../navigationBar/Message";
 
 const ArtisanSelect = () => {
+ 
+
+  //State variables that will change
   const [artisan, setArtisan] = useState({});
   const [userId, setUserId] = useState();
   const [request, setRequest] = useState();
   const [showAlert, setShowAlert] = useState();
   const [alertMessage, setAlertMessage] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  const location = useLocation();
+  //getting the artisan id from the parameters
+  const { artisanId } = useParams();
 
+  useEffect(() =>{
+     //Getting the user id
+   setUserId(localStorage.getItem("user"));
+  },[])
+  
+
+
+  //Fetching the artisan details using the id
+  const fetchArtisanData = () => {
+    fetch(`http://127.0.0.1:5000/find_artisan/${artisanId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        setArtisan(data);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setIsError(true);
+      });
+  };
+
+  //useEffect to run once
   useEffect(() => {
-    setArtisan(location.state.artisan);
-    setUserId(localStorage.getItem("user"));
-  });
+    fetchArtisanData();
+  
+  }, [refreshKey]);
 
   //request handelr
   const requestHandler = () => {
-    //setting request to true indicating service request
-    setRequest(true);
+    //sending data to the backend
+    fetch(`http://127.0.0.1:5000/confirm_order/${artisanId}/${userId}`)
+      .then((response) => {
+        if (response.ok) {
+          return response;
+        }
+      })
+      .then((data) => {
+        if (data) {
+          //setting request to true indicating service request
+          setRequest(true);
 
-    //sending alert message
-    setAlertMessage({
-      message: `${artisan.first_name} has been requested`,
-      alert: "success",
-    });
+          //sending alert message
+          setAlertMessage({
+            message: `${artisan.Name} has been requested`,
+            alert: "success",
+          });
 
-    //displaying alert
-    setShowAlert(true);
+          //displaying alert
+          setShowAlert(true);
 
-    //timeout for alert to disappear after 3 seconds
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 3000);
+          //timeout for alert to disappear after 3 seconds
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
+        }
+      });
   };
   return (
     <>
       {showAlert ? <Message alertMessage={alertMessage} /> : ""}
-      <div className="container" style={{ background: "#c4c4c4" }}>
+      {isError ? <Message alertMessage={{message:"An Error occured while fetching artisan data", alert:"danger"}}/> : ""}
+      {isLoading ?  <Message alertMessage={{message:"Loading artisan data", alert:"info"}}/>: <div className="container" style={{ background: "#c4c4c4" }}>
         <div className="row ">
           <div class="col-sm-6 col-md-5 my-auto">
             <div className="container-fluid">
               <div className="row pt-3">
                 <img
                   className="artisan-select-img"
-                  src={`/${artisan.profile_image_path}`}
+                  src={`/${artisan.Path}`}
                   alt=""
                   class="rounded-circle img-fluid"
                 />
@@ -54,10 +95,10 @@ const ArtisanSelect = () => {
             </div>
             <div className="row mt-4">
               <div className="d-block">
-                <h4 className="display-12">Name: {artisan.first_name}</h4>
+                <h4 className="display-12">Name: {artisan.Name}</h4>
               </div>
               <div className="d-block my-4">
-                <h4 className="display-12">Expertise: {artisan.skill} </h4>
+                <h4 className="display-12">Expertise: {artisan.Expertise} </h4>
               </div>
               <div className="d-block">
                 <h4 className="display-12">
@@ -80,7 +121,7 @@ const ArtisanSelect = () => {
                 <h4 className="display-12 ">Location</h4>
 
                 <div className=" ml-auto my-auto">
-                  <p className="lead">{artisan.address}</p>
+                  <p className="lead">{artisan.Address}</p>
                 </div>
               </div>
             </div>
@@ -94,7 +135,7 @@ const ArtisanSelect = () => {
                 <h4 className="display-12 ">Core Services</h4>
 
                 <div className="ml-auto my-auto ">
-                  <p className="lead">{artisan.skill}</p>
+                  <p className="lead">{artisan.description}</p>
                 </div>
               </div>
             </div>
@@ -124,7 +165,7 @@ const ArtisanSelect = () => {
 
                   <div className=" ml-auto my-auto ">
                     <p className="lead">
-                      Reach out to the {artisan.first_name} on {artisan.contact}
+                      Reach out to the {artisan.Name} on {artisan.contact}
                     </p>
                   </div>
                 </div>
@@ -154,7 +195,7 @@ const ArtisanSelect = () => {
                   </button>
                 </div>
                 <div class="modal-body">
-                  Request {artisan.first_name} services ?
+                  Request {artisan.Name} services ?
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-danger" data-dismiss="modal">
@@ -172,7 +213,8 @@ const ArtisanSelect = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> }
+     
     </>
   );
 };

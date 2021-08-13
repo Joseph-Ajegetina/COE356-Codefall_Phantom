@@ -1,6 +1,6 @@
 from os import error
 from flask import request, session, Response
-from flask_login.utils import login_required, login_user, logout_user
+# from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
 from Flaskapp import connection, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
@@ -10,44 +10,8 @@ from Flaskapp.decos import admin_login_required, login_requireds
 from datetime import datetime
 
 
-# def login_requireds(*args, **kwargs):
+# --------------------------------------------------------------- LOGIN --------------------------------------------------------------------
 
-#     def wrapper(original):
-#         return original()
-
-#     if kwargs == True:
-#         return wrapper
-#     else:
-#         return {"Info":"Login required"}
-
-
-# State = None
-
-
-# admin 🙄🙄😶
-@app.before_request
-def before_request():
-
-    if 'admin' in session:
-        app.config['State_Admin'] = True
-        # print(State)
-    elif 'username' in session:
-        # print(State)
-        app.config['State'] = True
-
-    else:
-        app.config['State'] = None
-
-
-@app.route('/dashboard', methods=['GET'])
-@login_requireds
-def dashboard():
-
-    return {"info": f'the dashboard{session}'}
-
-
-# Login form, validation and session to be added
-# ----------------------------------------------------------------------------------------------------
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -74,8 +38,7 @@ def login():
 
         customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
-        print(customer_id)
-    
+
         if user:
             password = connection.execute(db.select([customers.columns.password]).where(
                 customers.columns.customer_username == form.customer_username.data)).fetchall()
@@ -92,7 +55,7 @@ def login():
                 return_info["alert"] = "success"
                 return_info["message"] = "Successfully logged in"
                 return_info["type"] = "customer"
-                return_info["user"]=str(customer_id)
+                return_info["user"] = str(customer_id)
 
                 return return_info
 
@@ -131,16 +94,7 @@ def login():
             return return_info
 
 
-@app.route('/logout', methods=['GET', 'POST'])
-@login_requireds
-def logout():
-
-    # session.pop('loggedin', None)
-    # # id
-    # session.pop('username', None)
-
-    return {"info": 'back to login route'}
-
+# ----------------------------------------------------------------- SIGN UP ----------------------------------------------------------
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -166,18 +120,7 @@ def register():
                 return Response(status=500)
 
 
-@app.route('/delete_account', methods=['DELETE'])
-@login_required
-def delete_account():
-    print(session['username'])
-    # logout()
-    # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
-
-
-# admin routes ------------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------------------------
-
+# ------------------------------------------------------- ADMINISTRATOR -------------------------------------------------------
 
 @app.route('/register/admin', methods=['GET', 'POST'])
 def Admin_register():
@@ -205,11 +148,9 @@ def Admin_register():
     return {"Page": "Sign Up"}  # return to dashboard route
 
 
-# -----------------------------------------
-
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
-    
+
     return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
 
 
@@ -245,10 +186,41 @@ def edit_table(id, table):
             return {"Info": "Artisan does not exist, Done"}
 
 
+# to be changed
+@app.route('/admin/report/<int:id>', methods=['POST', 'DELETE'])
+# @login_required
+def reports(id):
+
+    if request.method == 'DELETE':
+        connection.execute(db.delete(records).where(
+            records.columns.record_id == int(id)))
+
+    if request.method == 'GET':
+        values = connection.execute(db.select([records])).fetchall()
+        return {"Result": str(values)}
+
+
+@app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
+def get_admin_services(id):
+
+    service = request.get_json(force=True)
+    if request.method == 'POST':
+        # adding a service
+        if id == 0:
+            connection.execute(db.insert(services).values([dict(service)]))
+        else:
+            # db query for updating the service
+            pass
+
+    if request.method == 'GET':
+        return {"Result": str(connection.execute(db.select([services])).fetchall())}
+
+
+# -------------------------------------------------------------- VIEWS -----------------------------------------------------------------
+
 @app.route('/top_rated_artisans')
 def popular_artisans():
     # select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
-    # select * from top rated artisans
     top_rated_artisans_list = connection.execute(
         db.select([top_rated_artisans])).fetchall()
     return_items = [{**row} for row in top_rated_artisans_list]
@@ -268,80 +240,161 @@ def popularServices():
     return result
 
 
-@app.route('/services/<int:id>', methods=['POST', 'GET'])
-def get_services(id):
+# -------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
 
-    service = request.get_json(force=True)
-    if request.method == 'POST':
-        # adding a service
-        if id == 0:
-            connection.execute(db.insert(services).values([dict(service)]))
-        else:
-            # db query for updating the service
-            pass
+@app.route('/logout', methods=['GET', 'POST'])
+@login_requireds
+def logout():
 
-    if request.method == 'GET':
-        return {"Result": str(connection.execute(db.select([services])).fetchall())}
+    # session.pop('loggedin', None)
+    # # id
+    # session.pop('username', None)
+
+    return {"info": 'back to login route'}
 
 
-@app.route('/report/<int:customer_id>')
+@app.route('/delete_account', methods=['DELETE'])
 # @login_required
-def report(customer_id):
-    return(connection.execute(db.select([records.columns.record_id,
-                                         records.columns.artisan_id,
-                                         records.columns.service_id,
-                                         records.columns.date]).where(records.columns.customer_id == customer_id).order_by(db.desc(records.columns.date))))
-    # query to return last 10 transactions of that user
+def delete_account():
+    print(session['username'])
+    # logout()
+    # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
 
-
-@app.route('/find_artisan') 
+# To be worked on
+@app.route('/report/<int:customer_Id>')
 # @login_required
-def find_artisan():
+def report(customer_Id):
+    # query = connection.execute(db.select([records.columns.record_id,
+    #                 artisans.columns.first_name,
+    #                 artisans.columns.last_name,
+    #                 services.columns.skill,
+    #                 records.columns.date]).select_from(records.join(services,
+    #                 records.columns.service_id == services.columns.service_id )).select_from(records.join(artisans,
+    #                 records.columns.artisan_id == artisans.columns.artisan_id)).where(records.columns.customer_id == customer_Id).order_by(db.desc(records.columns.date)))
 
-    query = connection.execute(db.select([services.columns.service_id,services.columns.service_type])).fetchall()
+    query = connection.execute("SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = 1000 ORDER BY r1.date DESC ").fetchall()
 
     result = {}
     for i in query:
-        artisan_group = connection.execute(db.select([artisans.columns.name,
-     artisans.columns.address, 
-     artisans.columns.rating]).where(artisans.columns.service_id == i[0])).fetchall()
-        result[i[1]] = f"{artisan_group}"
+        result[str(i[0])] = {"Artisan_name": f"{i[1]} {i[2]}",
+                             "Skill": f"{i[3]}", "Date": f"{i[4]}"}
 
     return result
+
+
+@app.route('/confirm_order/<int:artisan_id>/<int:customer_id>')
+# @login_requireds
+def confirm_id(artisan_id, customer_id):
+    service = connection.execute(db.select(artisans.columns.service_id).where(
+        artisans.columns.artisan_id == artisan_id)).fetchall()
+
+    connection.execute(db.insert(records).values(customer_id=customer_id,
+                                                 artisan_id=artisan_id, service_id=service[0][0]))
+
+    return {"info": 1}
+
+
+# -------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
+
+@app.route('/find_artisan')
+# @login_required
+def find_artisan():
+
+    query = connection.execute(
+        db.select([services.columns.service_id, services.columns.skill])).fetchall()
+
+    result = {}
+    for i in query:
+        artisan_group = connection.execute(db.select([artisans.columns.artisan_id, artisans.columns.first_name,
+                                                      artisans.columns.address,
+                                                      artisans.columns.rating,
+                                                      artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
+
+        artisan_group_list = [{"id": f"{i[0]}", "Name": f"{i[1]}", "Address": f"{i[2]}",
+                               "rating": f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
+        result[i[1]] = artisan_group_list
+
+    return result
+
 
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
 def find_artisan_id(artisan_id):
-    # to be edited-----------------------------------------
-    return {"DATA": str(connection.execute(db.select([services.columns.service_id,
+
+    query = connection.execute(db.select([artisans.columns.service_id,
+                                                    artisans.columns.artisan_id,
                                                       artisans.columns.first_name,
                                                       artisans.columns.last_name,
                                                       artisans.columns.rating,
                                                       artisans.columns.address,
                                                       artisans.columns.contact,
-                                                      services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
+                                                      services.columns.description,
+                                                      artisans.columns.profile_image_path,
+                                                        services.columns.skill
+                                                      ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
 
-# to be changed
-@app.route('/admin/report/<int:id>', methods=['POST', 'DELETE'])
-# @login_required
-def reports(id):
-
-    if request.method == 'DELETE':
-        connection.execute(db.delete(records).where(
-            records.columns.record_id == int(id)))
-
-    if request.method == 'GET':
-        values = connection.execute(db.select([records])).fetchall()
-        return {"Result": str(values)}
+    return {"service_id":f"{query[0][0]}", "artisan_id":f"{query[0][1]}","Name":f"{query[0][2]} {query[0][3]}",
+                "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
+                "description":f"{query[0][7]}",
+                "Path": f"{query[0][8]}", "Expertise":f"{query[0][9]}"}
 
 
-@app.route('/confirm_order/<int:artisan_id>/<service_type>/<int:customer_id>')
-#@login_requireds
-def confirm_id(artisan_id,service_type, customer_id):
-    records.update().values(customer_id=customer_id,
-     artisan_id = artisan_id, date = datetime.datetime.today().split()[0], service_type = service_type)
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# def login_requireds(*args, **kwargs):
+
+#     def wrapper(original):
+#         return original()
+
+#     if kwargs == True:
+#         return wrapper
+#     else:
+#         return {"Info":"Login required"}
+
+
+# State = None
+
+
+# admin 🙄🙄😶
+@app.before_request
+def before_request():
+
+    if 'admin' in session:
+        app.config['State_Admin'] = True
+        # print(State)
+    elif 'username' in session:
+        # print(State)
+        app.config['State'] = True
+
+    else:
+        app.config['State'] = None
+
+
+@app.route('/dashboard', methods=['GET'])
+@login_requireds
+def dashboard():
+
+    return {"info": f'the dashboard{session}'}
+
 
 @app.route('/find')
 def find():
-    return {"electrician":[{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}], "plumbers":[{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}],"sellers":[{"name":"Kojo", "age":20, "location":"Happy family"},{"name":"Kojo", "age":20, "location":"Happy family"}, {"name":"Kofi", "age":20, "location":"Happy family"}, {"name":"Joseph", "age":20, "location":"Happy family"}]}
+    return {"electrician": [{"name": "Kojo", "age": 20, "location": "Happy family"},
+                            {"name": "Kofi", "age": 20, "location": "Happy family"},
+                            {"name": "Joseph", "age": 20, "location": "Happy family"}],
+            "plumbers": [{"name": "Kojo", "age": 20, "location": "Happy family"},
+                         {"name": "Kofi", "age": 20, "location": "Happy family"},
+                         {"name": "Joseph", "age": 20, "location": "Happy family"}],
+            "sellers": [{"name": "Kojo", "age": 20, "location": "Happy family"},
+                        {"name": "Kojo", "age": 20, "location": "Happy family"},
+                        {"name": "Kofi", "age": 20, "location": "Happy family"},
+                        {"name": "Joseph", "age": 20, "location": "Happy family"}]}

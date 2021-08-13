@@ -4,7 +4,6 @@ import {Redirect, Route, useLocation} from 'react-router-dom'
 const PrivateRoute = ({component:Component}) =>{
     const location = useLocation();
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    console.log(isLoggedIn, "isLoggedIn")
 
     return (
     <Route>
