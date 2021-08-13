@@ -25,6 +25,7 @@ import NewArtisan from "./components/AdminPanel/pages/NewArtisan/NewArtisan.jsx"
 import ServiceUpdate from "./components/AdminPanel/pages/ServiceUpdate/ServiceUpdate.jsx"
 import NewService from "./components/AdminPanel/pages/NewService/NewService.jsx"
 import axios from "axios";
+import FindArtisan from "./components/FindArtisans/FindArtisan.jsx";
 
 function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
@@ -207,6 +208,9 @@ getdescription9(dess9)
           </Route>
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />
+          </Route>
+          <Route path="/find">
+            <FindArtisan/>
           </Route>
           <Route path="/signup">
             <Signup Sign_up={Sign_up} />
