@@ -334,7 +334,7 @@ def find_artisan():
      artisans.columns.rating,
      artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
         
-        artisan_group_list = [{"id":f"{i[0]}","Name":f"{i[1]}", "Address": f"{i[2]}", "Location":f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
+        artisan_group_list = [{"id":f"{i[0]}","Name":f"{i[1]}", "Address": f"{i[2]}", "rating":f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
         result[i[1]] = artisan_group_list
 
     return result
@@ -342,14 +342,23 @@ def find_artisan():
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
 def find_artisan_id(artisan_id):
-    # to be edited-----------------------------------------
-    return {"Data": str(connection.execute(db.select([services.columns.service_id,
+
+    query = connection.execute(db.select([artisans.columns.service_id,
+                                                    artisans.columns.artisan_id,
                                                       artisans.columns.first_name,
                                                       artisans.columns.last_name,
                                                       artisans.columns.rating,
                                                       artisans.columns.address,
                                                       artisans.columns.contact,
-                                                      services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
+                                                      services.columns.description,
+                                                      artisans.columns.profile_image_path
+                                                      ]).select_from(artisans.join(services, artisans.columns.state == services.columns.name)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
+
+
+    return {"service_id":f"{query[0]}", "artisan_id":f"{query[1]}","Name":f"{query[2]} {query[3]}",
+                "rating": f"{query[4]}", "Address": f"{query[5]}", "contact": f"{query[6]}",
+                "description":f"{query[7]}",
+                "Path": f"{query[8]}"}
 
 
 
