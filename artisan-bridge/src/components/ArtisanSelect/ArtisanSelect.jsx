@@ -18,8 +18,11 @@ const ArtisanSelect = () => {
   //getting the artisan id from the parameters
   const { artisanId } = useParams();
 
-   //Getting the user id
+  useEffect(() =>{
+     //Getting the user id
    setUserId(localStorage.getItem("user"));
+  },[])
+  
 
 
   //Fetching the artisan details using the id

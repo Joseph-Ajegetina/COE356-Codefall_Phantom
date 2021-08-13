@@ -1,7 +1,34 @@
-import React from "react";
 import "./Records.scss";
+import React, { useEffect, useState } from "react";
 
 export default function Records() {
+  const [records, setRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  //Fetching the artisan details using the id
+  const fetchRecordData = () => {
+    fetch(`http://127.0.0.1:5000/report/${localStorage.getItem("user")}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        const recordList = Object.entries(data);
+        setRecords(recordList);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setIsError(true);
+      });
+  };
+
+  //useEffect to run once
+  useEffect(() => {
+    fetchRecordData();
+  }, [refreshKey]);
+
+  console.log("Records", records);
+
   return (
     <div className="records">
       <div className="container">
@@ -18,24 +45,18 @@ export default function Records() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>20th June, 2021</td>
-                  <td>Electrician</td>
-                  <td>Kweku Manu</td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>20th June, 2021</td>
-                  <td>Electrician</td>
-                  <td>Kweku Manu</td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>20th June, 2021</td>
-                  <td>Electrician</td>
-                  <td>Kweku Manu</td>
-                </tr>
+                {records.map((record) => {
+                  const num =
+                    parseInt(record[0].substr(record[0].length - 1)) + 1;
+                  return (
+                    <tr>
+                      <th scope="row">{num}</th>
+                      <td>{record[1].Artisan_name}</td>
+                      <td>{record[1].Skill}</td>
+                      <td>{record[1].Date}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
 
