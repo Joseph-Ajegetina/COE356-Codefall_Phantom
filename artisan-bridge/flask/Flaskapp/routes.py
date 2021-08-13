@@ -10,6 +10,10 @@ from Flaskapp.decos import admin_login_required, login_requireds
 from datetime import datetime
 
 
+
+
+
+
 #--------------------------------------------------------------- LOGIN --------------------------------------------------------------------
 
 
@@ -95,6 +99,11 @@ def login():
             return return_info
 
 
+
+
+
+
+
 #----------------------------------------------------------------- SIGN UP ----------------------------------------------------------
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -119,6 +128,12 @@ def register():
                 return {"message": f"Account successfully created for {request_react.get('customer_username')}", "alert": "success", "passed": True}
             except(error):
                 return Response(status=500)
+
+
+
+
+
+
 
 
 
@@ -203,6 +218,27 @@ def reports(id):
         return {"Result": str(values)}
 
 
+@app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
+def get_admin_services(id):
+
+    service = request.get_json(force=True)
+    if request.method == 'POST':
+        # adding a service
+        if id == 0:
+            connection.execute(db.insert(services).values([dict(service)]))
+        else:
+            # db query for updating the service
+            pass
+
+    if request.method == 'GET':
+        return {"Result": str(connection.execute(db.select([services])).fetchall())}
+
+
+
+
+
+
+
 #-------------------------------------------------------------- VIEWS -----------------------------------------------------------------
 
 @app.route('/top_rated_artisans')
@@ -225,6 +261,13 @@ def popularServices():
                             "Description": f"{i[2]}", "image": f"{i[3]}"}
 
     return result
+
+
+
+
+
+
+
 
 
 #-------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
@@ -270,6 +313,12 @@ def confirm_id(artisan_id, customer_id):
 
 
 
+
+
+
+
+
+
 #-------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
 
 @app.route('/find_artisan') 
@@ -280,12 +329,12 @@ def find_artisan():
 
     result = {}
     for i in query:
-        artisan_group = connection.execute(db.select([artisans.columns.first_name, 
+        artisan_group = connection.execute(db.select([artisans.columns.artisan_id ,artisans.columns.first_name, 
      artisans.columns.address, 
      artisans.columns.rating,
      artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
         
-        artisan_group_list = [{"Name":f"{i[0]}", "Address": f"{i[1]}", "Location":f"{i[2]}", "Path": f"{i[3]}"} for i in artisan_group]
+        artisan_group_list = [{"id":f"{i[0]}","Name":f"{i[1]}", "Address": f"{i[2]}", "Location":f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
         result[i[1]] = artisan_group_list
 
     return result
@@ -301,24 +350,6 @@ def find_artisan_id(artisan_id):
                                                       artisans.columns.address,
                                                       artisans.columns.contact,
                                                       services.columns.description]).where(artisans.columns.artisan_id == artisan_id)).fetchall())}
-
-
-@app.route('/services/<int:id>', methods=['POST', 'GET'])
-def get_services(id):
-
-    service = request.get_json(force=True)
-    if request.method == 'POST':
-        # adding a service
-        if id == 0:
-            connection.execute(db.insert(services).values([dict(service)]))
-        else:
-            # db query for updating the service
-            pass
-
-    if request.method == 'GET':
-        return {"Result": str(connection.execute(db.select([services])).fetchall())}
-
-
 
 
 
