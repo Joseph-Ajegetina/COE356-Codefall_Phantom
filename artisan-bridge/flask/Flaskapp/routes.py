@@ -369,10 +369,10 @@ def find_artisan_id(artisan_id):
                                                       ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
 
-    return {"service_id":f"{query[0]}", "artisan_id":f"{query[1]}","Name":f"{query[2]} {query[3]}",
-                "rating": f"{query[4]}", "Address": f"{query[5]}", "contact": f"{query[6]}",
-                "description":f"{query[7]}",
-                "Path": f"{query[8]}"}
+    return {"service_id":f"{query[0][0]}", "artisan_id":f"{query[0][1]}","Name":f"{query[0][2]} {query[0][3]}",
+                "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
+                "description":f"{query[0][7]}",
+                "Path": f"{query[0][8]}"}
 
 
 
