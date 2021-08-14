@@ -35,9 +35,12 @@ def login():
 
         admin_name = connection.execute(db.select([admin.columns.username]).where(
             admin.columns.username == form.customer_username.data)).fetchall()
-
-        customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
+        
+        try:
+            customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
+        except:
+            customer_id = None
 
         if user:
             password = connection.execute(db.select([customers.columns.password]).where(
@@ -272,7 +275,7 @@ def report(customer_Id):
     #                 records.columns.service_id == services.columns.service_id )).select_from(records.join(artisans,
     #                 records.columns.artisan_id == artisans.columns.artisan_id)).where(records.columns.customer_id == customer_Id).order_by(db.desc(records.columns.date)))
 
-    query = connection.execute("SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = 1000 ORDER BY r1.date DESC ").fetchall()
+    query = connection.execute(f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
 
     result = {}
     for i in query:
