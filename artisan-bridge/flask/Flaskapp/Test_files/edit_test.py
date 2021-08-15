@@ -32,6 +32,13 @@
 
 
 
-import datetime
+# import datetime
+# print(str(datetime.datetime.today()))
+import os
+from dotenv import load_dotenv
 
-print(str(datetime.datetime.today()))
+load_dotenv()
+root = os.getenv('MYSQL_USERNAME')
+root1 = os.getenv('MYSQL_PASSWORD')
+
+print(f"mysql+pymysql://{root}:{root1}@localhost:3306/artisanbridge")

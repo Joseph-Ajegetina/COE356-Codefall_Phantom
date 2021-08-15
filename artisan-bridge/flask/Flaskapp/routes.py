@@ -3,7 +3,7 @@ from flask import request, session, Response
 # from flask_login.utils import login_required, login_user, logout_user
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
-from Flaskapp import connection, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
+from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
 from Flaskapp.decos import admin_login_required, login_requireds
@@ -29,6 +29,9 @@ def login():
         # what to be returned
         return_info = {"alert": "", "message": "", "passed": False, "type": ""}
         # Requires reformating
+
+        #Establishing connection
+        connection = engine.connect()
 
         user = connection.execute(db.select([customers.columns.customer_username]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchall()
@@ -110,10 +113,18 @@ def register():
             str(request_react['password'])).decode('utf-8')
         request_react['password'] = password
         customer_email = request_react.get("email")
+        customer_username = request_react.get('customer_username')
+
+        #Establishing connection
+        connection = engine.connect()
+
         exist_email = connection.execute(db.select([customers.columns.email]).where(
             customers.columns.email == customer_email)).fetchall()
+        exist_username = connection.execute(db.select([customers.columns.customer_username]).where(
+            customers.columns.customer_username == customer_username)).fetchall()
+        
         if exist_email:
-            return {"message": f"Account already exists", "alert": "danger", "passed": False}
+            return {"message": f"Account or Username already exists", "alert": "danger", "passed": False}
         else:
             try:
                 connection.execute(
@@ -141,6 +152,8 @@ def Admin_register():
         if form.validate():
             # -------------------------------------------
             # Database commiting and further validation
+            #Establishing connection
+            connection = engine.connect()
             connection.execute(db.insert(admin).values([dict(request_react)]))
             # -------------------------------------------
             return {"Registration": "Registered, Administrator"}
@@ -153,6 +166,8 @@ def Admin_register():
 
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
+    #Establishing connection
+    connection = engine.connect()
 
     return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
 
@@ -171,8 +186,9 @@ def edit_table(id, table):
         if form.validate():
             # -------------------------------------------
             # Database commiting and further validation
-            connection.execute(
-                db.insert(reference[table]).values([dict(artisan)]))
+            #Establishing connection
+            connection = engine.connect()
+            connection.execute(db.insert(reference[table]).values([dict(artisan)]))
             # -------------------------------------------
             return {"Registration_from_admin": f"Account created for {form.first_name.data}"}
         else:
@@ -180,6 +196,9 @@ def edit_table(id, table):
 
     elif request.method == 'DELETE':
         try:
+            #Establishing connection
+            connection = engine.connect()
+
             connection.exeute(db.delete(records).where(
                 records.columns.artisan_id == int(id)))
             connection.execute(db.delete(reference[table][0]).where(
@@ -193,6 +212,8 @@ def edit_table(id, table):
 @app.route('/admin/report/<int:id>', methods=['POST', 'DELETE'])
 # @login_required
 def reports(id):
+    #Establishing connection
+    connection = engine.connect()
 
     if request.method == 'DELETE':
         connection.execute(db.delete(records).where(
@@ -207,6 +228,9 @@ def reports(id):
 def get_admin_services(id):
 
     service = request.get_json(force=True)
+    #Establishing connection
+    connection = engine.connect()
+
     if request.method == 'POST':
         # adding a service
         if id == 0:
@@ -223,9 +247,11 @@ def get_admin_services(id):
 
 @app.route('/top_rated_artisans')
 def popular_artisans():
-    # select firstname, lastname, rating, coreservice from artisans table order by desc ratings limit 3
-    top_rated_artisans_list = connection.execute(
-        db.select([top_rated_artisans])).fetchall()
+    #Establishing connection
+    connection = engine.connect()
+
+    top_rated_artisans_list = connection.execute(db.select([top_rated_artisans])).fetchall()
+
     return_items = [{**row} for row in top_rated_artisans_list]
     return_items = json.dumps(return_items, default=str)
     return return_items
@@ -233,6 +259,9 @@ def popular_artisans():
 
 @app.route('/popular_service')
 def popularServices():
+    #Establishing connection
+    connection = engine.connect()
+ 
     query = connection.execute(db.select([popular_services])).fetchall()
     result = {}
 
@@ -245,6 +274,9 @@ def popularServices():
 
 @app.route('/service')
 def Services():
+    #Establishing connection
+    connection = engine.connect()
+
     query = connection.execute(db.select([services])).fetchall()
     result = {}
 
@@ -272,6 +304,9 @@ def logout():
 # @login_required
 def delete_account():
     print(session['username'])
+    #Establishing connection
+    connection = engine.connect()
+
     # logout()
     # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
 
@@ -279,13 +314,8 @@ def delete_account():
 @app.route('/report/<int:customer_Id>')
 # @login_required
 def report(customer_Id):
-    # query = connection.execute(db.select([records.columns.record_id,
-    #                 artisans.columns.first_name,
-    #                 artisans.columns.last_name,
-    #                 services.columns.skill,
-    #                 records.columns.date]).select_from(records.join(services,
-    #                 records.columns.service_id == services.columns.service_id )).select_from(records.join(artisans,
-    #                 records.columns.artisan_id == artisans.columns.artisan_id)).where(records.columns.customer_id == customer_Id).order_by(db.desc(records.columns.date)))
+    #Establishing connection
+    connection = engine.connect()
 
     query = connection.execute(f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = {customer_id} ORDER BY r1.date DESC ").fetchall()
 
@@ -300,6 +330,9 @@ def report(customer_Id):
 @app.route('/confirm_order/<int:artisan_id>/<int:customer_id>')
 # @login_requireds
 def confirm_id(artisan_id, customer_id):
+    #Establishing connection
+    connection = engine.connect()    
+
     service = connection.execute(db.select(artisans.columns.service_id).where(
         artisans.columns.artisan_id == artisan_id)).fetchall()
 
@@ -314,6 +347,8 @@ def confirm_id(artisan_id, customer_id):
 @app.route('/find_artisan')
 # @login_required
 def find_artisan():
+    #Establishing connection
+    connection = engine.connect()
 
     query = connection.execute(
         db.select([services.columns.service_id, services.columns.skill])).fetchall()
@@ -335,6 +370,8 @@ def find_artisan():
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
 def find_artisan_id(artisan_id):
+    #Establishing connection
+    connection = engine.connect()
 
     query = connection.execute(db.select([artisans.columns.service_id,
                                                     artisans.columns.artisan_id,
