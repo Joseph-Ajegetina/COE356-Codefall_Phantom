@@ -48,3 +48,77 @@ export const userData = [
         Active: 2000,
       },
   ];
+  export const artisanRows = [
+    {
+      id: 1,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 2,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 3,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 4,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 5,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 6,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 7,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 8,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    },
+    {
+      id: 9,
+      firstName: "John",
+      jobDescription: "Electrician",
+      lastName: "Snow",
+      status: "active",
+      avatar: "./public/images/artisan1.jpg"
+    }
+  ]

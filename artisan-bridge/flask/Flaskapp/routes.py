@@ -38,7 +38,6 @@ def login():
 
         admin_name = connection.execute(db.select([admin.columns.username]).where(
             admin.columns.username == form.customer_username.data)).fetchall()
-
         try:
             customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
@@ -268,6 +267,7 @@ def popularServices():
     for num, i in enumerate(query):
         result[str(num)] = {"service": f"{i[1]}",
                             "Description": f"{i[2]}", "image": f"{i[3]}"}
+                        
 
     return result
 

@@ -4,7 +4,7 @@ import PopularServices from "../popularServices/PopularServices";
 import { Link } from "react-router-dom";
 
 export default function Service(props) {
-  console.log(props.image9)
+
   return (
     <div className="service" id="service">
       <div

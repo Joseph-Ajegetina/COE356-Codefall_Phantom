@@ -1,5 +1,5 @@
 import React from 'react'
-import "./home.scss"
+import "./Adminhome.scss"
 import Chart from '../../../ActiveuserChart/chart'
 import { userData } from '../../../../dummydata'
 import Widgetsm from '../../../Widgetsm/Widgetsm'
@@ -11,6 +11,7 @@ export default function home() {
             <div className="homeWidget">
             <Widgetsm/>
             <Widgetlg/>
+           
             </div>
         </div>
     )

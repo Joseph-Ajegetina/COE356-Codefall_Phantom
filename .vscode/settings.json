@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
         "./artisan-bridge/flask"
-    ]
+    ],
+    "editor.wordWrap": "on"
 }

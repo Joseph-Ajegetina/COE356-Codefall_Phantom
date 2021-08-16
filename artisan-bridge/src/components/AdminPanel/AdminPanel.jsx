@@ -19,7 +19,7 @@ export default function AdminPanel() {
                    <div className="topbarIcons">
                       <SettingsIcon/><span className="notificationNumber">2</span>
                    </div>
-                       <img src="images/artisan1.jpg" alt="" className="topAvatar"/>
+                      <span className="topAvatar">A</span>
                    <div className="header-option">
                     <span className="LineOne">@Adminuser</span>
                     <a href="">
