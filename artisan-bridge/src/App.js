@@ -31,6 +31,7 @@ function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const [user_signup, setSign] = useState({
     first_name: "",
@@ -71,7 +72,7 @@ function App() {
 
   useEffect(() => {
     getPopular_services();
-  }, []);
+  }, [refreshKey]);
   
   const getPopular_services = () =>{
   axios.get("http://127.0.0.1:5000/popular_service")
