@@ -1,0 +1,56 @@
+.Widgetsm {
+  flex: 1;
+  /*  margin: 20px;
+  padding: 20px; */
+  box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  -moz-box-shadow: -3px 0px 16px -6px rgba(0, 0, 0, 1);
+  margin-right: 20px;
+  padding: 20px;
+}
+.widgetsmTitle {
+  font-size: 32px;
+}
+.widgetsmImg {
+  font: 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.widgetsmList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.widgetsmListItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.widgetsmUser {
+  display: flex;
+  flex-direction: column;
+  /* border-spacing: 20px; */
+}
+.widgetsmUserJob {
+  font-weight: 100;
+}
+.widgetsmUsername {
+  font-weight: 600;
+}
+.widgetsmbutton {
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  padding: 7px 10px;
+  cursor: pointer;
+  color: #555;
+  background-color: #eeeef7;
+}
+.widgetsmIcon {
+  font-size: 16px !important;
+  margin-right: 5px;
+}

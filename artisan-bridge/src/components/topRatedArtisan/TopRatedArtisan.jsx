@@ -1,9 +1,44 @@
-import "./topRatedArtisan.scss"
+import "./topRatedArtisan.scss";
+import { Link } from "react-router-dom";
 
-export default function topRatedArtisan() {
-    return (
-        <div className="topRatedArtisan">
-            <h4>Top Rated Artisans</h4>
-        </div>
-    )
+export default function topRatedArtisan({ artisan, skillimage }) {
+  return (
+    <div className="topRatedArtisan">
+      <div className="artisan-wrapper-center">
+        <Link
+          to={{
+            pathname: `/artisan/${artisan.artisan_id}`,
+            state: { artisan: artisan },
+          }}
+          className="wrapper-link"
+        >
+          <div className="artisan-wrapper">
+            <div>
+              <img
+                src={artisan.profile_image_path}
+                alt=""
+                className="artisan-img img-fluid"
+              />
+            </div>
+            <div className="artisan-elipse">
+              <div className="description">
+                <img src={skillimage} alt="" className="rating-img" />
+                <span className="skill display-12">
+                  Service:{artisan.skill}
+                </span>
+              </div>
+            </div>
+            <div className="artisan-elipse">
+              <div className="description">
+                <img src="images/rating.png" alt="" className="rating-img" />
+                <span className="skill display-12">
+                  Rating:{artisan.rating}
+                </span>
+              </div>
+            </div>
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
 }

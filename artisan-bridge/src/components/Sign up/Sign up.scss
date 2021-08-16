@@ -1,0 +1,51 @@
+* {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  /* overflow-x: hidden; */
+}
+
+body {
+  background-color: rgb(141, 136, 136);
+  font-family: "Roboto", sans-serif;
+}
+
+.signup-box {
+  width: 360px;
+  height: 620px;
+  margin: auto;
+  background-color: white;
+  border-radius: 3px;
+}
+h2 {
+  text-align: center;
+}
+
+form {
+  width: 300px;
+  margin-left: 20px;
+}
+form label {
+  display: flex;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+form input {
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border: 1px solid gray;
+  border-radius: 6px;
+  outline: none;
+}
+.btn {
+  width: 320px;
+  height: 35px;
+  margin-top: 20px;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+}
+.btn:hover {
+  cursor: pointer;
+}

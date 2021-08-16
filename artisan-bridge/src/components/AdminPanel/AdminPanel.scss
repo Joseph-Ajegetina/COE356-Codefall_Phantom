@@ -1,0 +1,57 @@
+.adminPanel {
+  width: 100%;
+  background-color: white;
+  /*  position: fixed;
+  top: 0;
+  z-index: 1; */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.topbarWrapper {
+  display: flex;
+  height: 70px;
+  padding: 20px 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbarWrapper a {
+  text-decoration: none;
+  color: black;
+}
+.topbarWrapper a:hover {
+  text-decoration: none;
+  color: #f59401;
+}
+.topAvatar {
+  width: 40px;
+  height: 40px;
+  background-color: lightgreen;
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  border-radius: 50%;
+}
+.topbarRight {
+  display: flex;
+  align-items: center;
+}
+.topbarIcons {
+  position: relative;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #555;
+}
+.notificationNumber {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

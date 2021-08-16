@@ -1,4 +1,78 @@
-.navBar {
+.header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 2;
+}
+.header a {
+  text-decoration: none;
+  color: black;
+}
+.header a:hover {
+  text-decoration: none;
+  color: #f59401;
+}
+.header-logo {
+  margin: 0 20px;
+  margin-top: 18px;
+}
+.header-logo a {
+  text-decoration: none;
+}
+.header-logo a:hover {
+  color: black;
+  text-decoration: none;
+}
+.header-search {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  border-radius: 24px;
+  padding-top: 18px;
+}
+.header-input {
+  padding: 10px;
+  height: 30px;
+  width: 100%;
+  border-radius: 3px;
+}
+.header-nav {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.LineOne {
+  font-size: 13px;
+}
+.LineTwo {
+  font-weight: 550;
+}
+.header-option {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-top: 10px;
+}
+.header-searchicon {
+  padding: 2px;
+  height: 30px !important;
+  background-color: #f59401;
+  border-radius: 5px;
+}
+.home {
+  width: 25px;
+  color: black;
+}
+.services {
+  width: 30px;
+}
+
+/* .navBar {
   width: 100%;
   height: 70px;
   padding: 20px 30px;
@@ -31,6 +105,7 @@
   color: black;
 }
 .right {
+  padding: 5px;
   .dropdown-item:hover {
     background-color: #f59401;
     color: white;
@@ -39,3 +114,17 @@
 .nav-item {
   padding-right: 25px;
 }
+.search {
+  width: 35%;
+  padding-top: 5px;
+}
+.searchbar {
+  width: 90%;
+  padding: 10px;
+  height: 32px;
+}
+.searchicon {
+  background-color: #f59401;
+  border-radius: 5px;
+}
+ */
