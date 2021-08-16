@@ -68,7 +68,7 @@ ORDER BY artisans.rating DESC
 LIMIT 3;
 
 CREATE VIEW popular_Services AS 
-SELECT count(records.service_id) AS requests, services.skill, services.description, artisanbridge.services.image_path AS image
+SELECT count(records.service_id) AS requests, services.skill, services.description, artisanbridge.services.image_path, services.service_id
 FROM records JOIN services ON records.service_id=services.service_id
 GROUP BY records.service_id
 LIMIT 3;
