@@ -12,6 +12,7 @@ export default function Home(props) {
   const [topArtisans, setTopArtisans] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const location = useLocation();
   const history = useHistory();
@@ -46,7 +47,7 @@ export default function Home(props) {
     }
 
     fetchTopRatedArtisansData();
-  }, []);
+  }, [refreshKey]);
   if (isLoading) {
     return <div>Loading...</div>;
   }

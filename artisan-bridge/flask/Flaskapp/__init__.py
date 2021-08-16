@@ -28,6 +28,7 @@ from dotenv import load_dotenv
 load_dotenv()
 user = os.getenv('MYSQL_USERNAME')
 password = os.getenv('MYSQL_PASSWORD')
+print(user, password)
 engine = create_engine(f'mysql+pymysql://{user}:{password}@localhost:3306/artisanbridge')
 # connection = engine.connect()
 metadata = db.MetaData()
