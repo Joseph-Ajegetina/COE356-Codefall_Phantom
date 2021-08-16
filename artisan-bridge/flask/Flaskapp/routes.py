@@ -168,8 +168,20 @@ def Admin_register():
 def artisan_table():
     #Establishing connection
     connection = engine.connect()
+    query = connection.execute(db.select([artisans])).fetchall()
+    result = {}
+    for num, i in enumerate(query):
+        result[str(num)] = {"artisan_id": f"{i[0]}",
+                            "service_id": f"{i[1]}",
+                             "first_name": f"{i[2]}",
+                             "last_name": f"{i[3]}",
+                             "rating": f"{i[4]}",
+                             "address": f"{i[5]}",
+                             "contact": f"{i[6]}",
+                             "profile_image_path": f"{i[7]}"}
 
-    return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
+    return result
+    #return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
 
 
 # to be tested -----------------------------
@@ -220,8 +232,17 @@ def reports(id):
             records.columns.record_id == int(id)))
 
     if request.method == 'GET':
-        values = connection.execute(db.select([records])).fetchall()
-        return {"Result": str(values)}
+        query = connection.execute(db.select([records])).fetchall()
+        result = {}
+        for num, i in enumerate(query):
+            result[str(num)] = {"record_id": f"{i[0]}",
+                                "customer_id": f"{i[1]}",
+                                "artisan_id": f"{i[2]}",
+                                "service_id": f"{i[3]}",
+                                "date": f"{i[4]}"}
+
+        return result
+        #return {"Result": str(values)}
 
 
 @app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
@@ -240,7 +261,15 @@ def get_admin_services(id):
             pass
 
     if request.method == 'GET':
-        return {"Result": str(connection.execute(db.select([services])).fetchall())}
+        query = connection.execute(db.select([services])).fetchall()
+        result = {}
+        for num, i in enumerate(query):
+            result[str(num)] = {"service": f"{i[1]}",
+                                "Description": f"{i[2]}", "image": f"{i[3]}"}
+
+        return result
+
+        #return {"Result": str(connection.execute(db.select([services])).fetchall())}
 
 
 # -------------------------------------------------------------- VIEWS -----------------------------------------------------------------
