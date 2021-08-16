@@ -34,11 +34,27 @@
 
 # import datetime
 # print(str(datetime.datetime.today()))
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 
-load_dotenv()
-root = os.getenv('MYSQL_USERNAME')
-root1 = os.getenv('MYSQL_PASSWORD')
+# load_dotenv()
+# root = os.getenv('MYSQL_USERNAME')
+# root1 = os.getenv('MYSQL_PASSWORD')
 
-print(f"mysql+pymysql://{root}:{root1}@localhost:3306/artisanbridge")
+# print(f"mysql+pymysql://{root}:{root1}@localhost:3306/artisanbridge")
+from mysql_connection_test import artisan
+go = artisan
+
+from twilio.rest import Client 
+ 
+account_sid = 'AC4617139fd28a9b6959c8fee9f20d9321' 
+auth_token = 'xxx' 
+client = Client(account_sid, auth_token) 
+ 
+message = client.messages.create(  
+                              messaging_service_sid='MG85e059c34a098dd42136f9d0f97911c5', 
+                              body=f'{go}',      
+                              to='+233501459955' 
+                          ) 
+ 
+print(message.sid)
