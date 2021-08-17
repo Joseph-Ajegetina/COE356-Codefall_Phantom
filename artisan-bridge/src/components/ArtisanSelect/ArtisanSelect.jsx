@@ -4,10 +4,6 @@ import { useParams } from "react-router";
 import Message from "../navigationBar/Message";
 
 const ArtisanSelect = () => {
-<<<<<<< HEAD
-=======
-  
->>>>>>> database
  
 
   //State variables that will change
@@ -80,11 +76,6 @@ const ArtisanSelect = () => {
         }
       });
   };
-<<<<<<< HEAD
-=======
-
-  console.log(artisan)
->>>>>>> database
   return (
     <>
       {showAlert ? <Message alertMessage={alertMessage} /> : ""}

@@ -35,18 +35,12 @@ def login():
 
         admin_name = connection.execute(db.select([admin.columns.username]).where(
             admin.columns.username == form.customer_username.data)).fetchall()
-<<<<<<< HEAD
         
         try:
             customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
             customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
         except:
             customer_id = None
-=======
-
-        customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
-            customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
->>>>>>> database
 
         if user:
             password = connection.execute(db.select([customers.columns.password]).where(
@@ -239,26 +233,6 @@ def popular_artisans():
 
 @app.route('/popular_service')
 def popularServices():
-<<<<<<< HEAD
-    query = connection.execute(db.select([popular_services])).fetchall()
-    result = {}
-
-    for num, i in enumerate(query):
-        result[str(num)] = {"service": f"{i[1]}",
-                            "Description": f"{i[2]}", "image": f"{i[3]}"}
-                        
-
-    return result
-
-@app.route('/service')
-def Services():
-    query = connection.execute(db.select([services])).fetchall()
-    result = {}
-
-    for num, i in enumerate(query):
-        result[str(num)] = {"service": f"{i[1]}",
-                            "Description": f"{i[2]}", "image": f"{i[3]}"}
-=======
     query = connection.execute(
         db.select([popular_services])).fetchall()
     return_items = [{**row} for row in query]
@@ -288,16 +262,12 @@ def get_service(service_id):
         artisan_group_list = [{"id": f"{i[0]}", "Name": f"{i[1]}", "Address": f"{i[2]}",
                                "rating": f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
         result[i[1]] = artisan_group_list
->>>>>>> database
 
     return result
 
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> database
 # -------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -330,11 +300,7 @@ def report(customer_Id):
     #                 records.columns.service_id == services.columns.service_id )).select_from(records.join(artisans,
     #                 records.columns.artisan_id == artisans.columns.artisan_id)).where(records.columns.customer_id == customer_Id).order_by(db.desc(records.columns.date)))
 
-<<<<<<< HEAD
     query = connection.execute(f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
-=======
-    query = connection.execute("SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = 1000 ORDER BY r1.date DESC ").fetchall()
->>>>>>> database
 
     result = {}
     for i in query:
@@ -379,11 +345,7 @@ def find_artisan():
     return result
 
 
-<<<<<<< HEAD
 @app.route('/find_artisan/<int:artisan_id>')
-=======
-@app.route('/find_artisan/<artisan_id>')
->>>>>>> database
 # @login_required
 def find_artisan_id(artisan_id):
 
