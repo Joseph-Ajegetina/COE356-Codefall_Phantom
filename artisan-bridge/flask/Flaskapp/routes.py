@@ -180,7 +180,27 @@ def artisan_table():
                              "profile_image_path": f"{i[7]}"}
 
     return result
-    #return {"Data": str(connection.execute(db.select([artisans])).fetchall())}
+
+
+@app.route('/admin/customer_table', methods=['GET'])
+def customer_table():
+    #Establishing connection
+    connection = engine.connect()
+    query = connection.execute(db.select([customers])).fetchall()
+    result = {}
+    for num, i in enumerate(query):
+        result[str(num)] = {"customer_id": f"{i[0]}",
+                            "customer_username": f"{i[1]}",
+                             "first_name": f"{i[2]}",
+                             "last_name": f"{i[3]}",
+                             "contact": f"{i[4]}",
+                             "address": f"{i[5]}",
+                             "email": f"{i[6]}",
+                             "profile_image_path": f"{i[8]}"}
+
+    return result
+
+
 
 
 # to be tested -----------------------------
@@ -220,7 +240,7 @@ def edit_table(id, table):
 
 
 # to be changed
-@app.route('/admin/report/<int:id>', methods=['POST', 'DELETE'])
+@app.route('/admin/report/<int:id>', methods=['GET', 'DELETE'])
 # @login_required
 def reports(id):
     #Establishing connection
