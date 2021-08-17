@@ -6,13 +6,21 @@ import Message from "../navigationBar/Message";
 import { useState, useEffect } from "react";
 import Slider from "../UI/Slider";
 
+<<<<<<< HEAD
 export default function Home(props) {
+=======
+export default function Home() {
+>>>>>>> database
   const [alertMessage, setAlertMessage] = useState({});
   const [showAlert, setShowAlert] = useState(null);
   const [topArtisans, setTopArtisans] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+<<<<<<< HEAD
   const [refreshKey, setRefreshKey] = useState(0);
+=======
+  const [popularService, setpopularService] = useState([]);
+>>>>>>> database
 
   const location = useLocation();
   const history = useHistory();
@@ -30,6 +38,15 @@ export default function Home(props) {
         setIsError(true);
       });
   };
+<<<<<<< HEAD
+=======
+  
+  const fetchPopularservice = () => {
+    fetch("http://127.0.0.1:5000/popular_service")
+      .then((response) => response.json())
+      .then((data) => {
+        setpopularService(data);})}
+>>>>>>> database
 
   useEffect(() => {
     if (location.state) {
@@ -47,10 +64,23 @@ export default function Home(props) {
     }
 
     fetchTopRatedArtisansData();
+<<<<<<< HEAD
   }, [refreshKey]);
   if (isLoading) {
     return <div>Loading...</div>;
   }
+=======
+    fetchPopularservice();
+  }, [])
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+   
+  
+  
+        
+
+>>>>>>> database
 
   return (
     <>
@@ -59,6 +89,7 @@ export default function Home(props) {
         <Slider />
         <h4>Popular Services</h4>
         <div className="service-home">
+<<<<<<< HEAD
           <PopularServices
             serv1={props.servs1}
             dess1={props.des1}
@@ -70,6 +101,14 @@ export default function Home(props) {
             image2={props.ima2}
             image3={props.ima3}
           />
+=======
+        {popularService.map((service) => {
+            return (
+              <PopularServices service={service}
+              />);
+            })}
+
+>>>>>>> database
         </div>
         <Link to="/service" className="service-link">
           All Services

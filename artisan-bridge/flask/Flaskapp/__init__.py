@@ -22,7 +22,11 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 # Database configuration
+<<<<<<< HEAD
 engine = create_engine('mysql+pymysql://jmiles:jmiles123@localhost:3306/artisanbridge')
+=======
+engine = create_engine('mysql+pymysql://root:Thekingman9065@localhost:3306/artisanbridge')
+>>>>>>> database
 connection = engine.connect()
 metadata = db.MetaData()
 
