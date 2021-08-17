@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 __pycache__/
+/flask/Flaskapp/.env
 
 # testing
 /coverage

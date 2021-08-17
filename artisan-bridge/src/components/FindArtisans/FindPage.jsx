@@ -9,6 +9,7 @@ const FindPage = () => {
   const [topArtisans, setTopArtisans] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const fetchArtisansData = () => {
     fetch("http://127.0.0.1:5000/find_artisan")
@@ -26,7 +27,7 @@ const FindPage = () => {
 
   useEffect(() => {
     fetchArtisansData();
-  });
+  }, [refreshKey]);
 
   return (
     <>

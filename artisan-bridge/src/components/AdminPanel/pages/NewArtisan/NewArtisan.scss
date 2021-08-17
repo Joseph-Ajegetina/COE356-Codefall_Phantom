@@ -1,0 +1,34 @@
+.newArtisan {
+  flex: 4;
+}
+.newArtisanItem {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+.newArtisanItem > label {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(119, 117, 117);
+}
+.newArtisanItem > input {
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 300px;
+}
+.createArtisan {
+  width: 200px;
+  border: none;
+  color: white;
+  background-color: darkblue;
+  padding: 7px 10px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 30px;
+  float: right;
+  margin-right: 200px;
+}
