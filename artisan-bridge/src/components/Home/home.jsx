@@ -6,13 +6,14 @@ import Message from "../navigationBar/Message";
 import { useState, useEffect } from "react";
 import Slider from "../UI/Slider";
 
-export default function Home(props) {
+export default function Home() {
   const [alertMessage, setAlertMessage] = useState({});
   const [showAlert, setShowAlert] = useState(null);
   const [topArtisans, setTopArtisans] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [popularService, setpopularService] = useState([]);
 
   const location = useLocation();
   const history = useHistory();
@@ -28,6 +29,14 @@ export default function Home(props) {
       .catch((error) => {
         setIsLoading(false);
         setIsError(true);
+      });
+  };
+
+  const fetchPopularservice = () => {
+    fetch("http://127.0.0.1:5000/popular_service")
+      .then((response) => response.json())
+      .then((data) => {
+        setpopularService(data);
       });
   };
 
@@ -47,6 +56,7 @@ export default function Home(props) {
     }
 
     fetchTopRatedArtisansData();
+    fetchPopularservice();
   }, [refreshKey]);
   if (isLoading) {
     return <div>Loading...</div>;
@@ -59,17 +69,9 @@ export default function Home(props) {
         <Slider />
         <h4>Popular Services</h4>
         <div className="service-home">
-          <PopularServices
-            serv1={props.servs1}
-            dess1={props.des1}
-            serv2={props.servs2}
-            dess2={props.des2}
-            serv3={props.servs3}
-            dess3={props.des3}
-            image1={props.ima1}
-            image2={props.ima2}
-            image3={props.ima3}
-          />
+          {popularService.map((service) => {
+            return <PopularServices service={service} />;
+          })}
         </div>
         <Link to="/service" className="service-link">
           All Services
