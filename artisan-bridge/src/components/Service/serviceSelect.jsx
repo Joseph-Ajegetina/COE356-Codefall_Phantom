@@ -7,6 +7,7 @@ import FindPageComponent from "../FindArtisans/FindPageComponent";
 export default function ServiceSelect() {    
 
     const [ServiceSelect, SetserviceSelect] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0);
    
     const {service_id} = useParams();
     
@@ -14,17 +15,19 @@ export default function ServiceSelect() {
     fetch(`http://127.0.0.1:5000/service/${service_id}`)
       .then((response) => response.json())
       .then((data) => {
-        SetserviceSelect(data);})}
+       const dataList = Object.entries(data)
+        SetserviceSelect(dataList);})}
      
         useEffect(() => {
           fetchserviceSelect();
-        }, []);
+        }, [refreshKey]);
 
-        console.log(ServiceSelect)
+    
     
 
         return (
-            /*<div>
+          <>
+            <div>
               <Slider />
               {ServiceSelect.map((artisan) => {
                 const skillList = artisan[1];
@@ -33,8 +36,8 @@ export default function ServiceSelect() {
                   return <FindPageComponent skill={skill} data={skillList} />;
                 }
               })}
-            </div>*/
-            <h1>allow</h1>
+            </div>
+          </>
           );
 }
   
