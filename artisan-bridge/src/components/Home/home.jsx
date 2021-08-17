@@ -31,12 +31,14 @@ export default function Home() {
         setIsError(true);
       });
   };
-  
+
   const fetchPopularservice = () => {
     fetch("http://127.0.0.1:5000/popular_service")
       .then((response) => response.json())
       .then((data) => {
-        setpopularService(data);})}
+        setpopularService(data);
+      });
+  };
 
   useEffect(() => {
     if (location.state) {
@@ -67,12 +69,9 @@ export default function Home() {
         <Slider />
         <h4>Popular Services</h4>
         <div className="service-home">
-        {popularService.map((service) => {
-            return (
-              <PopularServices service={service}
-              />);
-            })}
-
+          {popularService.map((service) => {
+            return <PopularServices service={service} />;
+          })}
         </div>
         <Link to="/service" className="service-link">
           All Services

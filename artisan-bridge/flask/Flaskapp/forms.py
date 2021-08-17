@@ -2,9 +2,9 @@
 from wtforms import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError
-from Flaskapp import connection, artisans, services, customers,records, db
+from Flaskapp import engine, artisans, services, customers,records, db
 
-
+connection = engine.connect()
 
 class LoginForm(Form):
     customer_username = StringField('customer_username', validators=[DataRequired()])
