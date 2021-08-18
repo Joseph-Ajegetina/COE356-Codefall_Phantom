@@ -66,14 +66,14 @@ class artisanForm(Form):
     last_name = StringField('last_name', validators=[DataRequired()])
     contact = StringField('phone', validators= [DataRequired()])
     service_id = StringField('service_id', validators= [DataRequired()])
-    artisan_username = StringField('customer_username', validators= [DataRequired()])
+    artisan_username = StringField('artisan_username', validators= [DataRequired()])
     address = StringField('city', validators= [DataRequired()])
-    password = PasswordField('password', validators=[DataRequired()])
-    rating = StringField('rating', validators= [DataRequired()])
+    rating = StringField('rating')
+    email = StringField('email')
     
 
 
-    def validate_email(self, email, artisan_username):
+    def validate_email(self, email):
         # Perform query form database
         email = connection.execute(db.select([artisans.columns.email]).where(artisans.columns.email == email.data)).fetchall()
 

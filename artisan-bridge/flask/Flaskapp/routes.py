@@ -212,31 +212,44 @@ def edit_table(id, table):
                  "customers": [customers, customers.columns.customer_id]}
 
     if request.method == 'POST':
+
         artisan = request.get_json(force=True)
-        form = artisanForm.from_json(artisan)
-        if form.validate():
-            # -------------------------------------------
-            # Database commiting and further validation
-            #Establishing connection
-            connection = engine.connect()
-            connection.execute(db.insert(reference[table]).values([dict(artisan)]))
-            # -------------------------------------------
-            return {"Registration_from_admin": f"Account created for {form.first_name.data}"}
+        artisan_email = request_react.get("email")
+        artisan_username = request_react.get('artisan_username')
+
+        #Establishing connection
+        connection = engine.connect()
+
+        exist_email = connection.execute(db.select([artisans.columns.email]).where(
+            artisans.columns.email == artisan_email)).fetchall()
+        exist_username = connection.execute(db.select([artisans.columns.artisan_username]).where(
+            artisans.columns.artisan_username == artisan_username)).fetchall()
+        
+        if exist_email:
+            return {"message": f"Account already exists", "alert": "danger", "passed": False}
+        elif exist_username:
+            return {"message": f"Username already exists", "alert": "danger", "passed": False}
         else:
-            return {"Errors": form.errors}
+            try:
+                connection.execute(
+                    db.insert(customers).values([dict(artisan)]))
+                return {"message": f"Account successfully created for {request_react.get('customer_username')}", "alert": "success", "passed": True}
+            except(error):
+                return Response(status=500)
+
+
 
     elif request.method == 'DELETE':
-        try:
-            #Establishing connection
-            connection = engine.connect()
+        
+        #Establishing connection
+        connection = engine.connect()
 
-            connection.exeute(db.delete(records).where(
-                records.columns.artisan_id == int(id)))
-            connection.execute(db.delete(reference[table][0]).where(
-                reference[table][1] == int(id)))
-            return {"Info": "Done"}
-        except:
-            return {"Info": "Artisan does not exist, Done"}
+        connection.execute(db.delete(records).where(
+            records.columns.artisan_id == int(id)))
+        connection.execute(db.delete(reference[table][0]).where(
+            reference[table][1] == int(id)))
+        return {"Info": "Done"}
+
 
 
 # to be changed
@@ -261,8 +274,8 @@ def reports(id):
         result = {}
         for num, i in enumerate(query):
             result[str(num)] = {"record_id": f"{i[0]}",
-                                "customer": f"{i[1]} {i[2]}",
-                                "artisan": f"{i[3]} {i[4]}",
+                                "artisan": f"{i[1]} {i[2]}",
+                                "customer": f"{i[3]} {i[4]}",
                                 "skill": f"{i[5]}",
                                 "date": f"{i[6]}"}
 
@@ -315,15 +328,11 @@ def popularServices():
     #Establishing connection
     connection = engine.connect()
  
-    query = connection.execute(db.select([popular_services])).fetchall()
-    result = {}
-
-    for num, i in enumerate(query):
-        result[str(num)] = {"service": f"{i[1]}",
-                            "Description": f"{i[2]}", "image": f"{i[3]}"}
-                        
-
-    return result
+    query = connection.execute(
+        db.select([popular_services])).fetchall()
+    return_items = [{**row} for row in query]
+    return_items = json.dumps(return_items, default=str)
+    return return_items
 
 
 @app.route('/service')
