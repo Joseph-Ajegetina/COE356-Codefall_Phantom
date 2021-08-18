@@ -170,7 +170,7 @@ def artisan_table():
     query = connection.execute(db.select([artisans])).fetchall()
     result = {}
     for num, i in enumerate(query):
-        result[str(num)] = {"artisan_id": f"{i[0]}",
+        result[str(num)] = {"id": f"{i[0]}",
                             "service_id": f"{i[1]}",
                              "first_name": f"{i[2]}",
                              "last_name": f"{i[3]}",
@@ -234,9 +234,9 @@ def edit_table(id, table):
                 records.columns.artisan_id == int(id)))
             connection.execute(db.delete(reference[table][0]).where(
                 reference[table][1] == int(id)))
-            return {"Info": "Done"}
+            return {"delete": True}
         except:
-            return {"Info": "Artisan does not exist, Done"}
+            return {"delete": False}
 
 
 # to be changed

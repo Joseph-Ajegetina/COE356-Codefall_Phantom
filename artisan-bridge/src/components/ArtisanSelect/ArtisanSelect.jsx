@@ -39,6 +39,7 @@ const ArtisanSelect = () => {
         setIsError(true);
       });
   };
+  console.log("artisan", artisan)
 
   //useEffect to run once
   useEffect(() => {

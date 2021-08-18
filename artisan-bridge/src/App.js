@@ -143,7 +143,7 @@ function App() {
            <NewService/>
             </div>
           </Route>
-          <Route path="/artisanEdit/:artisanId">
+          <Route path="/artisanEdit/:artisanID">
             <AdminPanel/>
             <div className="side">
             <SideBar/>
