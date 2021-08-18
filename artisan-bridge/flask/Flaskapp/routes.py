@@ -214,8 +214,8 @@ def edit_table(id, table):
     if request.method == 'POST':
 
         artisan = request.get_json(force=True)
-        artisan_email = request_react.get("email")
-        artisan_username = request_react.get('artisan_username')
+        artisan_email = artisan.get("email")
+        artisan_username = artisan.get('artisan_username')
 
         #Establishing connection
         connection = engine.connect()
