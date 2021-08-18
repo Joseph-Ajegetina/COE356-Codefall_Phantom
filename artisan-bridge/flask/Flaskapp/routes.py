@@ -1,6 +1,6 @@
 from os import error
 from flask import request, session, Response
-# from flask_login.utils import login_required, login_user, logout_user
+from sqlalchemy.sql import text
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
@@ -251,17 +251,22 @@ def reports(id):
             records.columns.record_id == int(id)))
 
     if request.method == 'GET':
-        query = connection.execute(db.select([records])).fetchall()
+        query = connection.execute("""SELECT r1.record_id, artisans.first_name, artisans.last_name, customers.first_name, customers.last_name, services.skill, r1.date 
+        FROM records as r1 
+        INNER JOIN services ON r1.service_id = services.service_id 
+        INNER JOIN artisans ON r1.artisan_id = artisans.artisan_id 
+        INNER JOIN customers ON r1.customer_id = customers.customer_id 
+        ORDER BY r1.date DESC""").fetchall()
+
         result = {}
         for num, i in enumerate(query):
             result[str(num)] = {"record_id": f"{i[0]}",
-                                "customer_id": f"{i[1]}",
-                                "artisan_id": f"{i[2]}",
-                                "service_id": f"{i[3]}",
-                                "date": f"{i[4]}"}
+                                "customer": f"{i[1]} {i[2]}",
+                                "artisan": f"{i[3]} {i[4]}",
+                                "skill": f"{i[5]}",
+                                "date": f"{i[6]}"}
 
         return result
-        #return {"Result": str(values)}
 
 
 @app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
@@ -309,44 +314,31 @@ def popular_artisans():
 def popularServices():
     #Establishing connection
     connection = engine.connect()
-    query = connection.execute(
-        db.select([popular_services])).fetchall()
-    return_items = [{**row} for row in query]
-    return_items = json.dumps(return_items, default=str)
-    return return_items
+ 
+    query = connection.execute(db.select([popular_services])).fetchall()
+    result = {}
+
+    for num, i in enumerate(query):
+        result[str(num)] = {"service": f"{i[1]}",
+                            "Description": f"{i[2]}", "image": f"{i[3]}"}
+                        
+
+    return result
 
 
 @app.route('/service')
 def Services():
     #Establishing connection
     connection = engine.connect()
-    query = connection.execute(
-        db.select([services])).fetchall()
-    return_items = [{**row} for row in query]
-    return_items = json.dumps(return_items, default=str)
-    return return_items
 
-@app.route('/service/<int:service_id>')
-def get_service(service_id):
-    #Establishing connection
-    connection = engine.connect()
-    query = connection.execute(
-        db.select([services.columns.service_id, services.columns.skill]).where(services.columns.service_id==service_id)).fetchall()
-
+    query = connection.execute(db.select([services])).fetchall()
     result = {}
-    for i in query:
-        artisan_group = connection.execute(db.select([artisans.columns.artisan_id, artisans.columns.first_name,
-                                                      artisans.columns.address,
-                                                      artisans.columns.rating,
-                                                      artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
 
-        artisan_group_list = [{"id": f"{i[0]}", "Name": f"{i[1]}", "Address": f"{i[2]}",
-                               "rating": f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
-        result[i[1]] = artisan_group_list
+    for num, i in enumerate(query):
+        result[str(num)] = {"service": f"{i[1]}",
+                            "Description": f"{i[2]}", "image": f"{i[3]}"}
 
     return result
-
-
 
 
 # -------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
