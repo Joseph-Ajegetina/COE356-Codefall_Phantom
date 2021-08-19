@@ -1,7 +1,6 @@
 from os import error
 from flask import request, session, Response
-from sqlalchemy.sql import text
-from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
+from Flaskapp.forms import LoginForm, signUpForm, adminForm
 import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
 from wtforms_json import from_json
@@ -30,7 +29,7 @@ def login():
         return_info = {"alert": "", "message": "", "passed": False, "type": ""}
         # Requires reformating
 
-        #Establishing connection
+        # Establishing connection
         connection = engine.connect()
 
         user = connection.execute(db.select([customers.columns.customer_username]).where(
@@ -40,7 +39,7 @@ def login():
             admin.columns.username == form.customer_username.data)).fetchall()
         try:
             customer_id = connection.execute(db.select([customers.columns.customer_id]).where(
-            customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
+                customers.columns.customer_username == form.customer_username.data)).fetchone()[0]
         except:
             customer_id = None
 
@@ -114,14 +113,14 @@ def register():
         customer_email = request_react.get("email")
         customer_username = request_react.get('customer_username')
 
-        #Establishing connection
+        # Establishing connection
         connection = engine.connect()
 
         exist_email = connection.execute(db.select([customers.columns.email]).where(
             customers.columns.email == customer_email)).fetchall()
         exist_username = connection.execute(db.select([customers.columns.customer_username]).where(
             customers.columns.customer_username == customer_username)).fetchall()
-        
+
         if exist_email:
             return {"message": f"Account or Username already exists", "alert": "danger", "passed": False}
         else:
@@ -151,7 +150,7 @@ def Admin_register():
         if form.validate():
             # -------------------------------------------
             # Database commiting and further validation
-            #Establishing connection
+            # Establishing connection
             connection = engine.connect()
             connection.execute(db.insert(admin).values([dict(request_react)]))
             # -------------------------------------------
@@ -165,42 +164,40 @@ def Admin_register():
 
 @app.route('/admin/artisan_table', methods=['GET'])
 def artisan_table():
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
     query = connection.execute(db.select([artisans])).fetchall()
     result = {}
     for num, i in enumerate(query):
-        result[str(num)] = {"artisan_id": f"{i[0]}",
+        result[str(num)] = {"id": f"{i[0]}",
                             "service_id": f"{i[1]}",
-                             "first_name": f"{i[2]}",
-                             "last_name": f"{i[3]}",
-                             "rating": f"{i[4]}",
-                             "address": f"{i[5]}",
-                             "contact": f"{i[6]}",
-                             "profile_image_path": f"{i[7]}"}
+                            "first_name": f"{i[2]}",
+                            "last_name": f"{i[3]}",
+                            "rating": f"{i[4]}",
+                            "address": f"{i[5]}",
+                            "contact": f"{i[6]}",
+                            "profile_image_path": f"{i[7]}"}
 
     return result
 
 
 @app.route('/admin/customer_table', methods=['GET'])
 def customer_table():
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
     query = connection.execute(db.select([customers])).fetchall()
     result = {}
     for num, i in enumerate(query):
         result[str(num)] = {"customer_id": f"{i[0]}",
                             "customer_username": f"{i[1]}",
-                             "first_name": f"{i[2]}",
-                             "last_name": f"{i[3]}",
-                             "contact": f"{i[4]}",
-                             "address": f"{i[5]}",
-                             "email": f"{i[6]}",
-                             "profile_image_path": f"{i[8]}"}
+                            "first_name": f"{i[2]}",
+                            "last_name": f"{i[3]}",
+                            "contact": f"{i[4]}",
+                            "address": f"{i[5]}",
+                            "email": f"{i[6]}",
+                            "profile_image_path": f"{i[8]}"}
 
     return result
-
-
 
 
 # to be tested -----------------------------
@@ -212,38 +209,48 @@ def edit_table(id, table):
                  "customers": [customers, customers.columns.customer_id]}
 
     if request.method == 'POST':
+
         artisan = request.get_json(force=True)
-        form = artisanForm.from_json(artisan)
-        if form.validate():
-            # -------------------------------------------
-            # Database commiting and further validation
-            #Establishing connection
-            connection = engine.connect()
-            connection.execute(db.insert(reference[table]).values([dict(artisan)]))
-            # -------------------------------------------
-            return {"Registration_from_admin": f"Account created for {form.first_name.data}"}
-        else:
-            return {"Errors": form.errors}
+        # artisan_email = artisan.get("email")
+        # artisan_username = artisan.get('artisan_username')
+
+        # Establishing connection
+        connection = engine.connect()
+
+        # exist_email = connection.execute(db.select([artisans.columns.email]).where(
+        #     artisans.columns.email == artisan_email)).fetchall()
+        # exist_username = connection.execute(db.select([artisans.columns.artisan_username]).where(
+        #     artisans.columns.artisan_username == artisan_username)).fetchall()
+
+        # if exist_email:
+        #     return {"message": f"Account already exists", "alert": "danger", "passed": False}
+        # if exist_username:
+        #     return {"message": f"Username already exists", "alert": "danger", "passed": False}
+        # else:
+        try:
+            connection.execute(
+                db.insert(artisans).values([dict(artisan)]))
+            return {"message": f"Account successfully created for {artisan.get('customer_username')}", "alert": "success", "passed": True}
+        except(error):
+            return Response(status=500)
 
     elif request.method == 'DELETE':
-        try:
-            #Establishing connection
-            connection = engine.connect()
 
-            connection.exeute(db.delete(records).where(
-                records.columns.artisan_id == int(id)))
-            connection.execute(db.delete(reference[table][0]).where(
-                reference[table][1] == int(id)))
-            return {"Info": "Done"}
-        except:
-            return {"Info": "Artisan does not exist, Done"}
+        # Establishing connection
+        connection = engine.connect()
+
+        connection.execute(db.delete(records).where(
+            records.columns.artisan_id == int(id)))
+        connection.execute(db.delete(reference[table][0]).where(
+            reference[table][1] == int(id)))
+        return {"Info": "Done"}
 
 
 # to be changed
 @app.route('/admin/report/<int:id>', methods=['GET', 'DELETE'])
 # @login_required
 def reports(id):
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
 
     if request.method == 'DELETE':
@@ -261,8 +268,8 @@ def reports(id):
         result = {}
         for num, i in enumerate(query):
             result[str(num)] = {"record_id": f"{i[0]}",
-                                "customer": f"{i[1]} {i[2]}",
-                                "artisan": f"{i[3]} {i[4]}",
+                                "artisan": f"{i[1]} {i[2]}",
+                                "customer": f"{i[3]} {i[4]}",
                                 "skill": f"{i[5]}",
                                 "date": f"{i[6]}"}
 
@@ -271,9 +278,9 @@ def reports(id):
 
 @app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
 def get_admin_services(id):
-
-    service = request.get_json(force=True)
-    #Establishing connection
+    if request.method == "POST":
+        service = request.get_json(force=True)
+    # Establishing connection
     connection = engine.connect()
 
     if request.method == 'POST':
@@ -288,22 +295,39 @@ def get_admin_services(id):
         query = connection.execute(db.select([services])).fetchall()
         result = {}
         for num, i in enumerate(query):
-            result[str(num)] = {"service": f"{i[1]}",
-                                "Description": f"{i[2]}", "image": f"{i[3]}"}
+            result[str(num)] = i[1]
 
         return result
 
-        #return {"Result": str(connection.execute(db.select([services])).fetchall())}
+        # return {"Result": str(connection.execute(db.select([services])).fetchall())}
 
+@app.route('/admin/update/artisan/<int:id>', methods=['GET', 'POST'])
+def update_artisan(id):
+    connection = engine.connect()
+
+    if request.method == 'GET':
+           query = connection.execute(
+                        db.select([artisans]).where(artisans.columns.artisan_id == id)).fetchall()
+        return_items = [{**row} for row in query]
+        return_items = json.dumps(return_items, default=str)
+        return return_items
+      
+
+    if request.method == 'POST':
+        
+        artisan_update = request.get_json(force=True)
+        connection.execute(db.update(artisans).values([dict(artisan_update)]))
+        return {"info":"Success"}
 
 # -------------------------------------------------------------- VIEWS -----------------------------------------------------------------
 
 @app.route('/top_rated_artisans')
 def popular_artisans():
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
 
-    top_rated_artisans_list = connection.execute(db.select([top_rated_artisans])).fetchall()
+    top_rated_artisans_list = connection.execute(
+        db.select([top_rated_artisans])).fetchall()
 
     return_items = [{**row} for row in top_rated_artisans_list]
     return_items = json.dumps(return_items, default=str)
@@ -312,23 +336,19 @@ def popular_artisans():
 
 @app.route('/popular_service')
 def popularServices():
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
- 
-    query = connection.execute(db.select([popular_services])).fetchall()
-    result = {}
 
-    for num, i in enumerate(query):
-        result[str(num)] = {"service": f"{i[1]}",
-                            "Description": f"{i[2]}", "image": f"{i[3]}"}
-                        
-
-    return result
+    query = connection.execute(
+        db.select([popular_services])).fetchall()
+    return_items = [{**row} for row in query]
+    return_items = json.dumps(return_items, default=str)
+    return return_items
 
 
 @app.route('/service')
 def Services():
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
 
     query = connection.execute(db.select([services])).fetchall()
@@ -358,7 +378,7 @@ def logout():
 # @login_required
 def delete_account():
     print(session['username'])
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
 
     # logout()
@@ -368,10 +388,11 @@ def delete_account():
 @app.route('/report/<int:customer_Id>')
 # @login_required
 def report(customer_Id):
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
 
-    query = connection.execute(f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
+    query = connection.execute(
+        f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
 
     result = {}
     for i in query:
@@ -384,8 +405,8 @@ def report(customer_Id):
 @app.route('/confirm_order/<int:artisan_id>/<int:customer_id>')
 # @login_requireds
 def confirm_id(artisan_id, customer_id):
-    #Establishing connection
-    connection = engine.connect()    
+    # Establishing connection
+    connection = engine.connect()
 
     service = connection.execute(db.select(artisans.columns.service_id).where(
         artisans.columns.artisan_id == artisan_id)).fetchall()
@@ -441,7 +462,7 @@ def rating(record_id,artisan_id,rating):
 @app.route('/find_artisan')
 # @login_required
 def find_artisan():
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
 
     query = connection.execute(
@@ -464,30 +485,25 @@ def find_artisan():
 @app.route('/find_artisan/<int:artisan_id>')
 # @login_required
 def find_artisan_id(artisan_id):
-    #Establishing connection
+    # Establishing connection
     connection = engine.connect()
 
     query = connection.execute(db.select([artisans.columns.service_id,
-                                                    artisans.columns.artisan_id,
-                                                      artisans.columns.first_name,
-                                                      artisans.columns.last_name,
-                                                      artisans.columns.rating,
-                                                      artisans.columns.address,
-                                                      artisans.columns.contact,
-                                                      services.columns.description,
-                                                      artisans.columns.profile_image_path,
-                                                        services.columns.skill
-                                                      ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
+                                          artisans.columns.artisan_id,
+                                          artisans.columns.first_name,
+                                          artisans.columns.last_name,
+                                          artisans.columns.rating,
+                                          artisans.columns.address,
+                                          artisans.columns.contact,
+                                          services.columns.description,
+                                          artisans.columns.profile_image_path,
+                                          services.columns.skill
+                                          ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
-
-    return {"service_id":f"{query[0][0]}", "artisan_id":f"{query[0][1]}","Name":f"{query[0][2]} {query[0][3]}",
-                "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
-                "description":f"{query[0][7]}",
-                "Path": f"{query[0][8]}", "Expertise":f"{query[0][9]}"}
-
-
-
-
+    return {"service_id": f"{query[0][0]}", "artisan_id": f"{query[0][1]}", "Name": f"{query[0][2]} {query[0][3]}",
+            "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
+            "description": f"{query[0][7]}",
+            "Path": f"{query[0][8]}", "Expertise": f"{query[0][9]}"}
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
@@ -529,7 +545,7 @@ def before_request():
 @login_requireds
 def dashboard():
 
-    return {"info": f'the dashboard{session}'}
+    return {"info": f'{session}'}
 
 
 @app.route('/find')

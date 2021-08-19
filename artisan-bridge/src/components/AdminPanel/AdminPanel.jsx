@@ -2,6 +2,7 @@ import React from 'react'
 import "./AdminPanel.scss"
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { Link } from 'react-router-dom';
 
 
 
@@ -22,9 +23,10 @@ export default function AdminPanel() {
                       <span className="topAvatar">A</span>
                    <div className="header-option">
                     <span className="LineOne">@Adminuser</span>
-                    <a href="">
+                <Link to="/logout"><a href="">
                          <span className="LineTwo">Sign out</span>
-                         </a>
+                         </a></Link>
+                    
                          
                    </div>
                </div>

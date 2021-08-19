@@ -8,16 +8,42 @@ import { Link } from "react-router-dom";
 export default function AddArtisans() {
   const [tableData, setTableData] = useState([]);
   const [data, setData] = useState([]);
+  const [refresh, setRefresh] = useState(0);
+
+  const fetchArtisans = () => {
+    fetch("http://127.0.0.1:5000/admin/artisan_table")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          console.log("Server issues");
+        }
+      })
+      .then((data) => {
+        const dataList = Object.values(data);
+        setTableData(dataList);
+      });
+  };
 
   useEffect(() => {
-    fetch("http://localhost:3000/users")
-      .then((data) => data.json())
-      .then((data) => setTableData(data));
-  });
-  const handleDelete = (id) => {
-    setTableData(tableData.filter((item) => item.id !== id));
-    console.log(1);
-  };
+    fetchArtisans();
+  }, [refresh]);
+
+  // const handleDelete = (id) => {
+  //  fetch(`http://127.0.0.1:5000/admin/artisans/edit/${id}`, {
+  //    method:"DELETE"
+  //  }).then(response => {
+  //    if(response.ok){
+  //      return response.json()
+  //    }else{
+  //      console.log("server return something")
+  //    }
+  //  }).then(data =>{
+  //    if (data.deleted){
+  //     setRefresh(refresh + 1);
+  //    }
+  //  })
+  // };
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -28,10 +54,7 @@ export default function AddArtisans() {
       editable: true,
       renderCell: (params) => {
         return (
-          <div className="artisanListartisan">
-            <img src={params.row.avatar} alt="" className="artisanListImg" />
-            {params.row.firstName}
-          </div>
+          <div className="artisanListartisan">{params.row.first_name}</div>
         );
       },
     },
@@ -40,18 +63,29 @@ export default function AddArtisans() {
       headerName: "Last name",
       width: 200,
       editable: true,
+      renderCell: (params) => {
+        return <div className="artisanListartisan">{params.row.last_name}</div>;
+      },
     },
     {
       field: "jobDescription",
       headerName: "Job Title",
       width: 200,
       editable: true,
+      renderCell: (params) => {
+        return (
+          <div className="artisanListartisan">{params.row.service_id}</div>
+        );
+      },
     },
     {
-      field: "status",
+      field: "Rating",
       headerName: "Status",
       width: 200,
       editable: true,
+      renderCell: (params) => {
+        return <div className="artisanListartisan">{params.row.rating}</div>;
+      },
     },
     {
       field: "action",
@@ -60,12 +94,11 @@ export default function AddArtisans() {
       renderCell: (params) => {
         return (
           <div className="action">
-            <Link to={"/artisanEdit/" + params.row.id}>
+            <Link to={`/artisanEdit/${params.row.id}`}>
               <EditIcon className="artisanEditList" />
             </Link>
             <DeleteOutlineIcon
               className="artisanListDelete"
-              onClick={() => handleDelete(params.row.id)}
             />
           </div>
         );
