@@ -1,6 +1,6 @@
 from os import error
 from flask import request, session, Response
-from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
+from Flaskapp.forms import LoginForm, signUpForm, adminForm
 import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
 from wtforms_json import from_json
@@ -301,6 +301,23 @@ def get_admin_services(id):
 
         # return {"Result": str(connection.execute(db.select([services])).fetchall())}
 
+@app.route('/admin/update/artisan/<int:id>', methods=['GET', 'POST'])
+def update_artisan(id):
+    connection = engine.connect()
+
+    if request.method == 'GET':
+           query = connection.execute(
+                        db.select([artisans]).where(artisans.columns.artisan_id == id)).fetchall()
+        return_items = [{**row} for row in query]
+        return_items = json.dumps(return_items, default=str)
+        return return_items
+      
+
+    if request.method == 'POST':
+        
+        artisan_update = request.get_json(force=True)
+        connection.execute(db.update(artisans).values([dict(artisan_update)]))
+        return {"info":"Success"}
 
 # -------------------------------------------------------------- VIEWS -----------------------------------------------------------------
 
