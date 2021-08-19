@@ -1,6 +1,5 @@
 from os import error
 from flask import request, session, Response
-from sqlalchemy.sql import text
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
@@ -233,7 +232,7 @@ def edit_table(id, table):
             try:
                 connection.execute(
                     db.insert(customers).values([dict(artisan)]))
-                return {"message": f"Account successfully created for {request_react.get('customer_username')}", "alert": "success", "passed": True}
+                return {"message": f"Account successfully created for {artisan.get('customer_username')}", "alert": "success", "passed": True}
             except(error):
                 return Response(status=500)
 
@@ -498,7 +497,7 @@ def before_request():
 @login_requireds
 def dashboard():
 
-    return {"info": f'the dashboard{session}'}
+    return {"info": f'{session}'}
 
 
 @app.route('/find')
