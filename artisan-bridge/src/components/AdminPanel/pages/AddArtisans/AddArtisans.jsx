@@ -29,21 +29,21 @@ export default function AddArtisans() {
     fetchArtisans();
   }, [refresh]);
 
-  const handleDelete = (id) => {
-   fetch(`http://127.0.0.1:5000/admin/artisans/edit/${id}`, {
-     method:"DELETE"
-   }).then(response => {
-     if(response.ok){
-       return response.json()
-     }else{
-       console.log("server return something")
-     }
-   }).then(data =>{
-     if (data.deleted){
-      setRefresh(refresh + 1);
-     }
-   })
-  };
+  // const handleDelete = (id) => {
+  //  fetch(`http://127.0.0.1:5000/admin/artisans/edit/${id}`, {
+  //    method:"DELETE"
+  //  }).then(response => {
+  //    if(response.ok){
+  //      return response.json()
+  //    }else{
+  //      console.log("server return something")
+  //    }
+  //  }).then(data =>{
+  //    if (data.deleted){
+  //     setRefresh(refresh + 1);
+  //    }
+  //  })
+  // };
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -99,7 +99,6 @@ export default function AddArtisans() {
             </Link>
             <DeleteOutlineIcon
               className="artisanListDelete"
-              onClick={() => handleDelete(params.row.id)}
             />
           </div>
         );
