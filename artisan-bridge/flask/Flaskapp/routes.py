@@ -1,6 +1,5 @@
 from os import error
 from flask import request, session, Response
-from sqlalchemy.sql import text
 from Flaskapp.forms import LoginForm, signUpForm, adminForm, artisanForm
 import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
@@ -280,7 +279,7 @@ def reports(id):
 @app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
 def get_admin_services(id):
     if request.method == "POST":
-         service = request.get_json(force=True)
+        service = request.get_json(force=True)
     # Establishing connection
     connection = engine.connect()
 
@@ -489,7 +488,7 @@ def before_request():
 @login_requireds
 def dashboard():
 
-    return {"info": f'the dashboard{session}'}
+    return {"info": f'{session}'}
 
 
 @app.route('/find')
