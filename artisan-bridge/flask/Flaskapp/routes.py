@@ -396,6 +396,46 @@ def confirm_id(artisan_id, customer_id):
     return {"info": 1}
 
 
+@app.route('/check_rating/<int:customer_id>')
+#@login_requireds
+def check_rating(customer_id):
+    #select status from records where customer_id = customer_id limit 1
+    connection = engine.connect()    
+    query = connection.execute(db.select([records]).where(
+        records.columns.customer_id == customer_id)).fetchone()
+    result = {}
+    for num, i in enumerate(query):
+        result[str(num)] = {"record_id": f"{i[0]}",
+                            "customer_id": f"{i[1]}", 
+                            "artisan_id": f"{i[2]}",
+                            "service_id": f"{i[3]}",
+                            "status": f"{i[5]}"}
+
+    return result
+
+
+def rate(artisan_rating, services_completed,rating):
+    return (((artisan_rating*services_completed) + rating)/services_completed + 1)
+
+
+
+@app.route('/rating/<int:record_id>/<int:artisan_id>/<int:rating>')
+#@login_requireds
+def rating(record_id,artisan_id,rating):
+    connection = engine.connect()    
+    artisan_rating = connection.execute(db.select(artisans.columns.rating).where(
+        artisans.columns.artisan_id == artisan_id)).fetchall()
+
+    services_completed = connection.execute(db.select(artisans.columns.services_completed).where(
+        artisans.columns.artisan_id == artisan_id)).fetchall()
+    new_rating = rate(artisan_rating, services_completed,rating)
+
+    connection.execute(db.update(artisans).values(rating = new_rating).where(artisans.columns.artisan_id == artisan_id))
+    connection.execute(db.update(records).values(status = "done").where(records.columns.record_id == record_id))
+    connection.execute(db.update(artisans).values(services_completed = services_completed+1).where(artisans.columns.artisan_id == artisan_id))
+
+
+
 # -------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
 
 @app.route('/find_artisan')
