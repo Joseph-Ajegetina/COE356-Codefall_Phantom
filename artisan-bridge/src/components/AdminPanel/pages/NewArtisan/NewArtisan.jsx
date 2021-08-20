@@ -1,10 +1,12 @@
 import "./NewArtisan.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import React from "react";
 import Message from "../../../navigationBar/Message";
 import { useHistory } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import ImageUploading from "react-images-uploading";
 
 export default function NewArtisan() {
   //Schema for the form validation
@@ -45,22 +47,35 @@ export default function NewArtisan() {
   const [alert, setAlert] = useState(false);
   const [services, setServices] = useState([]);
   const [refresh, setRefresh] = useState();
+  const [imageName, setImageName] = useState("");
+
+  const [images, setImages] = React.useState([]);
+  const maxNumber = 1;
+
+  const onChange = (imageList, addUpdateIndex) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    const image = imageList[0];
+    setImageName(image.file.name);
+
+    setImages(imageList);
+  };
 
   //fetching the services
-  
+
   const createHandler = (formData) => {
     console.log("here");
     const userInput = {
-      customer_username: formData.username,
+      service_id: formData.service,
       first_name: formData.firstName,
       last_name: formData.lastName,
       contact: formData.phone,
       address: formData.address,
-      email: formData.email,
-      password: formData.password,
+      profile: formData.email,
+      profile_image_path: imageName,
     };
+    console.log(userInput);
   };
-
 
   const fetchServices = () => {
     fetch("http://127.0.0.1:5000/admin/services/100")
@@ -72,7 +87,7 @@ export default function NewArtisan() {
         }
       })
       .then((data) => {
-        const dataList = Object.values(data)
+        const dataList = Object.values(data);
         setServices(dataList);
       });
   };
@@ -80,8 +95,6 @@ export default function NewArtisan() {
   useEffect(() => {
     fetchServices();
   }, [refresh]);
-
-
 
   return (
     <div className="newArtisan">
@@ -132,7 +145,6 @@ export default function NewArtisan() {
           />
           <div className="invalid-feedback">{errors.address?.message}</div>
         </div>
-
         <div className="newArtisanItem">
           <label htmlFor="">Email</label>
           <input
@@ -147,20 +159,89 @@ export default function NewArtisan() {
 
         <div className="newArtisanItem">
           <label htmlFor="">Type of Service</label>
-          <select name="service" {...register("service")} className={`form-control ${errors.service ? "is-invalid" : ""}`}>
-            {services.map(service =>{
-              return <option value={service}>{service}</option>
+          <select
+            name="service"
+            {...register("service")}
+            className={`form-control ${errors.service ? "is-invalid" : ""}`}
+          >
+            {services.map((service) => {
+              return <option value={service.id}>{service.name}</option>;
             })}
           </select>
           <div className="invalid-feedback">{errors.email?.message}</div>
-        </div>  
+        </div>
         <div className="form-group">
-        <button type="submit" className="btn btn-primary">
-        Create
-      </button>
-      </div>
+          <button type="submit" className="btn btn-primary">
+            Create
+          </button>
+        </div>
       </form>
-    
+      <ImageUploading
+          multiple
+          value={images}
+          onChange={onChange}
+          maxNumber={maxNumber}
+          dataURLKey="data_url"
+        >
+          {({
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps,
+          }) => (
+            // write your building UI
+            <div className="upload__image-wrapper">
+              <button
+                style={isDragging ? { color: "red" } : undefined}
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                Click or Drop here
+              </button>
+              &nbsp;
+              <button onClick={onImageRemoveAll}>Remove all images</button>
+              {imageList.map((image, index) => (
+                <div key={index} className="image-item">
+                  <img src={image["data_url"]} alt="" width="100" />
+                  <div className="image-item__btn-wrapper">
+                    <button onClick={() => onImageUpdate(index)}>Update</button>
+                    <button onClick={() => onImageRemove(index)}>Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </ImageUploading>
+        {({ imageList, onImageUpload, onImageRemoveAll, errors }) =>
+          errors && (
+            <div>
+              {errors.maxNumber && (
+                <span>Number of selected images exceed maxNumber</span>
+              )}
+              {errors.acceptType && (
+                <span>Your selected file type is not allow</span>
+              )}
+              {errors.maxFileSize && (
+                <span>Selected file size exceed maxFileSize</span>
+              )}
+              {errors.resolution && (
+                <span>Selected file is not match your desired resolution</span>
+              )}
+            </div>
+          )
+        }
+        {({ imageList, dragProps, isDragging }) => (
+          <div {...dragProps}>
+            {isDragging ? "Drop here please" : "Upload space"}
+            {imageList.map((image, index) => (
+              <img key={index} src={image.data_url} />
+            ))}
+          </div>
+        )}
+
     </div>
-  );
+  );``
 }

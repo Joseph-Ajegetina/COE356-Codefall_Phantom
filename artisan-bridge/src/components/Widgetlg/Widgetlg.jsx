@@ -50,10 +50,10 @@ export default function Widgetsm() {
             <tr className="widgetlgTr">
               <td className="widgetlgUser">
                 <img src="images/artisan1.jpg" alt="" className="widgetlgImg" />
-                <span className="widgetlgName">{recordData.customer_id}</span>
+                <span className="widgetlgName">{recordData.customer}</span>
               </td>
-              <td className="widgetlgName">{recordData.artisan_id}</td>
-              <td className="widgetlgName">{recordData.service_id}</td>
+              <td className="widgetlgName">{recordData.artisan}</td>
+              <td className="widgetlgName">{recordData.skill}</td>
               <td className="widgetlgDate">{recordData.date}</td>
               <td className="widgetlgStatus">
                 <Button type="Approved" />

@@ -48,9 +48,6 @@ export default function ArtisanUpdate() {
     <div className="artisanUpdate">
       <div className="artisanEditContainer">
         <h1 className="artisanEditContainer">Edit Artisan</h1>
-        <Link to="/newArtisan">
-          <button className="addArtisanButton">Create</button>
-        </Link>
       </div>
       <div className="artisanContainer">
         <div className="artisanShow">

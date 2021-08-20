@@ -295,7 +295,7 @@ def get_admin_services(id):
         query = connection.execute(db.select([services])).fetchall()
         result = {}
         for num, i in enumerate(query):
-            result[str(num)] = i[1]
+            result[str(num)] = {"name":i[1], "id":i[0]}
 
         return result
 
@@ -306,7 +306,7 @@ def update_artisan(id):
     connection = engine.connect()
 
     if request.method == 'GET':
-           query = connection.execute(
+        query = connection.execute(
                         db.select([artisans]).where(artisans.columns.artisan_id == id)).fetchall()
         return_items = [{**row} for row in query]
         return_items = json.dumps(return_items, default=str)
@@ -355,7 +355,8 @@ def Services():
     result = {}
 
     for num, i in enumerate(query):
-        result[str(num)] = {"service": f"{i[1]}",
+        result[str(num)] = {
+            "id": f"{i[0]}","service": f"{i[1]}",
                             "Description": f"{i[2]}", "image": f"{i[3]}"}
 
     return result

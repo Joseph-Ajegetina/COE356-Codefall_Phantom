@@ -22,6 +22,7 @@ export default function AddArtisans() {
       .then((data) => {
         const dataList = Object.values(data);
         setTableData(dataList);
+        console.log("Table new data")
       });
   };
 
@@ -29,21 +30,25 @@ export default function AddArtisans() {
     fetchArtisans();
   }, [refresh]);
 
-  // const handleDelete = (id) => {
-  //  fetch(`http://127.0.0.1:5000/admin/artisans/edit/${id}`, {
-  //    method:"DELETE"
-  //  }).then(response => {
-  //    if(response.ok){
-  //      return response.json()
-  //    }else{
-  //      console.log("server return something")
-  //    }
-  //  }).then(data =>{
-  //    if (data.deleted){
-  //     setRefresh(refresh + 1);
-  //    }
-  //  })
-  // };
+  const handleDelete = (id) => {
+   fetch(`http://127.0.0.1:5000/admin/artisans/edit/${id}`, {
+     method:"DELETE"
+   }).then(response => {
+     if(response.ok){
+       return response.json()
+     }else{
+       console.log("server return something")
+     }
+   }).then(data =>{
+      deleteItemHandler(id);
+   })
+  };
+
+  const deleteItemHandler = (id) => {
+    const updatedTableData = tableData.filter(artisan => artisan.id !== id);
+    setTableData(updatedTableData);
+   }
+   
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -97,8 +102,9 @@ export default function AddArtisans() {
             <Link to={`/artisanEdit/${params.row.id}`}>
               <EditIcon className="artisanEditList" />
             </Link>
-            <DeleteOutlineIcon
+            <DeleteOutlineIcon key={params.row.id}
               className="artisanListDelete"
+              onClick={() =>{handleDelete(params.row.id)}}
             />
           </div>
         );
@@ -108,11 +114,15 @@ export default function AddArtisans() {
 
   return (
     <div className="adminHome">
+       <div>
+      <Link to="/newArtisan">
+          <button className="addArtisanButton">New</button>
+        </Link>
+      </div>
       <DataGrid
         rows={tableData}
         columns={columns}
         pageSize={9}
-        checkboxSelection
         disableSelectionOnClick
       />
     </div>
