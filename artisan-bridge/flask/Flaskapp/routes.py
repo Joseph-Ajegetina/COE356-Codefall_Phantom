@@ -306,7 +306,7 @@ def update_artisan(id):
     connection = engine.connect()
 
     if request.method == 'GET':
-           query = connection.execute(
+        query = connection.execute(
                         db.select([artisans]).where(artisans.columns.artisan_id == id)).fetchall()
         return_items = [{**row} for row in query]
         return_items = json.dumps(return_items, default=str)
