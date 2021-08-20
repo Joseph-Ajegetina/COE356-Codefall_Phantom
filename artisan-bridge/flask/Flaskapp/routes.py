@@ -316,6 +316,7 @@ def update_artisan(id):
     if request.method == 'POST':
         
         artisan_update = request.get_json(force=True)
+        print(dict(artisan_update))
         connection.execute(db.update(artisans).values([dict(artisan_update)]))
         return {"info":"Success"}
 

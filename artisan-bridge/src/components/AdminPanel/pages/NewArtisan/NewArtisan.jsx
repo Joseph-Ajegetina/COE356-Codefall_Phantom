@@ -243,5 +243,5 @@ export default function NewArtisan() {
         )}
 
     </div>
-  );``
+  );
 }
