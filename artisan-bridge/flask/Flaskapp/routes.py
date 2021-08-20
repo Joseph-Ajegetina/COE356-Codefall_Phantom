@@ -306,7 +306,7 @@ def update_artisan(id):
     connection = engine.connect()
 
     if request.method == 'GET':
-           query = connection.execute(
+        query = connection.execute(
                         db.select([artisans]).where(artisans.columns.artisan_id == id)).fetchall()
         return_items = [{**row} for row in query]
         return_items = json.dumps(return_items, default=str)
@@ -316,7 +316,9 @@ def update_artisan(id):
     if request.method == 'POST':
         
         artisan_update = request.get_json(force=True)
-        connection.execute(db.update(artisans).values([dict(artisan_update)]))
+
+        connection.execute(db.update(artisans).values(service_id = artisan_update['service_id'], first_name = artisan_update['first_name'], last_name = artisan_update['last_name'], contact = artisan_update['contact'], address = artisan_update['address']).where(artisans.columns.artisan_id == id))
+
         return {"info":"Success"}
 
 # -------------------------------------------------------------- VIEWS -----------------------------------------------------------------

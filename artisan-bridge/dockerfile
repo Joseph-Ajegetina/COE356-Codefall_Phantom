@@ -1,8 +1,8 @@
 # For API-flask
 
-FROM python:alpine
+FROM python:lastest
 
-COPY ./flask
+COPY . ./flask
 
 RUN pip install requirements.txt
 
