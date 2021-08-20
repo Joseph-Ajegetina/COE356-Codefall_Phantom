@@ -1,2 +1,4 @@
 flask/venv
 flask/__pycache__
+flask/Flaskapp/__pycache__
+flask/Flaskapp/Test_files

@@ -1,18 +1,17 @@
 import requests
 import json
 
-url = "http://localhost:5000/admin/artisans/edit/2"
+url = "http://localhost:5000/admin/update/artisan/1003"
 
 data = {
    
-   "first_name": "John",
+   "first_name": "Groot",
    "last_name": "Hack",
-   "artisan_username": "hack",
    "contact": "+2335599111234",
    "service_id": 1003,
    "address": "Kumasi",
-   "email": "hackt@gmail.com",
-  #  "password": "passworded"
+   "profile_image_path": "images/artisan5.jpg",
+  
   
  }
 
