@@ -70,7 +70,7 @@ export default function ArtisanUpdate() {
 
   //fetching various services
   const fetchServices = () => {
-    fetch("http://127.0.0.1:5000/admin/services/100")
+    fetch("http://127.0.0.1:5000/services")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -251,7 +251,7 @@ export default function ArtisanUpdate() {
                     >
                       {services.map((service) => {
                         return (
-                          <option value={service.id}>{service.name}</option>
+                          <option value={service.id}>{service.service}</option>
                         );
                       })}
                     </select>
