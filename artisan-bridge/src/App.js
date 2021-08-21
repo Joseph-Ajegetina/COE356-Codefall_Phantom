@@ -150,7 +150,7 @@ function App() {
            <ArtisanUpdate/>
             </div>
           </Route>
-          <Route path="/serviceEdit/:serviceId">
+          <Route path="/serviceEdit/:serviceID">
             <AdminPanel/>
             <div className="side">
             <SideBar/>

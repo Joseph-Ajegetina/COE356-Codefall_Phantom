@@ -33,7 +33,7 @@ export default function AddArtisans() {
     }
   }, []);
 
-  const fetchArtisans = () => {
+  const fetchServices = () => {
     fetch("http://127.0.0.1:5000/services")
       .then((response) => {
         if (response.ok) {
@@ -49,7 +49,7 @@ export default function AddArtisans() {
   };
 
   useEffect(() => {
-    fetchArtisans();
+    fetchServices();
   }, [refresh]);
 
   const handleDelete = (id) => {

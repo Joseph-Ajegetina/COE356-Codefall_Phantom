@@ -211,7 +211,10 @@ def edit_table(id, table):
     if request.method == 'POST':
 
         artisan = request.get_json(force=True)
+
+        # Establishing connection
         connection = engine.connect()
+
         try:
             connection.execute(
                 db.insert(artisans).values([dict(artisan)]))
@@ -261,32 +264,36 @@ def reports(id):
         return result
 
 
-@app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
+@app.route('/admin/services/<int:id>', methods=['POST', 'GET', 'DELETE'])
 def get_admin_services(id):
-     # Establishing connection
-    connection = engine.connect()
-    if request.method == "POST":
-        service = request.get_json(force=True)
-       
 
+    # Establishing connection
+    connection = engine.connect()
+
+    if request.method == 'POST':
+
+        service = request.get_json(force=True)
         # adding a service
         if id == 0:
             connection.execute(db.insert(services).values([dict(service)]))
-            return {"message": f"Artisan {service.get('skill')} successfully added", "alert": "success", "passed": True}
-
+            return {"message": f"{service.get('skill')} successfully added", "alert": "success", "passed": True}
         else:
-            # db query for updating the service
-            pass
+            connection.execute(db.update(services).values(skill = service['skill'], description = service['description'], image_path = service['image_path']).where(services.columns.service_id == id))
+            return {"message": f"{service.get('skill')} successfully updated", "alert": "success", "passed": True}
 
     if request.method == 'GET':
-        query = connection.execute(db.select([services])).fetchall()
-        result = {}
-        for num, i in enumerate(query):
-            result[str(num)] = {"name":i[1], "id":i[0]}
+        query = connection.execute( db.select([services]).where(services.columns.service_id == id)).fetchall()
+        return_items = [{**row} for row in query]
+        return_items = json.dumps(return_items, default=str)
+        return return_items
+        # for num, i in enumerate(query):
+        #     result[str(num)] = {"name":i[1], "id":i[0]}
 
-        return result
+        # return result
 
-        # return {"Result": str(connection.execute(db.select([services])).fetchall())}
+    if request.method == 'DELETE':
+        connection.execute(db.delete(services).where(services.columns.service_id == id))
+
 
 @app.route('/admin/update/artisan/<int:id>', methods=['GET', 'POST'])
 def update_artisan(id):
