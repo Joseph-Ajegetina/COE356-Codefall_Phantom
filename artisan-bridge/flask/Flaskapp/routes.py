@@ -211,22 +211,10 @@ def edit_table(id, table):
     if request.method == 'POST':
 
         artisan = request.get_json(force=True)
-        # artisan_email = artisan.get("email")
-        # artisan_username = artisan.get('artisan_username')
 
         # Establishing connection
         connection = engine.connect()
 
-        # exist_email = connection.execute(db.select([artisans.columns.email]).where(
-        #     artisans.columns.email == artisan_email)).fetchall()
-        # exist_username = connection.execute(db.select([artisans.columns.artisan_username]).where(
-        #     artisans.columns.artisan_username == artisan_username)).fetchall()
-
-        # if exist_email:
-        #     return {"message": f"Account already exists", "alert": "danger", "passed": False}
-        # if exist_username:
-        #     return {"message": f"Username already exists", "alert": "danger", "passed": False}
-        # else:
         try:
             connection.execute(
                 db.insert(artisans).values([dict(artisan)]))
@@ -276,20 +264,22 @@ def reports(id):
         return result
 
 
-@app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
+@app.route('/admin/services/<int:id>', methods=['POST', 'GET', 'DELETE'])
 def get_admin_services(id):
-    if request.method == "POST":
-        service = request.get_json(force=True)
+
     # Establishing connection
     connection = engine.connect()
 
     if request.method == 'POST':
+
+        service = request.get_json(force=True)
         # adding a service
         if id == 0:
             connection.execute(db.insert(services).values([dict(service)]))
+            return {"info":"done"}
         else:
-            # db query for updating the service
-            pass
+            connection.execute(db.update(services).values(skill = service['skill'], description = service['description'], image_path = service['image_path']).where(services.columns.service_id == id))
+            return {"info":"done"}
 
     if request.method == 'GET':
         query = connection.execute(db.select([services])).fetchall()
@@ -299,7 +289,9 @@ def get_admin_services(id):
 
         return result
 
-        # return {"Result": str(connection.execute(db.select([services])).fetchall())}
+    if request.method == 'DELETE':
+        connection.execute(db.delete(services).where(services.columns.service_id == id))
+
 
 @app.route('/admin/update/artisan/<int:id>', methods=['GET', 'POST'])
 def update_artisan(id):
