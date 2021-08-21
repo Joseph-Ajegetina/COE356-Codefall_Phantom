@@ -154,7 +154,7 @@ def Admin_register():
             connection = engine.connect()
             connection.execute(db.insert(admin).values([dict(request_react)]))
             # -------------------------------------------
-            return {"Registration": "Registered, Administrator"}
+            return {"message": f"Account successfully created for {request_react.get('customer_username')}", "alert": "success", "passed": True}
         else:
             return {"Errors": form.errors}
 
@@ -230,7 +230,7 @@ def edit_table(id, table):
         try:
             connection.execute(
                 db.insert(artisans).values([dict(artisan)]))
-            return {"message": f"Account successfully created for {artisan.get('customer_username')}", "alert": "success", "passed": True}
+            return {"message": f"Artisan {artisan.get('last_name')} successfully added", "alert": "success", "passed": True}
         except(error):
             return Response(status=500)
 

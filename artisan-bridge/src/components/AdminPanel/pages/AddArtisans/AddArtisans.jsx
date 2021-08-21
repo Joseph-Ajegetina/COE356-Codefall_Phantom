@@ -3,12 +3,35 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
-import { Link } from "react-router-dom";
+import Message from "../../../navigationBar/Message";
+import { Link, useLocation, useHistory, useRouteMatch } from "react-router-dom";
 
 export default function AddArtisans() {
   const [tableData, setTableData] = useState([]);
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(0);
+  const [showAlert, setShowAlert] = useState();
+  const [alertMessage, setAlertMessage] = useState({});
+
+  const location = useLocation();
+  const history = useHistory();
+  const { url } = useRouteMatch();
+
+  useEffect(() => {
+    if (location.state) {
+      const messageLocation = location.state.messageParams;
+      const alertLocation = location.state.alertParams;
+
+      if (messageLocation && alertLocation) {
+        setAlertMessage({ message: messageLocation, alert: alertLocation });
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+        history.replace(url);
+      }
+    }
+  },[]);
 
   const fetchArtisans = () => {
     fetch("http://127.0.0.1:5000/admin/artisan_table")
@@ -22,7 +45,6 @@ export default function AddArtisans() {
       .then((data) => {
         const dataList = Object.values(data);
         setTableData(dataList);
-        console.log("Table new data")
       });
   };
 
@@ -114,6 +136,7 @@ export default function AddArtisans() {
 
   return (
     <div className="adminHome">
+       {showAlert ? <Message alertMessage={alertMessage} /> : ""}
        <div>
       <Link to="/newArtisan">
           <button className="addArtisanButton">New</button>

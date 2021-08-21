@@ -80,7 +80,6 @@ const SignUp = () => {
             messageParams:info.message,
             alertParams:info.alert
           }});
-          console.log(info);
         } else {
           setAlert({ message: info.message, alert: info.alert });
           setShowAlert(true);
