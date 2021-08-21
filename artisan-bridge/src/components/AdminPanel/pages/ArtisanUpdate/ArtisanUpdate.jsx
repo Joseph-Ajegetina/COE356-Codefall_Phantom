@@ -4,7 +4,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
 import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import PublishIcon from "@material-ui/icons/Publish";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Message from "../../../navigationBar/Message";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,15 +16,11 @@ import { useHistory } from "react-router-dom";
 
 export default function ArtisanUpdate() {
   //Schema for the form validation
-  const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("FirstName  is required"),
-    lastName: Yup.string().required("lastName is required"),
-    address: Yup.string().required("Location is required"),
-    phone: Yup.string()
-      .required("Location is required")
-      .matches(phoneRegex, "Invalid Phone"),
+    firstName: Yup.string(),
+    lastName: Yup.string(),
+    address: Yup.string(),
+    phone: Yup.string(),
   });
 
   const {
@@ -35,6 +31,7 @@ export default function ArtisanUpdate() {
   } = useForm({ resolver: yupResolver(validationSchema) });
 
   const [artisan, setArtisan] = useState({});
+  const [artisanService, setArtisanService] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
   const { artisanID } = useParams();
   const [showAlert, setShowAlert] = useState();
@@ -71,13 +68,14 @@ export default function ArtisanUpdate() {
       });
   };
 
+  //fetching various services
   const fetchServices = () => {
     fetch("http://127.0.0.1:5000/admin/services/100")
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
-          console.log("Server issues");
+          console.log("Server issues with fetching services");
         }
       })
       .then((data) => {
@@ -91,16 +89,19 @@ export default function ArtisanUpdate() {
     fetchArtisanData();
     fetchServices();
   }, [refreshKey]);
+
+  //Form submission handler
   const submitHandler = (formData) => {
     const userInput = {
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      contact: formData.phone,
-      address: formData.address,
-      service_id: formData.service,
-      profile_image_path: imageName,
+      first_name: formData.firstName ? formData.firstName : artisan.first_name,
+      last_name: formData.lastName ? formData.lastName : artisan.last_name,
+      contact: formData.phone ? formData.phone : artisan.contact,
+      address: formData.address ? formData.address : artisan.Address,
+      service_id: formData.service ? formData.service : artisan.service_id,
+      profile_image_path: imageName ? imageName : artisan.Path,
     };
 
+    //Sending artisan update
     fetch("http://127.0.0.1:5000/admin/update/artisan/1055", {
       method: "POST",
       body: JSON.stringify(userInput),
@@ -179,6 +180,7 @@ export default function ArtisanUpdate() {
                   <div className="form-group">
                     <label>First Name</label>
                     <input
+                      placeholder={artisan.first_name}
                       name="firstName"
                       type="text"
                       {...register("firstName")}
@@ -193,6 +195,7 @@ export default function ArtisanUpdate() {
                   <div className="form-group">
                     <label>Last Name</label>
                     <input
+                      placeholder={artisan.last_name}
                       name="lastName"
                       type="text"
                       {...register("lastName")}
@@ -201,13 +204,14 @@ export default function ArtisanUpdate() {
                       }`}
                     />
                     <div className="invalid-feedback">
-                      {errors.fisrtName?.message}
+                      {errors.lastName?.message}
                     </div>
                   </div>
 
                   <div className="form-group">
                     <label>Location address</label>
                     <input
+                      placeholder={artisan.Address}
                       name="address"
                       type="text"
                       {...register("address")}
@@ -223,6 +227,7 @@ export default function ArtisanUpdate() {
                   <div className="form-group">
                     <label>Phone</label>
                     <input
+                      placeholder={artisan.contact}
                       name="phone"
                       type="tel"
                       {...register("phone")}
@@ -256,7 +261,10 @@ export default function ArtisanUpdate() {
                   </div>
 
                   <div className="form-group">
-                    <button type="submit" className="btn btn-primary artisanUpdateButton" >
+                    <button
+                      type="submit"
+                      className="btn btn-primary artisanUpdateButton"
+                    >
                       Update
                     </button>
                   </div>

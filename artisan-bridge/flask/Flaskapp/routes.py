@@ -211,22 +211,7 @@ def edit_table(id, table):
     if request.method == 'POST':
 
         artisan = request.get_json(force=True)
-        # artisan_email = artisan.get("email")
-        # artisan_username = artisan.get('artisan_username')
-
-        # Establishing connection
         connection = engine.connect()
-
-        # exist_email = connection.execute(db.select([artisans.columns.email]).where(
-        #     artisans.columns.email == artisan_email)).fetchall()
-        # exist_username = connection.execute(db.select([artisans.columns.artisan_username]).where(
-        #     artisans.columns.artisan_username == artisan_username)).fetchall()
-
-        # if exist_email:
-        #     return {"message": f"Account already exists", "alert": "danger", "passed": False}
-        # if exist_username:
-        #     return {"message": f"Username already exists", "alert": "danger", "passed": False}
-        # else:
         try:
             connection.execute(
                 db.insert(artisans).values([dict(artisan)]))
@@ -278,15 +263,17 @@ def reports(id):
 
 @app.route('/admin/services/<int:id>', methods=['POST', 'GET'])
 def get_admin_services(id):
+     # Establishing connection
+    connection = engine.connect()
     if request.method == "POST":
         service = request.get_json(force=True)
-    # Establishing connection
-    connection = engine.connect()
+       
 
-    if request.method == 'POST':
         # adding a service
         if id == 0:
             connection.execute(db.insert(services).values([dict(service)]))
+            return {"message": f"Artisan {service.get('skill')} successfully added", "alert": "success", "passed": True}
+
         else:
             # db query for updating the service
             pass
@@ -316,10 +303,11 @@ def update_artisan(id):
     if request.method == 'POST':
         
         artisan_update = request.get_json(force=True)
+        print(artisan_update)
 
         connection.execute(db.update(artisans).values(service_id = artisan_update['service_id'], first_name = artisan_update['first_name'], last_name = artisan_update['last_name'], contact = artisan_update['contact'], address = artisan_update['address']).where(artisans.columns.artisan_id == id))
 
-        return {"info":"Success"}
+        return {"message": f"Artisan {artisan_update.get('last_name')} successfully updated", "alert": "success", "passed":True}
 
 # -------------------------------------------------------------- VIEWS -----------------------------------------------------------------
 
@@ -348,7 +336,7 @@ def popularServices():
     return return_items
 
 
-@app.route('/service')
+@app.route('/services')
 def Services():
     # Establishing connection
     connection = engine.connect()
@@ -506,7 +494,7 @@ def find_artisan_id(artisan_id):
                                           services.columns.skill
                                           ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == artisan_id)).fetchall()
 
-    return {"service_id": f"{query[0][0]}", "artisan_id": f"{query[0][1]}", "Name": f"{query[0][2]} {query[0][3]}",
+    return {"service_id": f"{query[0][0]}", "artisan_id": f"{query[0][1]}", "Name":f"{query[0][2]} ","first_name": f"{query[0][2]} {query[0][3]}", "last_name":f"{query[0][3]}",
             "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
             "description": f"{query[0][7]}",
             "Path": f"{query[0][8]}", "Expertise": f"{query[0][9]}"}

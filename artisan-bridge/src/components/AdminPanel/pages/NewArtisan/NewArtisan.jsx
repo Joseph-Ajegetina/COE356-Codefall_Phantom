@@ -7,12 +7,11 @@ import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import ImageUploading from "react-images-uploading";
-import { Link } from "react-router-dom";
+
 
 export default function NewArtisan() {
-  //Schema for the form validation
+  //Schema for the form validation for form fields
   const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("FirstName  is required"),
     lastName: Yup.string().required("lastName is required"),
@@ -37,12 +36,6 @@ export default function NewArtisan() {
   const [images, setImages] = React.useState([]);
   const maxNumber = 1;
 
-  const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
-    const image = imageList[0];
-    setImageName(image.file.name);
-    setImages(imageList);
-  };
 
   let history = useHistory();
 
@@ -52,7 +45,7 @@ export default function NewArtisan() {
         if (response.ok) {
           return response.json();
         } else {
-          console.log("Server issues");
+          console.log("Server issues for feteching services in New Artisan");
         }
       })
       .then((data) => {
@@ -64,6 +57,15 @@ export default function NewArtisan() {
   useEffect(() => {
     fetchServices();
   }, [refresh]);
+
+  // function for image upload
+  const onChange = (imageList, addUpdateIndex) => {
+    // data for submit
+    const image = imageList[0];
+    setImageName(image.file.name);
+    setImages(imageList);
+  };
+
 
   const submitHandler = (formData) => {
     const userInput = {
@@ -149,7 +151,6 @@ export default function NewArtisan() {
             <div className="invalid-feedback">{errors.phone?.message}</div>
           </div>
           <ImageUploading
-            multiple
             value={images}
             onChange={onChange}
             maxNumber={maxNumber}
@@ -158,9 +159,7 @@ export default function NewArtisan() {
             {({
               imageList,
               onImageUpload,
-              onImageRemoveAll,
               onImageUpdate,
-              onImageRemove,
               isDragging,
               dragProps,
             }) => (
@@ -171,19 +170,15 @@ export default function NewArtisan() {
                   onClick={onImageUpload}
                   {...dragProps}
                 >
-                  Click or Drop here
+                  Upload Image
                 </button>
                 &nbsp;
-                <button onClick={onImageRemoveAll}>Remove all images</button>
                 {imageList.map((image, index) => (
                   <div key={index} className="image-item">
                     <img src={image["data_url"]} alt="" width="100" />
                     <div className="image-item__btn-wrapper">
                       <button onClick={() => onImageUpdate(index)}>
                         Update
-                      </button>
-                      <button onClick={() => onImageRemove(index)}>
-                        Remove
                       </button>
                     </div>
                   </div>
