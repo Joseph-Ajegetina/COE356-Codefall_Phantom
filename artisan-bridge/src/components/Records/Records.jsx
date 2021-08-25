@@ -1,6 +1,8 @@
 import "./Records.scss";
 import React, { useEffect, useState } from "react";
 import Message from "../navigationBar/Message";
+import Star from "./Rating";
+
 
 export default function Records() {
   const [records, setRecords] = useState([]);
@@ -44,6 +46,7 @@ export default function Records() {
                   <th>Date</th>
                   <th>Service</th>
                   <th>Artisan</th>
+                  <th>Rating</th>
                 </tr>
               </thead>
               <tbody>
@@ -51,11 +54,14 @@ export default function Records() {
                   const num =
                     parseInt(record[0].substr(record[0].length - 1)) + 1;
                   return (
+                     
                     <tr>
                       <th scope="row">{num}</th>
                       <td>{record[1].Artisan_name}</td>
                       <td>{record[1].Skill}</td>
                       <td>{record[1].Date}</td>
+                      <td> <Star/></td>
+
                     </tr>
                   );
                 })}
