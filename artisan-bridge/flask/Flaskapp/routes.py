@@ -447,8 +447,12 @@ def rating(record_id,artisan_id,rating):
 
     services_completed = connection.execute(db.select(artisans.columns.services_completed).where(
         artisans.columns.artisan_id == artisan_id)).fetchall()
-    new_rating = rate(artisan_rating, services_completed,rating)
-
+    if artisan_rating:
+        new_rating = rate(artisan_rating, services_completed,rating)
+    else:
+        new_rating = rating
+        
+        
     #updating the new rating
     connection.execute(db.update(artisans).values(rating = new_rating).where(artisans.columns.artisan_id == artisan_id))
     #updating the status of the service
