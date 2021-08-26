@@ -438,8 +438,8 @@ def rate(artisan_rating, services_completed,rating):
 
 
 
-@app.route('/rating/<int:record_id>/<int:artisan_id>/<int:rating>')
-#@login_requireds
+@app.route('/rating/<int:record_id>/<int:artisan_id>/<float:rating>')
+
 def rating(record_id,artisan_id,rating):
     connection = engine.connect()    
     artisan_rating = connection.execute(db.select(artisans.columns.rating).where(
@@ -452,7 +452,7 @@ def rating(record_id,artisan_id,rating):
     #updating the new rating
     connection.execute(db.update(artisans).values(rating = new_rating).where(artisans.columns.artisan_id == artisan_id))
     #updating the status of the service
-    connection.execute(db.update(records).values(status = "done").where(records.columns.record_id == record_id))
+    connection.execute(db.update(records).values(status = 2).where(records.columns.record_id == record_id))
     #updating the services completed
     connection.execute(db.update(artisans).values(services_completed = services_completed+1).where(artisans.columns.artisan_id == artisan_id))
 
