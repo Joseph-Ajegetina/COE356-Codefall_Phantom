@@ -425,9 +425,8 @@ def check_rating(customer_id):
     result = {}
     for num, i in enumerate(query):
         result[str(num)] = {"record_id": f"{i[0]}",
-                            "customer_id": f"{i[1]}", 
-                            "artisan_id": f"{i[2]}",
-                            "service_id": f"{i[3]}",
+                            "artisan_name": f"{i[2]}",
+                            "skill": f"{skill}",
                             "status": f"{i[5]}"}
 
     return result
