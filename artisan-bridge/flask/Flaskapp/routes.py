@@ -419,11 +419,14 @@ def confirm_id(artisan_id, customer_id):
 #@login_requireds
 def check_rating(customer_id):
     #select status from records where customer_id = customer_id limit 1
-    connection = engine.connect()    
+    connection = engine.connect() 
     query = connection.execute(db.select([records]).where(db.and_(
         records.columns.customer_id == customer_id, records.columns.status ==1))).fetchone()
     result = {}
     for num, i in enumerate(query):
+        id_=connection.execute(db.select(artisans.columns.first_name).where(artisans.columns.artisan_id == i[2]))
+        skills = connection.execute(db.select(services.columns.skills).where(services.columns.services_id == i[3]))
+        
         result[str(num)] = {"record_id": f"{i[0]}",
                             "artisan_name": f"{i[2]}",
                             "skill": f"{skill}",
