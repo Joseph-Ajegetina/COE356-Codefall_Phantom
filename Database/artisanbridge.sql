@@ -66,6 +66,7 @@ CREATE TABLE records (
   service_id INT NOT NULL,
   date DATETIME DEFAULT NOW(),
   status TINYINT(4) NOT NULL DEFAULT '1',
+  rating DECIMAL(2,1) UNSIGNED CONSTRAINT chk_Rating2 CHECK (rating >= 0.00 AND rating <=5.00),
   PRIMARY KEY (record_id),
   FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
   FOREIGN KEY (artisan_id) REFERENCES artisans(artisan_id),
