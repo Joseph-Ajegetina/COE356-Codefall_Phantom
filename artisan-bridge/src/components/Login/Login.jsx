@@ -41,7 +41,7 @@ const Login = () => {
     if (location.state) {
       const messageLocation = location.state.messageParams;
       const alertLocation = location.state.alertParams;
-      
+
       if (messageLocation && alertLocation) {
         //displaying the message
         setAlert({ message: messageLocation, alert: alertLocation });
@@ -77,13 +77,12 @@ const Login = () => {
       .then((loginReturn) => {
         if (loginReturn.passed) {
           //Getting info from login fetch
-          const user = loginReturn.user
+          const user = loginReturn.user;
           localStorage.setItem("isLoggedIn", "1");
-          if (user){
-            localStorage.setItem("user",user)
+          if (user) {
+            localStorage.setItem("user", user);
           }
           let userType = loginReturn.type;
-         
 
           //checking if the user is a customer or an administrator
           if (userType === "customer") {

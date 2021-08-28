@@ -5,18 +5,15 @@ import SearchIcon from "@material-ui/icons/Search";
 import NavPublic from "./NavPublic";
 import NavLogin from "./NavLogin";
 
-
 const Navigation = () => {
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     const storedUserIsLoggedIn = localStorage.getItem("isLoggedIn");
     if (storedUserIsLoggedIn === "1") {
       setIsLoggedIn(true);
     }
-  },[])
-  
+  }, []);
 
   return (
     <div className="header">
@@ -66,9 +63,9 @@ const Navigation = () => {
             </span>
           </Link>
         </div>
-       {isLoggedIn ?<NavLogin/>: <NavPublic/>}
+        {isLoggedIn ? <NavLogin /> : <NavPublic />}
       </div>
     </div>
   );
-}
+};
 export default Navigation;
