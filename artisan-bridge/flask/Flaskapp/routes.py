@@ -381,7 +381,6 @@ def Services():
 # -------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
 
 @app.route('/logout', methods=['GET', 'POST'])
-@login_requireds
 def logout():
 
     # session.pop('loggedin', None)
