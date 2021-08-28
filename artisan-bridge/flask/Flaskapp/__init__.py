@@ -41,6 +41,7 @@ records = db.Table('records', metadata, autoload=True, autoload_with=engine)
 admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
 popular_services = db.Table('popular_services', metadata, autoload=True, autoload_with=engine)
 top_rated_artisans = db.Table('top_rated_artisans', metadata, autoload=True, autoload_with=engine)
+record_statuses = db.Table('record_statuses', metadata, autoload=True, autoload_with=engine)
 
 # variables
 app.config['State'] = None

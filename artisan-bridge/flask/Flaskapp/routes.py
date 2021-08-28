@@ -5,8 +5,29 @@ import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
 from wtforms_json import from_json
 from Flaskapp import app, bcrypt, db
-from Flaskapp.decos import admin_login_required, login_requireds
+# from Flaskapp.decos import admin_login_required, login_requireds
 from datetime import datetime
+
+
+
+@app.before_request
+def before_request():
+
+    if 'admin' in session:
+        app.config['State_Admin'] = True
+        # print(State)
+    elif 'username' in session:
+        # print(State)
+        app.config['State'] = True
+
+    else:
+        app.config['State'] = None
+
+
+@app.route('/before_page_load', methods=['GET'])
+def before_page_load():
+
+    return {"loggedIn":session['loggedIn'], "admin":session['admin'], "username":session['username'], "id":session['id']}
 
 
 # --------------------------------------------------------------- LOGIN --------------------------------------------------------------------
@@ -202,7 +223,6 @@ def customer_table():
 
 # to be tested -----------------------------
 @app.route('/admin/<string:table>/edit/<string:id>', methods=['POST', 'DELETE'])
-# @login_required
 def edit_table(id, table):
 
     reference = {"artisans": [artisans, artisans.columns.artisan_id],
@@ -236,7 +256,6 @@ def edit_table(id, table):
 
 # to be changed
 @app.route('/admin/report/<int:id>', methods=['GET', 'DELETE'])
-# @login_required
 def reports(id):
     # Establishing connection
     connection = engine.connect()
@@ -373,7 +392,6 @@ def logout():
 
 
 @app.route('/delete_account', methods=['DELETE'])
-# @login_required
 def delete_account():
     print(session['username'])
     # Establishing connection
@@ -384,13 +402,12 @@ def delete_account():
 
 # To be worked on
 @app.route('/report/<int:customer_Id>')
-# @login_required
 def report(customer_Id):
     # Establishing connection
     connection = engine.connect()
 
     query = connection.execute(
-        f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
+        f"SELECT r1.record_id, r1.rating, artisans.first_name, artisans.last_name, services.skill, r1.date, r1.rating, r1.status record_statuses.name FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id, records as r3 INNER JOIN record_statuses ON r3.status = record_statuses.record_status_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
 
     result = {}
     for i in query:
@@ -401,7 +418,6 @@ def report(customer_Id):
 
 
 @app.route('/confirm_order/<int:artisan_id>/<int:customer_id>')
-# @login_requireds
 def confirm_id(artisan_id, customer_id):
     # Establishing connection
     connection = engine.connect()
@@ -416,7 +432,6 @@ def confirm_id(artisan_id, customer_id):
 
 
 @app.route('/check_rating/<int:customer_id>')
-#@login_requireds
 def check_rating(customer_id):
     #select status from records where customer_id = customer_id limit 1
     connection = engine.connect() 
@@ -425,7 +440,7 @@ def check_rating(customer_id):
     result = {}
     for num, i in enumerate(query):
         id_=connection.execute(db.select(artisans.columns.first_name).where(artisans.columns.artisan_id == i[2]))
-        skills = connection.execute(db.select(services.columns.skills).where(services.columns.services_id == i[3]))
+        skill = connection.execute(db.select(services.columns.skills).where(services.columns.services_id == i[3]))
         
         result[str(num)] = {"record_id": f"{i[0]}",
                             "artisan_name": f"{i[2]}",
@@ -467,7 +482,6 @@ def rating(record_id,artisan_id,rating):
 # -------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
 
 @app.route('/find_artisan')
-# @login_required
 def find_artisan():
     # Establishing connection
     connection = engine.connect()
@@ -490,7 +504,6 @@ def find_artisan():
 
 
 @app.route('/find_artisan/<int:artisan_id>')
-# @login_required
 def find_artisan_id(artisan_id):
     # Establishing connection
     connection = engine.connect()
@@ -533,37 +546,5 @@ def find_artisan_id(artisan_id):
 # State = None
 
 
-# admin 🙄🙄😶
-@app.before_request
-def before_request():
-
-    if 'admin' in session:
-        app.config['State_Admin'] = True
-        # print(State)
-    elif 'username' in session:
-        # print(State)
-        app.config['State'] = True
-
-    else:
-        app.config['State'] = None
 
 
-@app.route('/dashboard', methods=['GET'])
-@login_requireds
-def dashboard():
-
-    return {"info": f'{session}'}
-
-
-@app.route('/find')
-def find():
-    return {"electrician": [{"name": "Kojo", "age": 20, "location": "Happy family"},
-                            {"name": "Kofi", "age": 20, "location": "Happy family"},
-                            {"name": "Joseph", "age": 20, "location": "Happy family"}],
-            "plumbers": [{"name": "Kojo", "age": 20, "location": "Happy family"},
-                         {"name": "Kofi", "age": 20, "location": "Happy family"},
-                         {"name": "Joseph", "age": 20, "location": "Happy family"}],
-            "sellers": [{"name": "Kojo", "age": 20, "location": "Happy family"},
-                        {"name": "Kojo", "age": 20, "location": "Happy family"},
-                        {"name": "Kofi", "age": 20, "location": "Happy family"},
-                        {"name": "Joseph", "age": 20, "location": "Happy family"}]}
