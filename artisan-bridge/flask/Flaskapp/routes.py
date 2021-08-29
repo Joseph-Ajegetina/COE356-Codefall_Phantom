@@ -197,7 +197,8 @@ def artisan_table():
                             "rating": f"{i[4]}",
                             "address": f"{i[5]}",
                             "contact": f"{i[6]}",
-                            "profile_image_path": f"{i[7]}"}
+                            "profile_image_path": f"{i[7]}",
+                            "skill":f"{connection.execute(db.select(services).where(services.columns.service_id == i[1])).fetchall()[0][0]}"}
 
     return result
 
@@ -407,12 +408,12 @@ def report(customer_Id):
     connection = engine.connect()
 
     query = connection.execute(
-        f"SELECT r1.record_id, r1.rating, artisans.first_name, artisans.last_name, services.skill, r1.date, r1.rating, r1.status, record_statuses.name FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id, records as r3 INNER JOIN record_statuses ON r3.status = record_statuses.record_status_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
+        f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date, r1.rating, r1.status, record_statuses.name FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id, records as r3 INNER JOIN record_statuses ON r3.status = record_statuses.record_status_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
 
     result = {}
     for i in query:
         result[str(i[0])] = {"Artisan_name": f"{i[1]} {i[2]}",
-                             "Skill": f"{i[3]}", "Date": f"{i[4]}"}
+                             "Skill": f"{i[3]}", "Date": f"{i[4]}", "rating":f"{i[5]}", "status":f"{i[7]}"}
 
     return result
 
@@ -430,13 +431,13 @@ def confirm_id(artisan_id, customer_id):
 
     return {"info": 1}
 
-
+# update to update record status of record
 @app.route('/check_rating/<int:customer_id>')
 def check_rating(customer_id):
     #select status from records where customer_id = customer_id limit 1
     connection = engine.connect() 
     query = connection.execute(db.select([records]).where(db.and_(
-        records.columns.customer_id == customer_id, records.columns.status ==1))).fetchone()
+        records.columns.customer_id == customer_id, records.columns.status == 1))).fetchone()
     result = {}
     for num, i in enumerate(query):
         id_=connection.execute(db.select(artisans.columns.first_name).where(artisans.columns.artisan_id == i[2]))
@@ -456,7 +457,6 @@ def rate(artisan_rating, services_completed,rating):
 
 
 @app.route('/rating/<int:record_id>/<int:artisan_id>/<float:rating>')
-
 def rating(record_id,artisan_id,rating):
     connection = engine.connect()    
     artisan_rating = connection.execute(db.select(artisans.columns.rating).where(
@@ -473,7 +473,7 @@ def rating(record_id,artisan_id,rating):
     #updating the new rating
     connection.execute(db.update(artisans).values(rating = new_rating).where(artisans.columns.artisan_id == artisan_id))
     #updating the status of the service
-    connection.execute(db.update(records).values(status = 2).where(records.columns.record_id == record_id))
+    connection.execute(db.update(records).values(status = 3).where(records.columns.record_id == record_id))
     #updating the services completed
     connection.execute(db.update(artisans).values(services_completed = services_completed+1).where(artisans.columns.artisan_id == artisan_id))
 
