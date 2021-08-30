@@ -97,7 +97,7 @@ export default function AddArtisans() {
     },
     {
       field: "jobDescription",
-      headerName: "Job Title",
+      headerName: "Skill",
       width: 200,
       editable: true,
       renderCell: (params) => {
@@ -108,7 +108,7 @@ export default function AddArtisans() {
     },
     {
       field: "Rating",
-      headerName: "Status",
+      headerName: "Rating",
       width: 200,
       editable: true,
       renderCell: (params) => {

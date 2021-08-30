@@ -40,7 +40,7 @@ export default function NewArtisan() {
   let history = useHistory();
 
   const fetchServices = () => {
-    fetch("http://127.0.0.1:5000/admin/services/100")
+    fetch("http://127.0.0.1:5000/services")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -223,7 +223,7 @@ export default function NewArtisan() {
               className={`form-control ${errors.service ? "is-invalid" : ""}`}
             >
               {services.map((service) => {
-                return <option value={service.id}>{service.name}</option>;
+                return <option value={service.id}>{service.service}</option>;
               })}
             </select>
             <div className="invalid-feedback">{errors.email?.message}</div>
