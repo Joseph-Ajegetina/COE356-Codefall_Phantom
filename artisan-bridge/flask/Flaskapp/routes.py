@@ -382,7 +382,6 @@ def Services():
 # -------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
 
 @app.route('/logout', methods=['GET', 'POST'])
-@login_requireds
 def logout():
 
     # session.pop('loggedin', None)
@@ -432,23 +431,24 @@ def confirm_id(artisan_id, customer_id):
     return {"info": 1}
 
 # update to update record status of record
-@app.route('/check_rating/<int:customer_id>')
-def check_rating(customer_id):
+@app.route('/check_rating/<int:record_id>')
+def check_rating(record_id):
     #select status from records where customer_id = customer_id limit 1
     connection = engine.connect() 
-    query = connection.execute(db.select([records]).where(db.and_(
-        records.columns.customer_id == customer_id, records.columns.status == 1))).fetchone()
-    result = {}
-    for num, i in enumerate(query):
-        id_=connection.execute(db.select(artisans.columns.first_name).where(artisans.columns.artisan_id == i[2]))
-        skill = connection.execute(db.select(services.columns.skills).where(services.columns.services_id == i[3]))
+    connection.execute(db.update(records).values(status = 2).where(records.columns.record_id == record_id))
+    # query = connection.execute(db.select([records]).where(db.and_(
+    #     records.columns.customer_id == customer_id, records.columns.status == 1))).fetchone()
+    # result = {}
+    # for num, i in enumerate(query):
+    #     id_=connection.execute(db.select(artisans.columns.first_name).where(artisans.columns.artisan_id == i[2]))
+    #     skill = connection.execute(db.select(services.columns.skills).where(services.columns.services_id == i[3]))
         
-        result[str(num)] = {"record_id": f"{i[0]}",
-                            "artisan_name": f"{i[2]}",
-                            "skill": f"{skill}",
-                            "status": f"{i[5]}"}
+    #     result[str(num)] = {"record_id": f"{i[0]}",
+    #                         "artisan_name": f"{i[2]}",
+    #                         "skill": f"{skill}",
+    #                         "status": f"{i[5]}"}
 
-    return result
+    # return result
 
 
 def rate(artisan_rating, services_completed,rating):
