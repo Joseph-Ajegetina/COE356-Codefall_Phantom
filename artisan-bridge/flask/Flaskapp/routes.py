@@ -452,7 +452,7 @@ def rating(record_id,artisan_id,rating):
     #updating the new rating
     connection.execute(db.update(artisans).values(rating = new_rating).where(artisans.columns.artisan_id == artisan_id))
     #updating the status of the service
-    connection.execute(db.update(records).values(status = "done").where(records.columns.record_id == record_id))
+    connection.execute(db.update(records).values(status = "3").where(records.columns.record_id == record_id))
     #updating the services completed
     connection.execute(db.update(artisans).values(services_completed = services_completed+1).where(artisans.columns.artisan_id == artisan_id))
 
