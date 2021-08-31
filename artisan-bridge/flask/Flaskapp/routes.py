@@ -407,7 +407,7 @@ def report(customer_Id):
     connection = engine.connect()
 
     query = connection.execute(
-        f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date, r1.rating, r1.status, record_statuses.name FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id, records as r3 INNER JOIN record_statuses ON r3.status = record_statuses.record_status_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
+        f"SELECT r1.record_id, artisans.first_name, artisans.last_name, services.skill, r1.date, r1.rating, r1.status, record_statuses.name, r1.artisan_id FROM records as r1 INNER JOIN services ON r1.service_id = services.service_id, records as r2 INNER JOIN artisans ON r2.artisan_id = artisans.artisan_id, records as r3 INNER JOIN record_statuses ON r3.status = record_statuses.record_status_id WHERE r1.customer_id = {customer_Id} ORDER BY r1.date DESC ").fetchall()
 
     result = {}
     for i in query:
