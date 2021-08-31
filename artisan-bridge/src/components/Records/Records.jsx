@@ -78,10 +78,12 @@ export default function Records() {
                     const num =
                       parseInt(record[0].substr(record[0].length - 1)) + 1;
                     const info = {
-                      artisanID: record[1],
+                      artisanID: record[1].Artisan_name,
                       recordID: record[0],
-                      
-                    };
+                      status:  record[1].status,
+                      rating:  record[1].rating
+                      };
+                    
 
                     return (
                       <tr>
@@ -90,11 +92,11 @@ export default function Records() {
                         <td>{record[1].Skill}</td>
                         <td>{record[1].Artisan_name}</td>
                         <td>
-                        <Status recordID={info.recordID} setRecordStatus={setRecordStatus} recordStatus={recordStatus}/>
+                        <Status recordID={info.recordID} setRecordStatus={setRecordStatus} recordStatus={info.status}/>
                         </td>
-                     {  recordStatus === "complete" ?    <td>
+                     {  info.status === "Done"  ?    <td>
                           {" "}
-                          <Star recordID={info.recordID} setRecordRating={setRecordRating} recordRating/>
+                          <Star recordID={info.recordID} artisanID={info.artisanID} setRecordRating={setRecordRating} recordRating={info.rating} rated={true}/>
                         </td>:""}
                       </tr>
                     );

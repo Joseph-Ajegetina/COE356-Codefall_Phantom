@@ -1,54 +1,56 @@
 import { React, useState } from "react";
 
 const Status = ({ recordID, setRecordStatus, recordStatus }) => {
+  console.log("recordStatus ", recordStatus);
   const [statusID, setStatusID] = useState("");
   const statusHandler = (event) => {
     const tranStatus = event.target.value;
-    if (tranStatus === "complete") {
-      setStatusID(true);
-      setRecordStatus("complete");
-    } else if (tranStatus === "cancel") {
-      setStatusID(false);
-      setRecordStatus("cancel");
-    } else {
-      setStatusID();
+    if (tranStatus === "Done") {
+      //   setStatusID(2);
+      //   setRecordStatus("complete");
+      // } else if (tranStatus === "Pending") {
+      //   setStatusID(1);
+      //   setRecordStatus("cancel");
+      // } else {
+      //   setStatusID(3);
+      // }
+      // setRecordStatus(tranStatus);
+      fetch(`http://127.0.0.1:5000/record_status/${recordID}`).then(
+        (response) => {
+          if (response.ok) {
+            return;
+          }
+        }
+      );
     }
-    // setRecordStatus(tranStatus);
-    fetch(`http://127.0.0.1:5000/rating/${recordID}/${statusID}`, {
-      method: "POST",
-    }).then((response) => {
-      if (response.ok) {
-        return;
-      }
-    });
   };
-  if (recordStatus === "complete") {
+  if (recordStatus === "Done") {
     return (
       <>
-        <div value="complete" class="badge badge-success badge-pill">
+        <div value="Done" class="badge badge-success badge-pill">
           completed
         </div>
       </>
     );
   } else if (recordStatus == "cancel") {
     return (
-      <div value="complete" class="badge badge-success badge-pill">
-        completed
+      <div value="Cancelled" class="badge badge-danger badge-pill">
+        Cancelled
       </div>
     );
-  } else {
+  } else if (recordStatus == "Pending") {
     return (
       <>
         <select
           name="status"
           id=""
-          class="badge badge-danger badge-pill"
+          class="badge badge-secondary badge-pill"
           onChange={statusHandler}
         >
-          <option value="pending" class="badge badge-secondary badge-pill">
+          <option value="Pending" class="badge badge-secondary badge-pill">
             pending
           </option>
-          <option value="complete" class="badge badge-success badge-pill">
+          <option value="Done" class="badge badge-success badge-pill">
             completed
           </option>
           <option value="cancel" class="badge badge-danger badge-pill">

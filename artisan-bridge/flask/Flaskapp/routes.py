@@ -431,7 +431,7 @@ def confirm_id(artisan_id, customer_id):
     return {"info": 1}
 
 # update to update record status of record
-@app.route('/check_rating/<int:record_id>')
+@app.route('/record_status/<int:record_id>')
 def check_rating(record_id):
     #select status from records where customer_id = customer_id limit 1
     connection = engine.connect() 
