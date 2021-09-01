@@ -412,7 +412,7 @@ def report(customer_Id):
     result = {}
     for i in query:
         result[str(i[0])] = {"Artisan_name": f"{i[1]} {i[2]}",
-                             "Skill": f"{i[3]}", "Date": f"{i[4]}", "rating":f"{i[5]}", "status":f"{i[7]}"}
+                             "Skill": f"{i[3]}", "Date": f"{i[4]}", "rating":f"{i[5]}", "status":f"{i[7]}", "artisan_id":f"{i[8]}"}
 
     return result
 
@@ -449,6 +449,7 @@ def check_rating(record_id):
     #                         "status": f"{i[5]}"}
 
     # return result
+    return True
 
 
 def rate(artisan_rating, services_completed,rating):

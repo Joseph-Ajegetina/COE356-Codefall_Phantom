@@ -1,8 +1,11 @@
 import { React, useState } from "react";
 
-const Status = ({ recordID, setRecordStatus, recordStatus }) => {
-  console.log("recordStatus ", recordStatus);
+const Status = ({ recordID, setShowRating, recordStatus }) => {
+  console.log("Record id ", recordID, " status:",recordStatus)
+
   const [statusID, setStatusID] = useState("");
+
+
   const statusHandler = (event) => {
     const tranStatus = event.target.value;
     if (tranStatus === "Done") {

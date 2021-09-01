@@ -10,8 +10,8 @@ export default function Records() {
   const [isError, setIsError] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [recordRating, setRecordRating] = useState(null);
+  const [showRating, setShowRating] = useState(null);
   const [recordStatus, setRecordStatus] = useState("");
-
 
   //Fetching the artisan details using the id
   const fetchRecordData = () => {
@@ -34,8 +34,6 @@ export default function Records() {
   //useEffect to run once
   useEffect(() => {
     fetchRecordData();
- 
-
   }, [refreshKey]);
 
   return (
@@ -78,26 +76,38 @@ export default function Records() {
                     const num =
                       parseInt(record[0].substr(record[0].length - 1)) + 1;
                     const info = {
-                      artisanID: record[1].Artisan_name,
+                      artisanID: record[1].artisan_id,
                       recordID: record[0],
-                      status:  record[1].status,
-                      rating:  record[1].rating
-                      };
-                    
+                      status: record[1].status,
+                      rating: record[1].rating,
+                    };
 
                     return (
-                      <tr>
+                     <tr>
                         <th scope="row">{num}</th>
                         <td>{record[1].Date}</td>
                         <td>{record[1].Skill}</td>
                         <td>{record[1].Artisan_name}</td>
                         <td>
-                        <Status recordID={info.recordID} setRecordStatus={setRecordStatus} recordStatus={info.status}/>
+                          <Status
+                            recordID={info.recordID}
+                            setShowRating={setShowRating}
+                            recordStatus={info.status}
+                          />
                         </td>
-                     {  info.status === "Done"  ?    <td>
-                          {" "}
-                          <Star recordID={info.recordID} artisanID={info.artisanID} setRecordRating={setRecordRating} recordRating={info.rating} rated={true}/>
-                        </td>:""}
+                        {showRating || info.rating > 0 || info.status === "Done"? (
+                          <td>
+                            {" "}
+                            <Star
+                              recordID={info.recordID}
+                              artisanID={info.artisanID}
+                              setShowRating={setShowRating}
+                              recordRating={info.rating}
+                            />
+                          </td>
+                        ) : (
+                          ""
+                        )}
                       </tr>
                     );
                   })}
