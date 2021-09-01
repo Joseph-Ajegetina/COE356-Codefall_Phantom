@@ -459,9 +459,12 @@ def rate(artisan_rating, services_completed,rating):
 
 @app.route('/rating/<int:record_id>/<int:artisan_id>/<float:rating>')
 def rating(record_id,artisan_id,rating):
-    connection = engine.connect()    
-    artisan_rating = connection.execute(db.select(artisans.columns.rating).where(
+    connection = engine.connect()
+    try:
+        artisan_rating = connection.execute(db.select(artisans.columns.rating).where(
         artisans.columns.artisan_id == artisan_id)).fetchall()[0][0]
+    except:
+        artisan_rating=None
 
     services_completed = connection.execute(db.select(artisans.columns.services_completed).where(
         artisans.columns.artisan_id == artisan_id)).fetchall()[0][0]
@@ -471,7 +474,7 @@ def rating(record_id,artisan_id,rating):
         new_rating = rating
         
         
-    #updating the new rating
+    # updating the new rating
     connection.execute(db.update(artisans).values(rating = new_rating).where(artisans.columns.artisan_id == artisan_id))
     connection.execute(db.update(records).values(rating = rating).where(records.columns.record_id == record_id))
     #updating the status of the service
@@ -479,8 +482,7 @@ def rating(record_id,artisan_id,rating):
     #updating the services completed
     connection.execute(db.update(artisans).values(services_completed = services_completed+1).where(artisans.columns.artisan_id == artisan_id))
 
-    #delete after pull
-    return {"info":1}
+
 
 
 
