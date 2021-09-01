@@ -19,7 +19,7 @@ export default function Star({ recordID, artisanID, recordRating }) {
     <div>
       {recordRating != "None"
         ? [...Array(5)].map((star, i) => {
-            const ratingValue = i + 1;
+            const ratingValue = 5 - recordRating;
             return (
               <label>
                 <input type="radio" name="rating" value={ratingValue} />
@@ -41,7 +41,6 @@ export default function Star({ recordID, artisanID, recordRating }) {
                   name="rating"
                   value={ratingValue}
                   onClick={() => {setRating(ratingValue)
-                  console.log("rating click",rating)
                 rateHandler()}}
                 />
                 <FaStar
