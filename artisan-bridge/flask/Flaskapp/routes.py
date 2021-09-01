@@ -453,7 +453,7 @@ def check_rating(record_id):
 
 
 def rate(artisan_rating, services_completed,rating):
-    return (((artisan_rating*services_completed) + rating)/services_completed + 1)
+    return (((artisan_rating*services_completed) + rating)/(services_completed + 1))
 
 
 
@@ -461,22 +461,26 @@ def rate(artisan_rating, services_completed,rating):
 def rating(record_id,artisan_id,rating):
     connection = engine.connect()    
     artisan_rating = connection.execute(db.select(artisans.columns.rating).where(
-        artisans.columns.artisan_id == artisan_id)).fetchall()
+        artisans.columns.artisan_id == artisan_id)).fetchall()[0][0]
 
     services_completed = connection.execute(db.select(artisans.columns.services_completed).where(
-        artisans.columns.artisan_id == artisan_id)).fetchall()
+        artisans.columns.artisan_id == artisan_id)).fetchall()[0][0]
     if artisan_rating:
-        new_rating = rate(artisan_rating, services_completed,rating)
+        new_rating = rate(float(artisan_rating), int(services_completed),float(rating))
     else:
         new_rating = rating
         
         
     #updating the new rating
     connection.execute(db.update(artisans).values(rating = new_rating).where(artisans.columns.artisan_id == artisan_id))
+    connection.execute(db.update(records).values(rating = rating).where(records.columns.record_id == record_id))
     #updating the status of the service
     connection.execute(db.update(records).values(status = 3).where(records.columns.record_id == record_id))
     #updating the services completed
     connection.execute(db.update(artisans).values(services_completed = services_completed+1).where(artisans.columns.artisan_id == artisan_id))
+
+    #delete after pull
+    return {"info":1}
 
 
 
