@@ -27,7 +27,7 @@ export default function Star({ recordID, artisanID, recordRating }) {
                 <FaStar
                   size={30}
                   color={
-                    ratingValue <= (hover || rating) ? "#f59401" : "#e4e5e5"
+                    ratingValue <= (hover || recordRating) ? "#f59401" : "#e4e5e5"
                   }
                 />
               </label>
