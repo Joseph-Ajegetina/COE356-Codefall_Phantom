@@ -25,14 +25,14 @@ const Navigation = () => {
         </Link>
       </div>
       <div className="header-search">
-        <input
+        {/* <input
           type="text"
           placeholder="Search for Artisans and Services..."
           className="header-input"
-        />
-        <button className="header-searchicon">
+        /> */}
+        {/* <button className="header-searchicon">
           <SearchIcon />
-        </button>
+        </button> */}
       </div>
       <div className="header-nav">
         <div className="header-option">

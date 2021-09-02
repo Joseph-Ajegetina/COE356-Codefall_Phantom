@@ -23,6 +23,7 @@ export default function Records() {
       .then((data) => {
         setIsLoading(false);
         const recordList = Object.entries(data);
+        console.log("recordList", recordList)
         setRecords(recordList);
       })
       .catch((error) => {

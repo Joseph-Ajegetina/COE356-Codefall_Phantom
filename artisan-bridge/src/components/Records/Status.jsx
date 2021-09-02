@@ -27,7 +27,7 @@ const Status = ({ recordID, setShowRating, recordStatus }) => {
       );
     }
   };
-  if (recordStatus === "Done") {
+  if (recordStatus === "Done" || recordStatus === "Rated") {
     return (
       <>
         <div value="Done" class="badge badge-success badge-pill">

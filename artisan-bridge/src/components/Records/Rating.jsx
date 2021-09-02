@@ -9,7 +9,7 @@ export default function Star({ recordID, artisanID, recordRating }) {
   
 
   const rateHandler = () => {
-    fetch(`http://127.0.0.1:5000/rating/${recordID}/${artisanID}/${rating}`).then((response) => {
+    fetch(`http://127.0.0.1:5000/rating/${recordID}/${artisanID}/${parseFloat(rating).toFixed(1)}`).then((response) => {
       if (response.ok) {
         return;
       }
@@ -19,7 +19,7 @@ export default function Star({ recordID, artisanID, recordRating }) {
     <div>
       {recordRating != "None"
         ? [...Array(5)].map((star, i) => {
-            const ratingValue = 5 - recordRating;
+            const ratingValue = i + 1
             return (
               <label>
                 <input type="radio" name="rating" value={ratingValue} />
