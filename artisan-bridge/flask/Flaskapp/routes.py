@@ -431,11 +431,16 @@ def confirm_id(artisan_id, customer_id):
     return {"info": 1}
 
 # update to update record status of record
-@app.route('/record_status/<int:record_id>')
-def check_rating(record_id):
+@app.route('/record_status/<int:record_id>/<int:number>')
+def check_rating(record_id, number):
     #select status from records where customer_id = customer_id limit 1
     connection = engine.connect() 
-    connection.execute(db.update(records).values(status = 2).where(records.columns.record_id == record_id))
+    if number == 0:
+        connection.execute(db.update(records).values(status = 2).where(records.columns.record_id == record_id))
+    elif number == 1:
+        connection.execute(db.update(records).values(status = 4).where(records.columns.record_id == record_id))
+
+
     # query = connection.execute(db.select([records]).where(db.and_(
     #     records.columns.customer_id == customer_id, records.columns.status == 1))).fetchone()
     # result = {}

@@ -9,6 +9,7 @@ export default function Star({ recordID, artisanID, recordRating }) {
   
 
   const rateHandler = () => {
+    console.log("rating value", rating)
     fetch(`http://127.0.0.1:5000/rating/${recordID}/${artisanID}/${parseFloat(rating).toFixed(1)}`).then((response) => {
       if (response.ok) {
         return;
@@ -22,7 +23,7 @@ export default function Star({ recordID, artisanID, recordRating }) {
             const ratingValue = i + 1
             return (
               <label>
-                <input type="radio" name="rating" value={ratingValue} />
+                <input type="radio" name="rating" value={2} />
                 <FaStar
                   size={30}
                   color={

@@ -9,23 +9,26 @@ const Status = ({ recordID, setShowRating, recordStatus }) => {
   const statusHandler = (event) => {
     const tranStatus = event.target.value;
     if (tranStatus === "Done") {
-      //   setStatusID(2);
+        setStatusID(0);
       //   setRecordStatus("complete");
-      // } else if (tranStatus === "Pending") {
+     
       //   setStatusID(1);
       //   setRecordStatus("cancel");
       // } else {
       //   setStatusID(3);
       // }
       // setRecordStatus(tranStatus);
-      fetch(`http://127.0.0.1:5000/record_status/${recordID}`).then(
+    }else if (tranStatus == "cancelled") {
+      setStatusID(1)
+    }
+      fetch(`http://127.0.0.1:5000/record_status/${recordID}/${statusID}`).then(
         (response) => {
           if (response.ok) {
             return;
           }
         }
       );
-    }
+  
   };
   if (recordStatus === "Done" || recordStatus === "Rated") {
     return (
