@@ -1,15 +1,23 @@
 .footer {
-  padding: 20px 30px;
   margin-top: 50px;
-  width: 100%;
   background: rgba(28, 65, 84, 0.1);
+  text-align: center;
 }
 .footer-text {
   text-decoration: none;
   color: black;
-  margin-left: 10px;
+  
 }
 .footer-img {
   width: 23px;
   height: 25px;
+}
+@media (max-width:824px){
+  .footer {
+    padding: 20px 30px;
+    margin-top: 50px;
+  width: 100%;
+    background: rgba(28, 65, 84, 0.1);
+    text-align: center;
+  }
 }
