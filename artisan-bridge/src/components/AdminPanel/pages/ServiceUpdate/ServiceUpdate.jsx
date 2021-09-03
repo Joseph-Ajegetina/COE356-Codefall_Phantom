@@ -1,12 +1,10 @@
 import "./ServiceUpdate.scss";
 import TitleIcon from "@material-ui/icons/Title";
 import DescriptionIcon from "@material-ui/icons/Description";
-import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import React from "react";
 import Message from "../../../navigationBar/Message";
-import PublishIcon from "@material-ui/icons/Publish";
 import { useHistory, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -22,13 +20,11 @@ export default function ServiceUpdate() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema) });
 
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [services, setServices] = useState([]);
   const [service, setService] = useState({});
   const [imageName, setImageName] = useState("");
   const [images, setImages] = React.useState([]);
@@ -37,7 +33,6 @@ export default function ServiceUpdate() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const maxNumber = 1;
-
   let history = useHistory();
 
   // function for image upload
@@ -99,7 +94,6 @@ export default function ServiceUpdate() {
       });
   };
 
-  console.log("Service", service);
   return (
     <div className="serviceUpdate">
       <div className="artisanEditContainer">
@@ -108,7 +102,11 @@ export default function ServiceUpdate() {
       <div className="artisanContainer">
         <div className="artisanShow">
           <div className="artisanShowTop">
-            <img src={`/images/${service.image_path}`} alt="" className="artisanShowImg" />
+            <img
+              src={`/images/${service.image_path}`}
+              alt=""
+              className="artisanShowImg"
+            />
             <div className="artisanshowTopTItle">
               <span className="artisanShowName"> Electronics</span>
             </div>
@@ -133,7 +131,7 @@ export default function ServiceUpdate() {
           <div className="leftRight">
             <div className="artisanEditLeft">
               {showAlert ? <Message alertMessage={alert} /> : ""}
-             
+
               <form onSubmit={handleSubmit(submitHandler)}>
                 <div className="form-group">
                   <label>Service Name</label>
@@ -175,77 +173,79 @@ export default function ServiceUpdate() {
               </form>
             </div>
             <div className="artisanEditRight">
-                <div className="artisanEditUpload">
-                  <img src={`/images/${service.image_path}`} alt="" className="artisanEditImg" />
-                  <ImageUploading
-                    value={images}
-                    onChange={onChange}
-                    maxNumber={maxNumber}
-                    dataURLKey="data_url"
-                  >
-                    {({
-                      imageList,
-                      onImageUpload,
-                      onImageUpdate,
-                      onImageRemove,
-                      isDragging,
-                      dragProps,
-                    }) => (
-                      // write your building UI
-                      <div className="upload__image-wrapper">
-                        <button
-                          style={isDragging ? { color: "red" } : undefined}
-                          onClick={onImageUpload}
-                          {...dragProps}
-                        >
-                          Click or Drop here
-                        </button>
-                        &nbsp;
-                        {imageList.map((image, index) => (
-                          <div key={index} className="image-item">
-                            <img src={image["data_url"]} alt="" width="100" />
-                            <div className="image-item__btn-wrapper">
-                              <button onClick={() => onImageUpdate(index)}>
-                                Update
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </ImageUploading>
-                  {({ imageList, onImageUpload, onImageRemoveAll, errors }) =>
-                    errors && (
-                      <div>
-                        {errors.maxNumber && (
-                          <span>
-                            Number of selected images exceed maxNumber
-                          </span>
-                        )}
-                        {errors.acceptType && (
-                          <span>Your selected file type is not allow</span>
-                        )}
-                        {errors.maxFileSize && (
-                          <span>Selected file size exceed maxFileSize</span>
-                        )}
-                        {errors.resolution && (
-                          <span>
-                            Selected file is not match your desired resolution
-                          </span>
-                        )}
-                      </div>
-                    )
-                  }
-                  {({ imageList, dragProps, isDragging }) => (
-                    <div {...dragProps}>
-                      {isDragging ? "Drop here please" : "Upload space"}
+              <div className="artisanEditUpload">
+                <img
+                  src={`/images/${service.image_path}`}
+                  alt=""
+                  className="artisanEditImg"
+                />
+                <ImageUploading
+                  value={images}
+                  onChange={onChange}
+                  maxNumber={maxNumber}
+                  dataURLKey="data_url"
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                  }) => (
+                    // write your building UI
+                    <div className="upload__image-wrapper">
+                      <button
+                        style={isDragging ? { color: "red" } : undefined}
+                        onClick={onImageUpload}
+                        {...dragProps}
+                      >
+                        Click or Drop here
+                      </button>
+                      &nbsp;
                       {imageList.map((image, index) => (
-                        <img key={index} src={image.data_url} />
+                        <div key={index} className="image-item">
+                          <img src={image["data_url"]} alt="" width="100" />
+                          <div className="image-item__btn-wrapper">
+                            <button onClick={() => onImageUpdate(index)}>
+                              Update
+                            </button>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   )}
-                </div>
+                </ImageUploading>
+                {({ imageList, onImageUpload, onImageRemoveAll, errors }) =>
+                  errors && (
+                    <div>
+                      {errors.maxNumber && (
+                        <span>Number of selected images exceed maxNumber</span>
+                      )}
+                      {errors.acceptType && (
+                        <span>Your selected file type is not allow</span>
+                      )}
+                      {errors.maxFileSize && (
+                        <span>Selected file size exceed maxFileSize</span>
+                      )}
+                      {errors.resolution && (
+                        <span>
+                          Selected file is not match your desired resolution
+                        </span>
+                      )}
+                    </div>
+                  )
+                }
+                {({ imageList, dragProps, isDragging }) => (
+                  <div {...dragProps}>
+                    {isDragging ? "Drop here please" : "Upload space"}
+                    {imageList.map((image, index) => (
+                      <img key={index} src={image.data_url} />
+                    ))}
+                  </div>
+                )}
               </div>
+            </div>
           </div>
         </div>
       </div>

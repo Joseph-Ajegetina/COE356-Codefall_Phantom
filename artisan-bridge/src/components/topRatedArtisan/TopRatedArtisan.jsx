@@ -22,7 +22,11 @@ export default function topRatedArtisan({ artisan, skillimage }) {
             </div>
             <div className="artisan-elipse">
               <div className="description">
-                <img src={`/images/${artisan.skill}.png`} alt="" className="rating-img" />
+                <img
+                  src={`/images/${artisan.skill}.png`}
+                  alt=""
+                  className="rating-img"
+                />
                 <span className="skill display-12">
                   Service:{artisan.skill}
                 </span>

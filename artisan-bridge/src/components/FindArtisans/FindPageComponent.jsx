@@ -28,7 +28,11 @@ const FindPageComponent = ({ skill, data }) => {
                       </div>
                       <div className="artisan-elipse">
                         <div className="description">
-                          <img src="/images/location.png" alt="" className="rating-img" />
+                          <img
+                            src="/images/location.png"
+                            alt=""
+                            className="rating-img"
+                          />
                           <span className="skill display-12">
                             Location:{artisan.Address}
                           </span>

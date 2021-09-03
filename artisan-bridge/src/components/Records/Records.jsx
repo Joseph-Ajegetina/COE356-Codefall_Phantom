@@ -9,9 +9,7 @@ export default function Records() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [recordRating, setRecordRating] = useState(null);
   const [showRating, setShowRating] = useState(null);
-  const [recordStatus, setRecordStatus] = useState("");
 
   //Fetching the artisan details using the id
   const fetchRecordData = () => {
@@ -23,7 +21,7 @@ export default function Records() {
       .then((data) => {
         setIsLoading(false);
         const recordList = Object.entries(data);
-        console.log("recordList", recordList)
+        console.log("recordList", recordList);
         setRecords(recordList);
       })
       .catch((error) => {
@@ -84,7 +82,7 @@ export default function Records() {
                     };
 
                     return (
-                     <tr>
+                      <tr>
                         <th scope="row">{num}</th>
                         <td>{record[1].Date}</td>
                         <td>{record[1].Skill}</td>
@@ -96,7 +94,9 @@ export default function Records() {
                             recordStatus={info.status}
                           />
                         </td>
-                        {showRating || info.rating > 0 || info.status === "Done"? (
+                        {showRating ||
+                        info.rating > 0 ||
+                        info.status === "Done" ? (
                           <td>
                             {" "}
                             <Star

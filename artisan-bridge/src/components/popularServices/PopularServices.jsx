@@ -1,14 +1,13 @@
 import "./popularServices.scss";
 import { Link } from "react-router-dom";
 
-export default function popularServices( { service } )
-{
+export default function popularServices({ service }) {
   return (
     <div className="popularServices">
       <div className="wrapper-center">
         <Link
           to={{
-            pathname: `/service/${ service.service_id }`,
+            pathname: `/service/${service.service_id}`,
             state: { service: service },
           }}
           className="wrapper-link"
@@ -16,7 +15,11 @@ export default function popularServices( { service } )
           <a href="" className="wrapper-link">
             <div className="wrapper">
               <div className="elipse">
-                <img src={`/images/${service.image}`} alt="" className="elipseimage" />
+                <img
+                  src={`/images/${service.image}`}
+                  alt=""
+                  className="elipseimage"
+                />
               </div>
               <div className="wrapper-text">
                 <h3>{service.service}</h3>

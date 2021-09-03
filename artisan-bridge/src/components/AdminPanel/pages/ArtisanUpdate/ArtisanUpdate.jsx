@@ -1,9 +1,7 @@
 import "./ArtisanUpdate.scss";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
 import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
-import PublishIcon from "@material-ui/icons/Publish";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Message from "../../../navigationBar/Message";
@@ -23,6 +21,7 @@ export default function ArtisanUpdate() {
     phone: Yup.string(),
   });
 
+  //useForm functions
   const {
     register,
     handleSubmit,
@@ -43,9 +42,9 @@ export default function ArtisanUpdate() {
   const [images, setImages] = React.useState([]);
   const [alert, setAlert] = useState(false);
   const maxNumber = 1;
-
   let history = useHistory();
 
+  //Image upload handler
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
     const image = imageList[0];
@@ -59,7 +58,6 @@ export default function ArtisanUpdate() {
       .then((response) => response.json())
       .then((data) => {
         setIsLoading(false);
-
         setArtisan(data);
       })
       .catch((error) => {
@@ -147,7 +145,11 @@ export default function ArtisanUpdate() {
         <div className="artisanContainer">
           <div className="artisanShow">
             <div className="artisanShowTop">
-              <img src={`/images/${artisan.Path}`} alt="" className="artisanShowImg" />
+              <img
+                src={`/images/${artisan.Path}`}
+                alt=""
+                className="artisanShowImg"
+              />
               <div className="artisanshowTopTItle">
                 <span className="artisanShowName"> {artisan.Name}</span>
                 <span className="artisanShowartisanTitle">
@@ -272,7 +274,11 @@ export default function ArtisanUpdate() {
               </div>
               <div className="artisanEditRight">
                 <div className="artisanEditUpload">
-                  <img src={`/images/${artisan.Path}`} alt="" className="artisanEditImg" />
+                  <img
+                    src={`/images/${artisan.Path}`}
+                    alt=""
+                    className="artisanEditImg"
+                  />
                   <ImageUploading
                     value={images}
                     onChange={onChange}

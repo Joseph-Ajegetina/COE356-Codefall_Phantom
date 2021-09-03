@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { FaStar } from "react-icons/fa";
 import "./rating.css";
 import { useState } from "react";
 
 export default function Star({ recordID, artisanID, recordRating }) {
-  const [rating, setRating] = useState(null );
+  const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
-  
 
   const rateHandler = () => {
-    console.log("rating value", rating)
-    fetch(`http://127.0.0.1:5000/rating/${recordID}/${artisanID}/${parseFloat(rating).toFixed(1)}`).then((response) => {
+    fetch(
+      `http://127.0.0.1:5000/rating/${recordID}/${artisanID}/${parseFloat(
+        rating
+      ).toFixed(1)}`
+    ).then((response) => {
       if (response.ok) {
         return;
       }
@@ -20,14 +22,16 @@ export default function Star({ recordID, artisanID, recordRating }) {
     <div>
       {recordRating != "None"
         ? [...Array(5)].map((star, i) => {
-            const ratingValue = i + 1
+            const ratingValue = i + 1;
             return (
               <label>
                 <input type="radio" name="rating" value={2} />
                 <FaStar
                   size={30}
                   color={
-                    ratingValue <= (hover || recordRating) ? "#f59401" : "#e4e5e5"
+                    ratingValue <= (hover || recordRating)
+                      ? "#f59401"
+                      : "#e4e5e5"
                   }
                 />
               </label>
@@ -41,8 +45,10 @@ export default function Star({ recordID, artisanID, recordRating }) {
                   type="radio"
                   name="rating"
                   value={ratingValue}
-                  onClick={() => {setRating(ratingValue)
-                rateHandler()}}
+                  onClick={() => {
+                    setRating(ratingValue);
+                    rateHandler();
+                  }}
                 />
                 <FaStar
                   size={30}

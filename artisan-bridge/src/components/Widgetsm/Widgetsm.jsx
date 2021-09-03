@@ -38,7 +38,9 @@ export default function Widgetsm() {
             <li className="widgetsmListItem">
               <img src="images/artisan1.jpg" alt="" className="widgetsmImg" />
               <div className="widgetsmUser">
-                <span className="widgetsmUsername">{userData.customer_username}</span>
+                <span className="widgetsmUsername">
+                  {userData.customer_username}
+                </span>
                 <span className="widgetsmUserJob">{userData.address}</span>
               </div>
               <button className="widgetsmbutton">

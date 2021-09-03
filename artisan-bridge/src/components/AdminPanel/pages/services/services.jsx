@@ -8,11 +8,9 @@ import { Link, useLocation, useHistory, useRouteMatch } from "react-router-dom";
 
 export default function AddArtisans() {
   const [tableData, setTableData] = useState([]);
-  const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(0);
   const [showAlert, setShowAlert] = useState();
   const [alertMessage, setAlertMessage] = useState({});
-
   const location = useLocation();
   const history = useHistory();
   const { url } = useRouteMatch();
@@ -73,7 +71,6 @@ export default function AddArtisans() {
     setTableData(updatedTableData);
   };
 
-
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
     {
@@ -84,7 +81,11 @@ export default function AddArtisans() {
       renderCell: (params) => {
         return (
           <div className="artisanListartisan">
-            <img src={`/images/${params.row.image}`} alt="" className="artisanListImg" />
+            <img
+              src={`/images/${params.row.image}`}
+              alt=""
+              className="artisanListImg"
+            />
             {params.row.service}
           </div>
         );
@@ -118,10 +119,10 @@ export default function AddArtisans() {
 
   return (
     <div className="adminHome">
-       {showAlert ? <Message alertMessage={alertMessage} /> : ""}
-       <Link to="/newService"> 
-                <button className="addArtisanButton px-4 display-block">New</button>   
-                </Link>
+      {showAlert ? <Message alertMessage={alertMessage} /> : ""}
+      <Link to="/newService">
+        <button className="addArtisanButton px-4 display-block">New</button>
+      </Link>
       <DataGrid
         rows={tableData}
         columns={columns}
