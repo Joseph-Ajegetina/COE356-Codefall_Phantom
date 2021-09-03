@@ -4,19 +4,23 @@ import { useState, useEffect } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import NavPublic from "./NavPublic";
 import NavLogin from "./NavLogin";
+import MenuIcon from '@material-ui/icons/Menu';
 
 
-const Navigation = () => {
+const Navigation = () =>
+{
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-  useEffect(() =>{
-    const storedUserIsLoggedIn = localStorage.getItem("isLoggedIn");
-    if (storedUserIsLoggedIn === "1") {
-      setIsLoggedIn(true);
+  const [isLoggedIn, setIsLoggedIn] = useState( false );
+
+  useEffect( () =>
+  {
+    const storedUserIsLoggedIn = localStorage.getItem( "isLoggedIn" );
+    if ( storedUserIsLoggedIn === "1" )
+    {
+      setIsLoggedIn( true );
     }
-  },[])
-  
+  }, [] )
+
 
   return (
     <div className="header">
@@ -27,16 +31,10 @@ const Navigation = () => {
           </h1>
         </Link>
       </div>
-      <div className="header-search">
-        <input
-          type="text"
-          placeholder="Search for Artisans and Services..."
-          className="header-input"
-        />
-        <button className="header-searchicon">
-          <SearchIcon />
-        </button>
-      </div>
+
+      <input type="checkbox" id="menu-bar" className="menu-bar" />
+      <label htmlFor="menu-bar" className="menu"><MenuIcon /></label>
+
       <div className="header-nav">
         <div className="header-option">
           <Link to="/home" className="nav">
@@ -45,6 +43,7 @@ const Navigation = () => {
             </span>
           </Link>
         </div>
+
         <div className="header-option">
           <Link to="service" className="nav">
             {" "}
@@ -57,16 +56,12 @@ const Navigation = () => {
         <div className="header-option">
           <Link to="/find" className="nav">
             <span>
-              <img
-                src="images/find an artisan.png"
-                alt=""
-                className="services"
-              />
+              <img src="images/artisan.png" alt="" className="services" />
               Find an artisan
             </span>
           </Link>
         </div>
-       {isLoggedIn ?<NavLogin/>: <NavPublic/>}
+        {isLoggedIn ? <NavLogin /> : <NavPublic />}
       </div>
     </div>
   );

@@ -7,3 +7,12 @@ h3 {
 .title {
   margin-right: 100px;
 }
+.service_image{
+  height: 500px;
+  width: 100%;
+  padding: 10px 20px;
+  z-index: -1;
+  margin-bottom: -150px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+  object-fit: cover;
+}
