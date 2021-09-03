@@ -147,7 +147,7 @@ export default function ArtisanUpdate() {
         <div className="artisanContainer">
           <div className="artisanShow">
             <div className="artisanShowTop">
-              <img src={artisan.Path} alt="" className="artisanShowImg" />
+              <img src={`/images/${artisan.Path}`} alt="" className="artisanShowImg" />
               <div className="artisanshowTopTItle">
                 <span className="artisanShowName"> {artisan.Name}</span>
                 <span className="artisanShowartisanTitle">
@@ -272,7 +272,7 @@ export default function ArtisanUpdate() {
               </div>
               <div className="artisanEditRight">
                 <div className="artisanEditUpload">
-                  <img src={artisan.Path} alt="" className="artisanEditImg" />
+                  <img src={`/images/${artisan.Path}`} alt="" className="artisanEditImg" />
                   <ImageUploading
                     value={images}
                     onChange={onChange}
@@ -303,9 +303,6 @@ export default function ArtisanUpdate() {
                             <div className="image-item__btn-wrapper">
                               <button onClick={() => onImageUpdate(index)}>
                                 Update
-                              </button>
-                              <button onClick={() => onImageRemove(index)}>
-                                Remove
                               </button>
                             </div>
                           </div>

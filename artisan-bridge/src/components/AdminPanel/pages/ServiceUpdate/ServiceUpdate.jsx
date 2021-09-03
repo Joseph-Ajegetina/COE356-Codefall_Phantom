@@ -108,7 +108,7 @@ export default function ServiceUpdate() {
       <div className="artisanContainer">
         <div className="artisanShow">
           <div className="artisanShowTop">
-            <img src={`/${service.image_path}`} alt="" className="artisanShowImg" />
+            <img src={`/images/${service.image_path}`} alt="" className="artisanShowImg" />
             <div className="artisanshowTopTItle">
               <span className="artisanShowName"> Electronics</span>
             </div>
@@ -133,6 +133,7 @@ export default function ServiceUpdate() {
           <div className="leftRight">
             <div className="artisanEditLeft">
               {showAlert ? <Message alertMessage={alert} /> : ""}
+             
               <form onSubmit={handleSubmit(submitHandler)}>
                 <div className="form-group">
                   <label>Service Name</label>
@@ -163,78 +164,6 @@ export default function ServiceUpdate() {
                     {errors.description?.message}
                   </div>
                 </div>
-                <ImageUploading
-                  value={images}
-                  onChange={onChange}
-                  maxNumber={maxNumber}
-                  dataURLKey="data_url"
-                >
-                  {({
-                    imageList,
-                    onImageUpload,
-                    onImageUpdate,
-                    isDragging,
-                    dragProps,
-                  }) => (
-                    // write your building UI
-                    <div className="upload__image-wrapper">
-                      <div className="artisanEditUpload">
-                        <img
-                          src={`/${service.image_path}`}
-                          alt=""
-                          className="artisanEditImg"
-                        />
-                      </div>
-                      <button
-                        style={isDragging ? { color: "red" } : undefined}
-                        onClick={onImageUpload}
-                        {...dragProps}
-                      >
-                        Upload Image
-                      </button>
-                      &nbsp;
-                      {imageList.map((image, index) => (
-                        <div key={index} className="image-item">
-                          <img src={image["data_url"]} alt="" width="100" />
-                          <div className="image-item__btn-wrapper">
-                            <button onClick={() => onImageUpdate(index)}>
-                              Update
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </ImageUploading>
-                {({ imageList, onImageUpload, onImageRemoveAll, errors }) =>
-                  errors && (
-                    <div>
-                      {errors.maxNumber && (
-                        <span>Number of selected images exceed maxNumber</span>
-                      )}
-                      {errors.acceptType && (
-                        <span>Your selected file type is not allow</span>
-                      )}
-                      {errors.maxFileSize && (
-                        <span>Selected file size exceed maxFileSize</span>
-                      )}
-                      {errors.resolution && (
-                        <span>
-                          Selected file is not match your desired resolution
-                        </span>
-                      )}
-                    </div>
-                  )
-                }
-                {({ imageList, dragProps, isDragging }) => (
-                  <div {...dragProps}>
-                    {isDragging ? "Drop here please" : "Upload space"}
-                    {imageList.map((image, index) => (
-                      <img key={index} src={image.data_url} />
-                    ))}
-                  </div>
-                )}
-
                 <div className="form-group">
                   <button
                     type="submit"
@@ -245,6 +174,78 @@ export default function ServiceUpdate() {
                 </div>
               </form>
             </div>
+            <div className="artisanEditRight">
+                <div className="artisanEditUpload">
+                  <img src={`/images/${service.image_path}`} alt="" className="artisanEditImg" />
+                  <ImageUploading
+                    value={images}
+                    onChange={onChange}
+                    maxNumber={maxNumber}
+                    dataURLKey="data_url"
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                      isDragging,
+                      dragProps,
+                    }) => (
+                      // write your building UI
+                      <div className="upload__image-wrapper">
+                        <button
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          {...dragProps}
+                        >
+                          Click or Drop here
+                        </button>
+                        &nbsp;
+                        {imageList.map((image, index) => (
+                          <div key={index} className="image-item">
+                            <img src={image["data_url"]} alt="" width="100" />
+                            <div className="image-item__btn-wrapper">
+                              <button onClick={() => onImageUpdate(index)}>
+                                Update
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </ImageUploading>
+                  {({ imageList, onImageUpload, onImageRemoveAll, errors }) =>
+                    errors && (
+                      <div>
+                        {errors.maxNumber && (
+                          <span>
+                            Number of selected images exceed maxNumber
+                          </span>
+                        )}
+                        {errors.acceptType && (
+                          <span>Your selected file type is not allow</span>
+                        )}
+                        {errors.maxFileSize && (
+                          <span>Selected file size exceed maxFileSize</span>
+                        )}
+                        {errors.resolution && (
+                          <span>
+                            Selected file is not match your desired resolution
+                          </span>
+                        )}
+                      </div>
+                    )
+                  }
+                  {({ imageList, dragProps, isDragging }) => (
+                    <div {...dragProps}>
+                      {isDragging ? "Drop here please" : "Upload space"}
+                      {imageList.map((image, index) => (
+                        <img key={index} src={image.data_url} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
           </div>
         </div>
       </div>

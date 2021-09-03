@@ -88,7 +88,7 @@ const ArtisanSelect = () => {
               <div className="row pt-3">
                 <img
                   className="artisan-select-img"
-                  src={`/${artisan.Path}`}
+                  src={`/images/${artisan.Path}`}
                   alt=""
                   class="rounded-circle img-fluid"
                 />
@@ -181,7 +181,7 @@ const ArtisanSelect = () => {
                 data-target="#requestModal"
                 style={{ background: "#f59401" }}
               >
-                Request electrician
+                Request {artisan.Name}
               </button>
             </div>
           </div>

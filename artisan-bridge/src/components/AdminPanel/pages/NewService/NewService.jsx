@@ -78,32 +78,9 @@ export default function NewService() {
     return (
         <div className="newService">
           {showAlert ? <Message alertMessage={alert} /> : ""}
-        <form onSubmit={handleSubmit(submitHandler)}>
-    
-          <div className="form-group">
-            <label>Service Name</label>
-            <input
-              name="address"
-              type="text"
-              {...register("name")}
-              className={`form-control ${errors.name ? "is-invalid" : ""}`}
-            />
-            <div className="invalid-feedback">{errors.name?.message}</div>
-          </div>
-
-          <div className="newArtisanForm">
-            <label>Description</label>
-            <input
-              name="phone"
-              type="text"
-              {...register("description")}
-              className={`form-control ${errors.description ? "is-invalid" : ""}`}
-            />
-            <div className="invalid-feedback">{errors.description?.message}</div>
-          </div>
           <ImageUploading
             value={images}
-            onChange={onChange}
+            onClick={onChange}
             maxNumber={maxNumber}
             dataURLKey="data_url"
           >
@@ -165,6 +142,29 @@ export default function NewService() {
               ))}
             </div>
           )}
+        <form onSubmit={handleSubmit(submitHandler)}>
+          <div className="form-group">
+            <label>Service Name</label>
+            <input
+              name="address"
+              type="text"
+              {...register("name")}
+              className={`form-control ${errors.name ? "is-invalid" : ""}`}
+            />
+            <div className="invalid-feedback">{errors.name?.message}</div>
+          </div>
+
+          <div className="newArtisanForm">
+            <label>Description</label>
+            <input
+              name="phone"
+              type="text"
+              {...register("description")}
+              className={`form-control ${errors.description ? "is-invalid" : ""}`}
+            />
+            <div className="invalid-feedback">{errors.description?.message}</div>
+          </div>
+          
 
           <div className="form-group">
             <button type="submit" className="btn btn-primary">
@@ -172,22 +172,7 @@ export default function NewService() {
             </button>
           </div>
         </form>
-              {/* <h1 className="newArtisanTitle">New Service</h1>
-            <form action="" className="newArtisanForm">
-                <div className="newArtisanItem">
-                    <label htmlFor="">Name of Service</label>
-                    <input type="text" placeholder="Electronics" />
-                </div>
-                <div className="newArtisanItem">
-                    <label htmlFor="">Description</label>
-                    <input type="text" placeholder="Some Text" />
-                </div>
-                <div className="newArtisanImg">
-                    <label>Image</label>
-                    <input type="file" id="file"/>
-                </div>
-            </form>
-            <button className="createArtisan">Create</button> */}
+        
         </div>
     )
 }

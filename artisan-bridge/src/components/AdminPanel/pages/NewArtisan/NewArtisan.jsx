@@ -107,6 +107,7 @@ export default function NewArtisan() {
       <div class="newArtisan">
         <h1 className="newArtisanTitle">New Artisan</h1>
         {showAlert ? <Message alertMessage={alert} /> : ""}
+       
         <form onSubmit={handleSubmit(submitHandler)}>
           <div className="form-group">
             <label>First Name</label>
@@ -150,70 +151,7 @@ export default function NewArtisan() {
             />
             <div className="invalid-feedback">{errors.phone?.message}</div>
           </div>
-          <ImageUploading
-            value={images}
-            onChange={onChange}
-            maxNumber={maxNumber}
-            dataURLKey="data_url"
-          >
-            {({
-              imageList,
-              onImageUpload,
-              onImageUpdate,
-              isDragging,
-              dragProps,
-            }) => (
-              // write your building UI
-              <div className="upload__image-wrapper">
-                <button
-                  style={isDragging ? { color: "red" } : undefined}
-                  onClick={onImageUpload}
-                  {...dragProps}
-                >
-                  Upload Image
-                </button>
-                &nbsp;
-                {imageList.map((image, index) => (
-                  <div key={index} className="image-item">
-                    <img src={image["data_url"]} alt="" width="100" />
-                    <div className="image-item__btn-wrapper">
-                      <button onClick={() => onImageUpdate(index)}>
-                        Update
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </ImageUploading>
-          {({ imageList, onImageUpload, onImageRemoveAll, errors }) =>
-            errors && (
-              <div>
-                {errors.maxNumber && (
-                  <span>Number of selected images exceed maxNumber</span>
-                )}
-                {errors.acceptType && (
-                  <span>Your selected file type is not allow</span>
-                )}
-                {errors.maxFileSize && (
-                  <span>Selected file size exceed maxFileSize</span>
-                )}
-                {errors.resolution && (
-                  <span>
-                    Selected file is not match your desired resolution
-                  </span>
-                )}
-              </div>
-            )
-          }
-          {({ imageList, dragProps, isDragging }) => (
-            <div {...dragProps}>
-              {isDragging ? "Drop here please" : "Upload space"}
-              {imageList.map((image, index) => (
-                <img key={index} src={image.data_url} />
-              ))}
-            </div>
-          )}
+         
 
           <div className="newArtisanItem">
             <label htmlFor="">Type of Service</label>
@@ -236,6 +174,78 @@ export default function NewArtisan() {
           </div>
         </form>
       </div>
+      <div className="artisanEditRight">
+                <div className="artisanEditUpload">
+                  {/* <img src={`/images/${service.image_path}`} alt="" className="artisanEditImg" /> */}
+                  <ImageUploading
+                    value={images}
+                    onChange={onChange}
+                    maxNumber={maxNumber}
+                    dataURLKey="data_url"
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                      isDragging,
+                      dragProps,
+                    }) => (
+                      // write your building UI
+                      <div className="upload__image-wrapper">
+                        <button
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          {...dragProps}
+                        >
+                          Click or Drop here
+                        </button>
+                        &nbsp;
+                        {imageList.map((image, index) => (
+                          <div key={index} className="image-item">
+                            <img src={image["data_url"]} alt="" width="100" />
+                            <div className="image-item__btn-wrapper">
+                              <button onClick={() => onImageUpdate(index)}>
+                                Update
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </ImageUploading>
+                  {({ imageList, onImageUpload, onImageRemoveAll, errors }) =>
+                    errors && (
+                      <div>
+                        {errors.maxNumber && (
+                          <span>
+                            Number of selected images exceed maxNumber
+                          </span>
+                        )}
+                        {errors.acceptType && (
+                          <span>Your selected file type is not allow</span>
+                        )}
+                        {errors.maxFileSize && (
+                          <span>Selected file size exceed maxFileSize</span>
+                        )}
+                        {errors.resolution && (
+                          <span>
+                            Selected file is not match your desired resolution
+                          </span>
+                        )}
+                      </div>
+                    )
+                  }
+                  {({ imageList, dragProps, isDragging }) => (
+                    <div {...dragProps}>
+                      {isDragging ? "Drop here please" : "Upload space"}
+                      {imageList.map((image, index) => (
+                        <img key={index} src={image.data_url} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
     </>
   );
 }

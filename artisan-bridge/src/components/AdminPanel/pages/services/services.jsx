@@ -84,7 +84,7 @@ export default function AddArtisans() {
       renderCell: (params) => {
         return (
           <div className="artisanListartisan">
-            <img src={params.row.image} alt="" className="artisanListImg" />
+            <img src={`/images/${params.row.image}`} alt="" className="artisanListImg" />
             {params.row.service}
           </div>
         );
