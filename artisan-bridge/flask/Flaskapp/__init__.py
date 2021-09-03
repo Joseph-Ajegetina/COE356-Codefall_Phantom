@@ -44,10 +44,16 @@ customers = db.Table('customers', metadata,
 services = db.Table('services', metadata, autoload=True, autoload_with=engine)
 records = db.Table('records', metadata, autoload=True, autoload_with=engine)
 admin = db.Table('admin', metadata, autoload=True, autoload_with=engine)
+<<<<<<< HEAD
 popular_services = db.Table(
     'popular_services', metadata, autoload=True, autoload_with=engine)
 top_rated_artisans = db.Table(
     'top_rated_artisans', metadata, autoload=True, autoload_with=engine)
+=======
+popular_services = db.Table('popular_services', metadata, autoload=True, autoload_with=engine)
+top_rated_artisans = db.Table('top_rated_artisans', metadata, autoload=True, autoload_with=engine)
+record_statuses = db.Table('record_statuses', metadata, autoload=True, autoload_with=engine)
+>>>>>>> e5296209b0b9645fb076fcfe4e2ca332915c8e96
 
 # variables
 app.config['State'] = None

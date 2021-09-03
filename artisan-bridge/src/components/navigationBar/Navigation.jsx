@@ -6,10 +6,8 @@ import NavPublic from "./NavPublic";
 import NavLogin from "./NavLogin";
 import MenuIcon from '@material-ui/icons/Menu';
 
-
 const Navigation = () =>
 {
-
   const [isLoggedIn, setIsLoggedIn] = useState( false );
 
   useEffect( () =>
@@ -19,8 +17,7 @@ const Navigation = () =>
     {
       setIsLoggedIn( true );
     }
-  }, [] )
-
+  }, [] );
 
   return (
     <div className="header">
@@ -35,6 +32,16 @@ const Navigation = () =>
       <input type="checkbox" id="menu-bar" className="menu-bar" />
       <label htmlFor="menu-bar" className="menu"><MenuIcon /></label>
 
+      <div className="header-search">
+        {/* <input
+          type="text"
+          placeholder="Search for Artisans and Services..."
+          className="header-input"
+        /> */}
+        {/* <button className="header-searchicon">
+          <SearchIcon />
+        </button> */}
+      </div>
       <div className="header-nav">
         <div className="header-option">
           <Link to="/home" className="nav">
@@ -65,5 +72,5 @@ const Navigation = () =>
       </div>
     </div>
   );
-}
+};
 export default Navigation;

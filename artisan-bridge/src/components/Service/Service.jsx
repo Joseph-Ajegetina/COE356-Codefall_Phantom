@@ -5,26 +5,24 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Slider from "../UI/Slider";
 
-
 export default function Service()
 {
-
   const [Service, setService] = useState( [] );
   const fetchService = () =>
   {
-    fetch( "http://127.0.0.1:5000/service" )
+    fetch( "http://127.0.0.1:5000/services" )
       .then( ( response ) => response.json() )
       .then( ( data ) =>
       {
-        setService( data );
-      } )
-  }
+        const dataList = Object.values( data );
+        setService( dataList );
+      } );
+  };
 
   useEffect( () =>
   {
     fetchService();
   }, [] );
-
 
   return (
     <div className="imageSlider" id="imageSlider">
