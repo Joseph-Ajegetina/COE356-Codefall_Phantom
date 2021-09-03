@@ -32,16 +32,6 @@ const Navigation = () =>
       <input type="checkbox" id="menu-bar" className="menu-bar" />
       <label htmlFor="menu-bar" className="menu"><MenuIcon /></label>
 
-      <div className="header-search">
-        {/* <input
-          type="text"
-          placeholder="Search for Artisans and Services..."
-          className="header-input"
-        /> */}
-        {/* <button className="header-searchicon">
-          <SearchIcon />
-        </button> */}
-      </div>
       <div className="header-nav">
         <div className="header-option">
           <Link to="/home" className="nav">
