@@ -21,7 +21,7 @@ const FindPageComponent = ({ skill, data }) => {
                     <div className="artisan-wrapper">
                       <div>
                         <img
-                          src={artisan.Path}
+                          src={`/images/${artisan.Path}`}
                           alt=""
                           className="artisan-img img-fluid"
                         />
