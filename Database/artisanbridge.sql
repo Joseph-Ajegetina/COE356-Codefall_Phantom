@@ -101,3 +101,11 @@ ALTER TABLE services AUTO_INCREMENT=1000;
 ALTER TABLE records AUTO_INCREMENT=1000;
 ALTER TABLE admin AUTO_INCREMENT=1000;
 
+SELECT `records`.`record_id`,
+    `records`.`customer_id`,
+    `records`.`artisan_id`,
+    `records`.`service_id`,
+    `records`.`date`,
+    `records`.`status`,
+    `records`.`rating`
+FROM `artisanbridge`.`records`;
