@@ -1,23 +1,19 @@
 import "./navigation.scss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import SearchIcon from "@material-ui/icons/Search";
 import NavPublic from "./NavPublic";
 import NavLogin from "./NavLogin";
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
 
-const Navigation = () =>
-{
-  const [isLoggedIn, setIsLoggedIn] = useState( false );
+const Navigation = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect( () =>
-  {
-    const storedUserIsLoggedIn = localStorage.getItem( "isLoggedIn" );
-    if ( storedUserIsLoggedIn === "1" )
-    {
-      setIsLoggedIn( true );
+  useEffect(() => {
+    const storedUserIsLoggedIn = localStorage.getItem("isLoggedIn");
+    if (storedUserIsLoggedIn === "1") {
+      setIsLoggedIn(true);
     }
-  }, [] );
+  }, []);
 
   return (
     <div className="header">
@@ -30,7 +26,9 @@ const Navigation = () =>
       </div>
 
       <input type="checkbox" id="menu-bar" className="menu-bar" />
-      <label htmlFor="menu-bar" className="menu"><MenuIcon /></label>
+      <label htmlFor="menu-bar" className="menu">
+        <MenuIcon />
+      </label>
 
       <div className="header-nav">
         <div className="header-option">

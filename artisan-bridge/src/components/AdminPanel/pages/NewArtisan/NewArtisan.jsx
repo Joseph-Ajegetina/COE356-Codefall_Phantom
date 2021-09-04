@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import ImageUploading from "react-images-uploading";
 
-
 export default function NewArtisan() {
   //Schema for the form validation for form fields
   const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -21,6 +20,7 @@ export default function NewArtisan() {
       .matches(phoneRegex, "Invalid Phone"),
   });
 
+  //useForm
   const {
     register,
     handleSubmit,
@@ -35,10 +35,9 @@ export default function NewArtisan() {
   const [imageName, setImageName] = useState("");
   const [images, setImages] = React.useState([]);
   const maxNumber = 1;
-
-
   let history = useHistory();
 
+  //fetching services from the database
   const fetchServices = () => {
     fetch("http://127.0.0.1:5000/services")
       .then((response) => {
@@ -66,7 +65,7 @@ export default function NewArtisan() {
     setImages(imageList);
   };
 
-
+  //form submission handling
   const submitHandler = (formData) => {
     const userInput = {
       first_name: formData.firstName,
@@ -107,6 +106,7 @@ export default function NewArtisan() {
       <div class="newArtisan">
         <h1 className="newArtisanTitle">New Artisan</h1>
         {showAlert ? <Message alertMessage={alert} /> : ""}
+
         <form onSubmit={handleSubmit(submitHandler)}>
           <div className="form-group">
             <label>First Name</label>
@@ -150,6 +150,30 @@ export default function NewArtisan() {
             />
             <div className="invalid-feedback">{errors.phone?.message}</div>
           </div>
+
+          <div className="newArtisanItem">
+            <label htmlFor="">Type of Service</label>
+            <select
+              name="service"
+              {...register("service")}
+              className={`form-control ${errors.service ? "is-invalid" : ""}`}
+            >
+              {services.map((service) => {
+                return <option value={service.id}>{service.service}</option>;
+              })}
+            </select>
+            <div className="invalid-feedback">{errors.email?.message}</div>
+          </div>
+
+          <div className="form-group">
+            <button type="submit" className="btn btn-primary">
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="artisanEditRight">
+        <div className="artisanEditUpload">
           <ImageUploading
             value={images}
             onChange={onChange}
@@ -160,6 +184,7 @@ export default function NewArtisan() {
               imageList,
               onImageUpload,
               onImageUpdate,
+              onImageRemove,
               isDragging,
               dragProps,
             }) => (
@@ -170,7 +195,7 @@ export default function NewArtisan() {
                   onClick={onImageUpload}
                   {...dragProps}
                 >
-                  Upload Image
+                  Click or Drop here
                 </button>
                 &nbsp;
                 {imageList.map((image, index) => (
@@ -214,27 +239,7 @@ export default function NewArtisan() {
               ))}
             </div>
           )}
-
-          <div className="newArtisanItem">
-            <label htmlFor="">Type of Service</label>
-            <select
-              name="service"
-              {...register("service")}
-              className={`form-control ${errors.service ? "is-invalid" : ""}`}
-            >
-              {services.map((service) => {
-                return <option value={service.id}>{service.service}</option>;
-              })}
-            </select>
-            <div className="invalid-feedback">{errors.email?.message}</div>
-          </div>
-
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary">
-              Register
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </>
   );

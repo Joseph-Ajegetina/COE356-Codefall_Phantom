@@ -1,36 +1,24 @@
 import { React, useState } from "react";
 
 const Status = ({ recordID, setShowRating, recordStatus }) => {
-  console.log("Record id ", recordID, " status:",recordStatus)
-
-  const [statusID, setStatusID] = useState(null);
-
+  
 
   const statusHandler = (event) => {
     const tranStatus = event.target.value;
     console.log("TranStatus ", tranStatus);
     if (tranStatus === "Done") {
-        var status = 0
-      //   setRecordStatus("complete");
-     
-      //   setStatusID(1);
-      //   setRecordStatus("cancel");
-      // } else {
-      //   setStatusID(3);
-      // }
-      // setRecordStatus(tranStatus);
-    }else if (tranStatus == "cancel") {
-       var status = 1
+      var status = 0;
+      setShowRating(true);
+    } else if (tranStatus == "cancel") {
+      var status = 1;
     }
-    console.log("StatusID", status);
-      fetch(`http://127.0.0.1:5000/record_status/${recordID}/${status}`).then(
-        (response) => {
-          if (response.ok) {
-            return;
-          }
+    fetch(`http://127.0.0.1:5000/record_status/${recordID}/${status}`).then(
+      (response) => {
+        if (response.ok) {
+          return;
         }
-      );
-  
+      }
+    );
   };
   if (recordStatus === "Done" || recordStatus === "Rated") {
     return (

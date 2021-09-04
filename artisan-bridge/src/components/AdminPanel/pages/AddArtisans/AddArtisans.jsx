@@ -7,8 +7,9 @@ import Message from "../../../navigationBar/Message";
 import { Link, useLocation, useHistory, useRouteMatch } from "react-router-dom";
 
 export default function AddArtisans() {
+
+  //State varibles hold data
   const [tableData, setTableData] = useState([]);
-  const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(0);
   const [showAlert, setShowAlert] = useState();
   const [alertMessage, setAlertMessage] = useState({});
@@ -17,6 +18,7 @@ export default function AddArtisans() {
   const history = useHistory();
   const { url } = useRouteMatch();
 
+  //Checking and displaying any passed message from external route
   useEffect(() => {
     if (location.state) {
       const messageLocation = location.state.messageParams;
@@ -33,7 +35,9 @@ export default function AddArtisans() {
     }
   }, []);
 
-  const fetchArtisans = () => {
+
+    //Fetching artisans data from the database
+    const fetchArtisans = () => {
     fetch("http://127.0.0.1:5000/admin/artisan_table")
       .then((response) => {
         if (response.ok) {
@@ -48,6 +52,8 @@ export default function AddArtisans() {
       });
   };
 
+
+  //Running the fetch artisans once using useEffect
   useEffect(() => {
     fetchArtisans();
   }, [refresh]);
@@ -68,11 +74,15 @@ export default function AddArtisans() {
       });
   };
 
+
+  //Function to handle artisan delete
   const deleteItemHandler = (id) => {
     const updatedTableData = tableData.filter((artisan) => artisan.id !== id);
     setTableData(updatedTableData);
   };
 
+
+  //Table columns
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
     {

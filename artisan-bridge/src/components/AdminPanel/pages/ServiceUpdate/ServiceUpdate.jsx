@@ -1,12 +1,10 @@
 import "./ServiceUpdate.scss";
 import TitleIcon from "@material-ui/icons/Title";
 import DescriptionIcon from "@material-ui/icons/Description";
-import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import React from "react";
 import Message from "../../../navigationBar/Message";
-import PublishIcon from "@material-ui/icons/Publish";
 import { useHistory, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -22,13 +20,11 @@ export default function ServiceUpdate() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema) });
 
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [services, setServices] = useState([]);
   const [service, setService] = useState({});
   const [imageName, setImageName] = useState("");
   const [images, setImages] = React.useState([]);
@@ -37,7 +33,6 @@ export default function ServiceUpdate() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const maxNumber = 1;
-
   let history = useHistory();
 
   // function for image upload
@@ -99,7 +94,6 @@ export default function ServiceUpdate() {
       });
   };
 
-  console.log("Service", service);
   return (
     <div className="serviceUpdate">
       <div className="artisanEditContainer">
@@ -108,7 +102,11 @@ export default function ServiceUpdate() {
       <div className="artisanContainer">
         <div className="artisanShow">
           <div className="artisanShowTop">
-            <img src={`/${service.image_path}`} alt="" className="artisanShowImg" />
+            <img
+              src={`/images/${service.image_path}`}
+              alt=""
+              className="artisanShowImg"
+            />
             <div className="artisanshowTopTItle">
               <span className="artisanShowName"> Electronics</span>
             </div>
@@ -133,6 +131,7 @@ export default function ServiceUpdate() {
           <div className="leftRight">
             <div className="artisanEditLeft">
               {showAlert ? <Message alertMessage={alert} /> : ""}
+
               <form onSubmit={handleSubmit(submitHandler)}>
                 <div className="form-group">
                   <label>Service Name</label>
@@ -163,6 +162,23 @@ export default function ServiceUpdate() {
                     {errors.description?.message}
                   </div>
                 </div>
+                <div className="form-group">
+                  <button
+                    type="submit"
+                    className="btn btn-primary artisanUpdateButton"
+                  >
+                    Update
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="artisanEditRight">
+              <div className="artisanEditUpload">
+                <img
+                  src={`/images/${service.image_path}`}
+                  alt=""
+                  className="artisanEditImg"
+                />
                 <ImageUploading
                   value={images}
                   onChange={onChange}
@@ -173,24 +189,18 @@ export default function ServiceUpdate() {
                     imageList,
                     onImageUpload,
                     onImageUpdate,
+                    onImageRemove,
                     isDragging,
                     dragProps,
                   }) => (
                     // write your building UI
                     <div className="upload__image-wrapper">
-                      <div className="artisanEditUpload">
-                        <img
-                          src={`/${service.image_path}`}
-                          alt=""
-                          className="artisanEditImg"
-                        />
-                      </div>
                       <button
                         style={isDragging ? { color: "red" } : undefined}
                         onClick={onImageUpload}
                         {...dragProps}
                       >
-                        Upload Image
+                        Click or Drop here
                       </button>
                       &nbsp;
                       {imageList.map((image, index) => (
@@ -234,16 +244,7 @@ export default function ServiceUpdate() {
                     ))}
                   </div>
                 )}
-
-                <div className="form-group">
-                  <button
-                    type="submit"
-                    className="btn btn-primary artisanUpdateButton"
-                  >
-                    Update
-                  </button>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

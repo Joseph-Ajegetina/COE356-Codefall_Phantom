@@ -5,8 +5,6 @@ import FindPageComponent from "./FindPageComponent";
 
 const FindPage = () => {
   const [artisans, setArtisans] = useState([]);
-  const [showAlert, setShowAlert] = useState(null);
-  const [topArtisans, setTopArtisans] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);

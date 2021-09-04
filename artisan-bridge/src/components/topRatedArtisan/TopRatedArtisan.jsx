@@ -15,14 +15,18 @@ export default function topRatedArtisan({ artisan, skillimage }) {
           <div className="artisan-wrapper">
             <div>
               <img
-                src={artisan.profile_image_path}
+                src={`/images/${artisan.profile_image_path}`}
                 alt=""
                 className="artisan-img img-fluid"
               />
             </div>
             <div className="artisan-elipse">
               <div className="description">
-                <img src={skillimage} alt="" className="rating-img" />
+                <img
+                  src={`/images/${artisan.skill}.png`}
+                  alt=""
+                  className="rating-img"
+                />
                 <span className="skill display-12">
                   Service:{artisan.skill}
                 </span>

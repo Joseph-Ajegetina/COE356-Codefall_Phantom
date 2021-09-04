@@ -1,9 +1,7 @@
 import "./navigation.scss";
 import { Link } from "react-router-dom";
 
-
-const NavLogin = () =>
-{
+const NavLogin = () => {
   return (
     <>
       <div className="header-option">
@@ -14,7 +12,11 @@ const NavLogin = () =>
         </Link>
       </div>
       <div className="header-option">
-        <span className="LineOne"> <img src="images/profile.png" alt="" className="services" />Hello Guest</span>
+        <span className="LineOne">
+          {" "}
+          <img src="images/profile.png" alt="" className="services" />
+          Hello Guest
+        </span>
         <a href="#" className="dropdown" data-toggle="dropdown">
           <span className="LineTwo">&emsp;&emsp;Account</span>
         </a>
