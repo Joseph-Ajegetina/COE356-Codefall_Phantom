@@ -1,5 +1,17 @@
 # Route for endpoints
 
+## Before_page_load - - - - ```/before_page_load```
+
+### GET
+
+```
+Response
+
+{"loggedIn":session['loggedIn'], "admin":session['admin'], "username":session['username'], "id":session['id']}
+
+session[x] = str type
+```
+
 ## Sign up   - - - -   ```/register```
 
 ### POST
@@ -13,10 +25,17 @@ Sample Data
 Response 
 
 #Success
-{"Registration":"Registered"}
+
+{"message": f"Account successfully created for {request_react.get('customer_username')}", "alert": "success", "passed": True}
+
 
 #Fail
-{"Errors":(Dictonary of errors)}
+
+{"message": f"Account successfully created for {request_react.get('customer_username')}", "alert": "success", "passed": True}
+
+or
+
+{"message": f"Account or Username already exists", "alert": "danger", "passed": False}
 
 ```
 
@@ -33,13 +52,16 @@ Sample Data
 Response 
 
 #Success
-{"Info":"Logged in, Customer"}
+
+return_info = {"alert": "success", "message": "Succesfully logged in", "passed": False, "type": "customer"}
 
 #Success if admin
-{"Info":"Logged in, Administrator"}
+
+return_info = {"alert": "success", "message": "Succesfully logged in", "passed": False, "type": "admin"}
 
 #Fail
-{"Info": "invalid credentials"}
+
+return_info = {"alert": "fail", "message": "Invalid credentials", "passed": False, "type":""}
 
 ```
 
@@ -62,17 +84,18 @@ Response
 ### POST
 
 ```
-Sample Data
-{"admin_username":"kofi", "password":"password"}
-
-
-Response 
-
 #Success
-{"Registration":"Registered, Administrator"}
+
+{"message": f"Admin Account successfully created for {request_react.get('admin_username')}", "alert": "success", "passed": True}
+
 
 #Fail
-{"Errors":(Dictonary of errors)}
+
+{"message": f"Admin Account successfully created for {request_react.get('admin_username')}", "alert": "success", "passed": True}
+
+or
+
+{"message": f"Admin Account or Username already exists", "alert": "danger", "passed": False}
 
 ```
 
@@ -84,7 +107,32 @@ Response
 ```
 Response 
 
-{"Data": "[(Row 1),(Row 2), ...]" }
+{                           "id": f"{i[0]}",
+                            "service_id": f"{i[1]}",
+                            "first_name": f"{i[2]}",
+                            "last_name": f"{i[3]}",
+                            "rating": f"{i[4]}",
+                            "address": f"{i[5]}",
+                            "contact": f"{i[6]}",
+                            "profile_image_path": f"{i[7]}",
+                            "skill":""
+}
+
+```
+
+## Load customer Table   - - - -   ```/admin/customer_table```
+
+### GET
+
+```
+{                           "customer_id": f"{i[0]}",
+                            "customer_username": f"{i[1]}",
+                            "first_name": f"{i[2]}",
+                            "last_name": f"{i[3]}",
+                            "contact": f"{i[4]}",
+                            "address": f"{i[5]}",
+                            "email": f"{i[6]}",
+                            "profile_image_path": f"{i[8]}"}
 
 ```
 
@@ -102,28 +150,73 @@ Sample Data
 Response 
 
 #Success
-{"Registration":"Registered"}
+{"message": f"Artisan {artisan.get('last_name')} successfully added", "alert": "success", "passed": True}
 
 #Fail
-{"Errors":(Dictonary of errors)}
+Response(status=500)
 
 ```
 ### DELETE
 ```
 {"Info": "Done"}
-or
-{"Info": "Done", "More":"Artisan does not exist"}
+
+```
+
+## Reports - - - - ```/admin/report/<int:id>```
+
+### GET
+```
+{                               "record_id": f"{i[0]}",
+                                "artisan": f"{i[1]} {i[2]}",
+                                "customer": f"{i[3]} {i[4]}",
+                                "skill": f"{i[5]}",
+                                "date": f"{i[6]}"}
+
+```
+
+### DELETE 
+
+No Response
+
+## Get_admin_services - - - - ```/admin/services/<int:id>```
+
+### POST 
+```
+Response
+
+{"message": f"{service.get('skill')} successfully added", "alert": "success", "passed": True}
+
+
+if id != 0
+Response
+
+{"message": f"{service.get('skill')} successfully updated", "alert": "success", "passed": True}
+
+```
+
+## Update_artisan - - - - ```/admin/update/artisan/<int:id>```
+
+### GET
+```
+[{#Dictionary of the table row#}, ...]
+```
+
+### POST
+```
+Response
+
+{"message": f"Artisan {artisan_update.get('last_name')} successfully updated", "alert": "success", "passed":True}
 ```
 
 
 ## Popular Artisans - - - - ```/top_rated_artisans```
 ```
-{"Result": "[(Name, Rating), (...), ...]"}
+[{#Dictionary of the table row#}, ...]
 ```
 
 ## Popular Services - - - - ```/popular_services```
 ```
-{"Result": "[(1st), (2nd), ...]"}
+[{#Dictionary of the table row#}, ...]
 ```
 
 ## Get services - - - - ```/services/<int:id>```
@@ -146,22 +239,61 @@ Data at ```id``` will be overwritten by new data
 
 ### GET
 ```
-{"Result": "[(Row 1), ...]"}
+{
+            "id": f"{i[0]}","service": f"{i[1]}",
+                            "Description": f"{i[2]}", "image": f"{i[3]}"}
 ```
 
 ## Report
 ### GET - - - -  ```/report/<int:customer_id>```
 ```
-{"Result":"[(1st),...]"}
+{                           "Artisan_name": f"{i[1]} {i[2]}",
+                             "Skill": f"{i[3]}", "Date": f"{i[4]}", "rating":f"{i[5]}", "status":f"{i[7]}", "artisan_id":f"{i[8]}"
+                             
+                    }
 
-Order (1st) - ('record_id','artisan_id','service_type','date')
 ```
+
+## Logout  - - - - ```/logout```
+
+### GET
+```
+Response
+
+{"message": f"Successfully Logged out", "alert": "success", "passed":True}
+```
+
+## confirm id - - - - ```/confirm_order/<int:artisan_id>/<int:customer_id>```
+
+### GET
+```
+Reponse
+ 
+{"message": f"Request confirmed", "alert": "success", "passed":True}
+
+```
+
+## check_rating ( confirms whether work was done)  - - - - ```/record_status/<int:record_id>/<int:number>```
+
+### GET
+```No Response```
+
+
+## rating  - - - - ```/rating/<int:record_id>/<int:artisan_id>/<float:rating>```
+
+### GET
+
+```No Response```
+
+
+
 
 ## find an Artisan page - - - - ```/find_artisan```
 ### GET
 ```
 Returns
-{"service_type":"[(name, location, rating), ...]", "service_type":"[(name, location, rating), ...]", ...}
+{"service_type":{"id": f"{i[0]}", "Name": f"{i[1]}", "Address": f"{i[2]}",
+                               "rating": f"{i[3]}", "Path": f"{i[4]}"}, ...}
 ```
 
 ## find an Artisan with id - - - - ```/find_artisan/<int:artisan_id>```
@@ -169,7 +301,12 @@ Returns
 ### GET
 ```
 Returns
-{"Data":"[(name, service_type, rating, address, contact, description)]"}
+{"service_id": f"{query[0][0]}", "artisan_id": f"{query[0][1]}", "Name":f"{query[0][2]} ","first_name": f"{query[0][2]} {query[0][3]}", "last_name":f"{query[0][3]}",
+            "rating": f"{query[0][4]}", "Address": f"{query[0][5]}", "contact": f"{query[0][6]}",
+            "description": f"{query[0][7]}",
+            "Path": f"{query[0][8]}", "Expertise": f"{query[0][9]}"}
+
+query[x] = str type
 ```
 
 ## Reports Admin - - - - ```/admin/report/<int:id>```
@@ -180,5 +317,10 @@ Returns
 ### GET 
 ```
 Returns
+
+{"1":{"record_id": f"{i[0]}",
+                                "artisan": f"{i[1]} {i[2]}",
+                                "customer": f"{i[3]} {i[4]}",
+                                "skill": f"{i[5]}",
+                                "date": f"{i[6]}"}, ... }
 ```
-```Still working on it```

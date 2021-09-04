@@ -1,6 +1,5 @@
 from os import error
 from flask import request, session, Response
-from Flaskapp.forms import LoginForm, signUpForm, adminForm
 import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
 from wtforms_json import from_json
@@ -30,6 +29,8 @@ def before_page_load():
     return {"loggedIn":session['loggedIn'], "admin":session['admin'], "username":session['username'], "id":session['id']}
 
 
+
+
 # --------------------------------------------------------------- LOGIN --------------------------------------------------------------------
 
 
@@ -43,12 +44,9 @@ def login():
     if request.method == 'POST':
 
         login_details = request.get_json(force=True)
-        # login_details = json.loads(login_details)
-        form = LoginForm.from_json(login_details)
 
         # what to be returned
         return_info = {"alert": "", "message": "", "passed": False, "type": ""}
-        # Requires reformating
 
         # Establishing connection
         connection = engine.connect()
@@ -119,6 +117,8 @@ def login():
             return return_info
 
 
+
+
 # ----------------------------------------------------------------- SIGN UP ----------------------------------------------------------
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -153,10 +153,16 @@ def register():
                 return Response(status=500)
 
 
+
+
 # ------------------------------------------------------- ADMINISTRATOR -------------------------------------------------------
 
 @app.route('/register/admin', methods=['GET', 'POST'])
 def Admin_register():
+        # -------------------------------------------
+        # Database commiting and further validation
+        # Establishing connection
+        connection = engine.connect()
 
     if request.method == 'POST':
 
@@ -166,21 +172,18 @@ def Admin_register():
             str(request_react['password'])).decode('utf-8')
         request_react['password'] = password
 
-        form = adminForm.from_json(request_react)
+        exist_email = connection.execute(db.select([admin.columns.email]).where(
+            admin.columns.email == admin_email)).fetchall()
 
-        if form.validate():
-            # -------------------------------------------
-            # Database commiting and further validation
-            # Establishing connection
-            connection = engine.connect()
-            connection.execute(db.insert(admin).values([dict(request_react)]))
-            # -------------------------------------------
-            return {"message": f"Account successfully created for {request_react.get('customer_username')}", "alert": "success", "passed": True}
+        if exist_email:
+            return {"message": f"Admin Account or Username already exists", "alert": "danger", "passed": False}
         else:
-            return {"Errors": form.errors}
-
-    # to be changed
-    return {"Page": "Sign Up"}  # return to dashboard route
+            try:
+                connection.execute(
+                    db.insert(admin).values([dict(request_react)]))
+                return {"message": f"Admin Account successfully created for {request_react.get('admin_username')}", "alert": "success", "passed": True}
+            except(error):
+                return Response(status=500)
 
 
 @app.route('/admin/artisan_table', methods=['GET'])
@@ -336,6 +339,9 @@ def update_artisan(id):
 
         return {"message": f"Artisan {artisan_update.get('last_name')} successfully updated", "alert": "success", "passed":True}
 
+
+
+
 # -------------------------------------------------------------- VIEWS -----------------------------------------------------------------
 
 @app.route('/top_rated_artisans')
@@ -379,26 +385,30 @@ def Services():
     return result
 
 
+
+
+
+
 # -------------------------------------------------------------------- CUSTOMER ROUTES --------------------------------------------------
 
-@app.route('/logout', methods=['GET', 'POST'])
+@app.route('/logout')
 def logout():
 
     # session.pop('loggedin', None)
     # # id
     # session.pop('username', None)
 
-    return {"info": 'back to login route'}
+    return {"message": f"Successfully Logged out", "alert": "success", "passed":True}
 
 
-@app.route('/delete_account', methods=['DELETE'])
-def delete_account():
-    print(session['username'])
-    # Establishing connection
-    connection = engine.connect()
+# @app.route('/delete_account', methods=['DELETE'])
+# def delete_account():
+#     print(session['username'])
+#     # Establishing connection
+#     connection = engine.connect()
 
-    # logout()
-    # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
+#     # logout()
+#     # connection.execute(db.delete(customers).where(customers.columns.customer_id == int(id)))
 
 # To be worked on
 @app.route('/report/<int:customer_Id>')
@@ -428,7 +438,7 @@ def confirm_id(artisan_id, customer_id):
     connection.execute(db.insert(records).values(customer_id=customer_id,
                                                  artisan_id=artisan_id, service_id=service[0][0]))
 
-    return {"info": 1}
+    return {"message": f"Request confirmed", "alert": "success", "passed":True}
 
 # update to update record status of record
 @app.route('/record_status/<int:record_id>/<int:number>')
@@ -491,6 +501,7 @@ def rating(record_id,artisan_id,rating):
 
 
 
+
 # -------------------------------------------------------------------- ARTISAN ROUTES -------------------------------------------------
 
 @app.route('/find_artisan')
@@ -542,21 +553,5 @@ def find_artisan_id(artisan_id):
 # --------------------------------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------------------------
-
-
-# def login_requireds(*args, **kwargs):
-
-#     def wrapper(original):
-#         return original()
-
-#     if kwargs == True:
-#         return wrapper
-#     else:
-#         return {"Info":"Login required"}
-
-
-# State = None
-
-
 
 
