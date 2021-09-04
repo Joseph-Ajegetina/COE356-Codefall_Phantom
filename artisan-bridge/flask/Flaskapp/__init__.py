@@ -25,7 +25,7 @@ user = os.getenv('MYSQL_USERNAME')
 password = os.getenv('MYSQL_PASSWORD')
 print(user, password)
 engine = create_engine(
-    f'mysql+pymysql://root:root@localhost:3306/artisanbridge')
+    f'mysql+pymysql://b8c552d435457f:985d77d2@eu-cdbr-west-01.cleardb.com:3306/heroku_c794821ea612dc9')
 # connection = engine.connect()
 metadata = db.MetaData()
 
