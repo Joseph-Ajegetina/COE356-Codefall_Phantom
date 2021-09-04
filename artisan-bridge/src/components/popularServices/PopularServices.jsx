@@ -20,7 +20,7 @@ export default function popularServices( { service } )
               </div>
               <div className="wrapper-text">
                 <h3>{service.service}</h3>
-                <p className="text">{service.Description} </p>
+                <p className="text">{service.description} </p>
               </div>
             </div>
           </a>

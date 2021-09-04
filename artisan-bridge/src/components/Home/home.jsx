@@ -100,7 +100,7 @@ export default function Home()
             );
           } )}
         </div>
-        <Link to="artisan" className="service-link">
+        <Link to="/find" className="service-link">
           All Artisans
         </Link>
       </div>
