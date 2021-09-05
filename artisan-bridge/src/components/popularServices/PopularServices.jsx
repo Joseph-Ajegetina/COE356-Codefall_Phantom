@@ -2,12 +2,13 @@ import "./popularServices.scss";
 import { Link } from "react-router-dom";
 
 export default function popularServices({ service }) {
+  console.log("service ", service)
   return (
     <div className="popularServices">
       <div className="wrapper-center">
         <Link
           to={{
-            pathname: `/service/${service.service_id}`,
+            pathname: `/service/${service.id}`,
             state: { service: service },
           }}
           className="wrapper-link"

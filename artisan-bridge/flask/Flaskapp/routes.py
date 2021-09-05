@@ -374,7 +374,29 @@ def Services():
     for num, i in enumerate(query):
         result[str(num)] = {
             "id": f"{i[0]}","service": f"{i[1]}",
-                            "Description": f"{i[2]}", "image": f"{i[3]}"}
+                            "description": f"{i[2]}", "image": f"{i[3]}"}
+
+    return result
+
+
+
+@app.route('/service/<int:service_id>')
+def get_service(service_id):
+      # Establishing connection
+    connection = engine.connect()
+    query = connection.execute(
+        db.select([services.columns.service_id, services.columns.skill]).where(services.columns.service_id==service_id)).fetchall()
+
+    result = {}
+    for i in query:
+        artisan_group = connection.execute(db.select([artisans.columns.artisan_id, artisans.columns.first_name,
+                                                      artisans.columns.address,
+                                                      artisans.columns.rating,
+                                                      artisans.columns.profile_image_path]).where(artisans.columns.service_id == i[0])).fetchall()
+
+        artisan_group_list = [{"id": f"{i[0]}", "Name": f"{i[1]}", "Address": f"{i[2]}",
+                               "rating": f"{i[3]}", "Path": f"{i[4]}"} for i in artisan_group]
+        result[i[1]] = artisan_group_list
 
     return result
 

@@ -4,7 +4,7 @@ import PopularServices from "../popularServices/PopularServices";
 import { useState, useEffect } from "react";
 
 export default function Service() {
-  const [Service, setService] = useState([]);
+  const [service, setService] = useState([]);
   const fetchService = () => {
     fetch("http://127.0.0.1:5000/services")
       .then((response) => response.json())
@@ -22,7 +22,7 @@ export default function Service() {
     <div className="imageSlider" id="imageSlider">
       <img src="images/slide2.jpg" alt="" className="service_image" />
       <div className="service-home">
-        {Service.map((service) => {
+        {service.map((service) => {
           return <PopularServices service={service} />;
         })}
       </div>
