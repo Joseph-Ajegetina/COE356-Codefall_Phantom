@@ -1,11 +1,7 @@
-
-
-
 from dotenv import load_dotenv
 import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 import sqlalchemy as db
 from sqlalchemy import create_engine, MetaData
@@ -22,10 +18,6 @@ CORS(app)
 app.config['SECRET_KEY'] = 'thisisthesecretkeywhichissupposednottobeseen'
 bcrypt = Bcrypt(app)
 
-# For sessions
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-
 # Database configuration
 
 load_dotenv()
@@ -33,7 +25,7 @@ user = os.getenv('MYSQL_USERNAME')
 password = os.getenv('MYSQL_PASSWORD')
 print(user, password)
 engine = create_engine(
-    f'mysql+pymysql://jmiles:jmiles123@localhost:3306/artisanbridge')
+    f'mysql+pymysql://b8c552d435457f:985d77d2@eu-cdbr-west-01.cleardb.com:3306/heroku_c794821ea612dc9')
 # connection = engine.connect()
 metadata = db.MetaData()
 
@@ -48,7 +40,7 @@ popular_services = db.Table('popular_services', metadata, autoload=True, autoloa
 top_rated_artisans = db.Table('top_rated_artisans', metadata, autoload=True, autoload_with=engine)
 record_statuses = db.Table('record_statuses', metadata, autoload=True, autoload_with=engine)
 
-# variables
+# variables for sessions
 app.config['State'] = None
 app.config['State_Admin'] = None
 
