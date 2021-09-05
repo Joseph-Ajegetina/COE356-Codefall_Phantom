@@ -33,7 +33,7 @@ user = os.getenv('MYSQL_USERNAME')
 password = os.getenv('MYSQL_PASSWORD')
 print(user, password)
 engine = create_engine(
-    f'mysql+pymysql://jmiles:jmiles123@localhost:3306/artisanbridge')
+    f'mysql+pymysql://root:Thekingman9065@localhost:3306/artisanbridge')
 # connection = engine.connect()
 metadata = db.MetaData()
 
