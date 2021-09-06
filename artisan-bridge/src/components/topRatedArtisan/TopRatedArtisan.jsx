@@ -1,13 +1,14 @@
 import "./topRatedArtisan.scss";
 import { Link } from "react-router-dom";
 
-export default function topRatedArtisan({ artisan, skillimage }) {
+export default function topRatedArtisan( { artisan, skillimage } )
+{
   return (
     <div className="topRatedArtisan">
       <div className="artisan-wrapper-center">
         <Link
           to={{
-            pathname: `/artisan/${artisan.artisan_id}`,
+            pathname: `/artisan/${ artisan.artisan_id }`,
             state: { artisan: artisan },
           }}
           className="wrapper-link"
@@ -15,27 +16,27 @@ export default function topRatedArtisan({ artisan, skillimage }) {
           <div className="artisan-wrapper">
             <div>
               <img
-                src={`/images/${artisan.profile_image_path}`}
+                src={`/images/${ artisan.profile_image_path }`}
                 alt=""
-                className="artisan-img img-fluid"
+                className="artisan-img "
               />
             </div>
-            <div className="artisan-elipse">
-              <div className="description">
+            <div className="description">
+              <div className="artisan-elipse">
                 <img
-                  src={`/images/${artisan.skill}.png`}
+                  src={`/images/${ artisan.skill }.png`}
                   alt=""
                   className="rating-img"
                 />
-                <span className="skill display-12">
-                  Service:{artisan.skill}
-                </span>
               </div>
+              <span className="skill">
+                Service: {artisan.skill}
+              </span>
             </div>
             <div className="artisan-elipse">
               <div className="description">
                 <img src="images/rating.png" alt="" className="rating-img" />
-                <span className="skill display-12">
+                <span className="skill">
                   Rating:{artisan.rating}
                 </span>
               </div>
