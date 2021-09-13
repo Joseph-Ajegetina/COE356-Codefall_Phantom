@@ -12,6 +12,7 @@ export default function Home() {
   const [topArtisans, setTopArtisans] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [popularService, setpopularService] = useState([]);
 
   const location = useLocation();
@@ -30,12 +31,14 @@ export default function Home() {
         setIsError(true);
       });
   };
-  
+
   const fetchPopularservice = () => {
     fetch("http://127.0.0.1:5000/popular_service")
       .then((response) => response.json())
       .then((data) => {
-        setpopularService(data);})}
+        setpopularService(data);
+      });
+  };
 
   useEffect(() => {
     if (location.state) {
@@ -54,15 +57,10 @@ export default function Home() {
 
     fetchTopRatedArtisansData();
     fetchPopularservice();
-  }, [])
+  }, [refreshKey]);
   if (isLoading) {
     return <div>Loading...</div>;
   }
-   
-  
-  
-        
-
 
   return (
     <>
@@ -71,12 +69,9 @@ export default function Home() {
         <Slider />
         <h4>Popular Services</h4>
         <div className="service-home">
-        {popularService.map((service) => {
-            return (
-              <PopularServices service={service}
-              />);
-            })}
-
+          {popularService.map((service) => {
+            return <PopularServices service={service} />;
+          })}
         </div>
         <Link to="/service" className="service-link">
           All Services
@@ -92,7 +87,7 @@ export default function Home() {
             );
           })}
         </div>
-        <Link to="artisan" className="service-link">
+        <Link to="/find" className="service-link">
           All Artisans
         </Link>
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 
-const Slider = () => {
+const Slider = () =>
+{
   return (
     <>
       <div
@@ -32,13 +33,13 @@ const Slider = () => {
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="images/slide1.jpg" class="sliderimg" alt="..." />
+            <img src="/images/slide1.jpg" class="sliderimg" alt="..." />
           </div>
           <div class="carousel-item">
-            <img src="images/slide2.jpg" class="sliderimg" alt="..." />
+            <img src="/images/slide2.jpg" class="sliderimg" alt="..." />
           </div>
           <div class="carousel-item">
-            <img src="images/slide3.jpg" class="sliderimg" alt="..." />
+            <img src="/images/slide3.jpg" class="sliderimg" alt="..." />
           </div>
         </div>
       </div>

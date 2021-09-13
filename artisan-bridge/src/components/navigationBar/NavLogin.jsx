@@ -1,6 +1,5 @@
 import "./navigation.scss";
-import { Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 const NavLogin = () => {
   return (
@@ -12,21 +11,24 @@ const NavLogin = () => {
           </span>
         </Link>
       </div>
-      <img src="images/profile.png" alt="" className="services" />
       <div className="header-option">
-          <span className="LineOne">Hello Guest</span>
-          <a href="#" className="dropdown" data-toggle="dropdown">
-            <span className="LineTwo">Account</span>
-          </a>
-          <div class="dropdown-menu">
-            <Link to="/profile" className="dropdown-item">
-                Profile
-            </Link>
-            <Link to="/logout" className="dropdown-item">
-              Logout
-            </Link>
-          </div>
+        <span className="LineOne">
+          {" "}
+          <img src="images/profile.png" alt="" className="services" />
+          Hello Guest
+        </span>
+        <a href="#" className="dropdown" data-toggle="dropdown">
+          <span className="LineTwo">&emsp;&emsp;Account</span>
+        </a>
+        <div class="dropdown-menu">
+          <Link to="/profile" className="dropdown-item">
+            Profile
+          </Link>
+          <Link to="/logout" className="dropdown-item">
+            Logout
+          </Link>
         </div>
+      </div>
     </>
   );
 };

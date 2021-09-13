@@ -1,16 +1,12 @@
-
 import React from "react";
 import "./Sign up.scss";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Message from "../navigationBar/Message";
-
-
 
 const SignUp = () => {
   //Schema for the form validation
@@ -75,12 +71,14 @@ const SignUp = () => {
       })
       .then((info) => {
         if (info.passed) {
-          console.log("passed")
-          history.push({pathname:"/login", state:{
-            messageParams:info.message,
-            alertParams:info.alert
-          }});
-          console.log(info);
+          console.log("passed");
+          history.push({
+            pathname: "/login",
+            state: {
+              messageParams: info.message,
+              alertParams: info.alert,
+            },
+          });
         } else {
           setAlert({ message: info.message, alert: info.alert });
           setShowAlert(true);
@@ -109,7 +107,9 @@ const SignUp = () => {
                   errors.firstName ? "is-invalid" : ""
                 }`}
               />
-              <div className="invalid-feedback">{errors.fisrtName?.message}</div>
+              <div className="invalid-feedback">
+                {errors.fisrtName?.message}
+              </div>
             </div>
             <div className="form-group">
               <label>Last Name</label>
@@ -121,9 +121,10 @@ const SignUp = () => {
                   errors.lastName ? "is-invalid" : ""
                 }`}
               />
-              <div className="invalid-feedback">{errors.fisrtName?.message}</div>
+              <div className="invalid-feedback">
+                {errors.fisrtName?.message}
+              </div>
             </div>
-            
 
             <div className="form-group">
               <label>Username</label>

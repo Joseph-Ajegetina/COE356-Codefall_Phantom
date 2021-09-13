@@ -14,7 +14,7 @@ export default function footer() {
         </a>
       </p>
       <p>
-        <a href="" className="footer-text">
+        <a href="artisanbridge688@gmail.com" className="footer-text">
           Contact us
         </a>
       </p>

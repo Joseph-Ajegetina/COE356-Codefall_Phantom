@@ -12,58 +12,33 @@ import AdminPanel from "./components/AdminPanel/AdminPanel.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { useState } from "react";
 import ArtisanSelect from "./components/ArtisanSelect/ArtisanSelect.jsx";
-import AddArtisans from "./components/AdminPanel/pages/AddArtisans/AddArtisans.jsx"
-import Services from "./components/AdminPanel/pages/services/services"
+import AddArtisans from "./components/AdminPanel/pages/AddArtisans/AddArtisans.jsx";
+import Services from "./components/AdminPanel/pages/services/services";
 import Logout from "./components/Logout/Logout";
 import ServiceSelect from "./components/Service/serviceSelect.jsx";
 import RecordRoute from "./components/PrivateRoute/RecordRoute.jsx";
 import SideBar from "./components/AdminPanelSideBar/sideBar.jsx";
-import AdminRoute from "./components/PrivateRoute/AdminRoute"
+import AdminRoute from "./components/PrivateRoute/AdminRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
 import Admin_register from "./components/admin_register/Admin_register.jsx";
-import ArtisanUpdate from "./components/AdminPanel/pages/ArtisanUpdate/ArtisanUpdate.jsx"
-import NewArtisan from "./components/AdminPanel/pages/NewArtisan/NewArtisan.jsx"
-import ServiceUpdate from "./components/AdminPanel/pages/ServiceUpdate/ServiceUpdate.jsx"
-import NewService from "./components/AdminPanel/pages/NewService/NewService.jsx"
+import ArtisanUpdate from "./components/AdminPanel/pages/ArtisanUpdate/ArtisanUpdate.jsx";
+import NewArtisan from "./components/AdminPanel/pages/NewArtisan/NewArtisan.jsx";
+import ServiceUpdate from "./components/AdminPanel/pages/ServiceUpdate/ServiceUpdate.jsx";
+import NewService from "./components/AdminPanel/pages/NewService/NewService.jsx";
 import FindArtisan from "./components/FindArtisans/FindArtisan.jsx";
 
 function App() {
   const [user, setUser] = useState({ customer_username: "", password: "" });
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const [user_signup, setSign] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    city: "",
-    phone: "",
-    customer_username: "",
-    password: "",
-  });
-
-  const [admin_reg, setAdminSign] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const log_in = (details) => {
-    console.log(details.customer_username);
-  };
-  const Sign_up = (Signup_details) => {
-    console.log(Signup_details);
-  };
-  const admin_Register = (Admin_details) => {
-    console.log(Admin_details);
-  };
+  const [refreshKey, setRefreshKey] = useState(0);
 
   return (
     <Router>
       <div className="app">
         <Switch>
           <Route path="/login">
-            <Login log_in={log_in} />
+            <Login />
           </Route>
           <Route path="/logout">
             <Logout
@@ -72,22 +47,18 @@ function App() {
             />
           </Route>
           <Route path="/signup">
-            <Signup Sign_up={Sign_up} />
+            <Signup />
           </Route>
           <Route path="/find">
-            <FindArtisan/>
-          </Route>
-          <Route path="/signup">
-            <Signup Sign_up={Sign_up} />
+            <FindArtisan />
           </Route>
           <Route path="/AdminRegister">
-            <Admin_register admin_Register={admin_Register} />
+            <Admin_register />
           </Route>
           <Route exact path="/service">
             <Navigation />
             <div className="sections">
-              <Service 
-              />
+              <Service />
               <Footer />
             </div>
           </Route>
@@ -98,14 +69,14 @@ function App() {
               <Footer />
             </div>
           </Route>
-          <Route path="/artisan/:artisanId" component={ArtisanSelect}>
+          <Route exact path="/artisan/:artisanId" component={ArtisanSelect}>
             <Navigation />
             <div className="sections">
               <ArtisanSelect />
               <Footer />
             </div>
           </Route>
-          <Route path="/service/:service_id" component={ServiceSelect}>
+          <Route exact path="/service/:service_id" component={ServiceSelect}>
             <Navigation />
             <div className="sections">
               <ServiceSelect />
@@ -113,51 +84,48 @@ function App() {
             </div>
           </Route>
           <PrivateRoute path="/records" component={RecordRoute} />
-          <PrivateRoute path="/admin" component={AdminRoute}/>
+          <PrivateRoute path="/admin" component={AdminRoute} />
           <Route path="/artisans">
-            <AdminPanel/>
+            <AdminPanel />
             <div className="side">
-            <SideBar/>
-           <AddArtisans/>
+              <SideBar />
+              <AddArtisans />
             </div>
           </Route>
           <Route path="/services">
-            <AdminPanel/>
+            <AdminPanel />
             <div className="side">
-            <SideBar/>
-           <Services/>
+              <SideBar />
+              <Services />
             </div>
           </Route>
           <Route path="/newArtisan">
-            <AdminPanel/>
+            <AdminPanel />
             <div className="side">
-            <SideBar/>
-           <NewArtisan/>
+              <SideBar />
+              <NewArtisan />
             </div>
           </Route>
           <Route path="/newService">
-            <AdminPanel/>
+            <AdminPanel />
             <div className="side">
-            <SideBar/>
-           <NewService/>
+              <SideBar />
+              <NewService />
             </div>
           </Route>
-          <Route path="/artisanEdit/:artisanId">
-            <AdminPanel/>
+          <Route exact path="/artisanEdit/:artisanID">
+            <AdminPanel />
             <div className="side">
-            <SideBar/>
-           <ArtisanUpdate/>
+              <SideBar />
+              <ArtisanUpdate />
             </div>
           </Route>
-          <Route path="/serviceEdit/:serviceId">
-            <AdminPanel/>
+          <Route exact path="/serviceEdit/:serviceID">
+            <AdminPanel />
             <div className="side">
-            <SideBar/>
-           <ServiceUpdate/>
+              <SideBar />
+              <ServiceUpdate />
             </div>
-          </Route>
-          <Route path="/signup">
-            <Signup Sign_up={Sign_up} />
           </Route>
           <Route path="/service">
             <Navigation />
@@ -183,7 +151,7 @@ function App() {
           <Route path="/Home">
             <Navigation />
             <div className="sections">
-              <Home  />
+              <Home />
               <Footer />
             </div>
           </Route>
@@ -204,10 +172,7 @@ function App() {
         </Switch>
       </div>
     </Router>
-  )
-  
+  );
 }
-
-
 
 export default App;

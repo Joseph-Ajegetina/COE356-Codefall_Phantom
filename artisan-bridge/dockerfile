@@ -1,0 +1,13 @@
+# For API-flask
+
+FROM python:lastest
+
+COPY . ./flask
+
+RUN pip install requirements.txt
+
+WORKDIR /flask/Flaskapp
+
+EXPOSE 5000
+
+CMD ["flask", "run"]
