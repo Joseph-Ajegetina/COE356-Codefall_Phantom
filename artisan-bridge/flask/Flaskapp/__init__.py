@@ -1,6 +1,4 @@
 
-
-
 from dotenv import load_dotenv
 import os
 from flask import Flask
@@ -33,7 +31,7 @@ user = os.getenv('MYSQL_USERNAME')
 password = os.getenv('MYSQL_PASSWORD')
 print(user, password)
 engine = create_engine(
-    f'mysql+pymysql://jmiles:jmiles123@localhost:3306/artisanbridge')
+    f'mysql+pymysql://root:Echisviper65@localhost:3306/artisanbridge')
 # connection = engine.connect()
 metadata = db.MetaData()
 

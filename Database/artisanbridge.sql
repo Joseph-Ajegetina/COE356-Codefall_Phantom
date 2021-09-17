@@ -16,8 +16,8 @@ INSERT INTO services (skill, description, image_path) VALUES ('Footwear Repair',
 INSERT INTO services (skill, description, image_path) VALUES ('Carpentry', 'All sorts of furniture services are available here.','Carpentry.png');
 INSERT INTO services (skill, description, image_path) VALUES ('Painting', 'Quality personnel available for all types of paint work','painting.png');
 INSERT INTO services (skill, description, image_path) VALUES ('Tailoring', 'Get beautiful clothing from our exceptional tailors','Tailoring.png');
-INSERT INTO services (skill, description, image_path) VALUES ('Plumbering', 'Do you have faulty tap, broken pipe? Contact for plumbing services.','images\Plumbering.png');
-INSERT INTO services (skill, description, image_path) VALUES ('Metal works', 'Welding services, metal art works and more','Metal works.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Plumbering', 'Do you have faulty tap, broken pipe? Contact for plumbing services.','Plumbering.png');
+INSERT INTO services (skill, description, image_path) VALUES ('Metal works', 'Welding services, metal art works and more','Metalworks.png');
 INSERT INTO services (skill, description, image_path) VALUES ('Electric and Fridges', 'Fault meter, light, fans, fridges and all electrical problems','ElectricandFridges.png');
 
 DROP TABLE IF EXISTS customers;
@@ -106,6 +106,23 @@ ALTER TABLE services AUTO_INCREMENT=1000;
 ALTER TABLE records AUTO_INCREMENT=1000;
 ALTER TABLE admin AUTO_INCREMENT=1000;
 
+insert into customers values(
+1000,'RaheemSterling','Raheem','Sterling',0505708442,'kumasi', 'arron@gmail.com','$2b$12$vWzeBCptgpg6EFQ/t7R96e8nFOEwWybZkL.kO8aNH30GXWbnUl7sC',null);
+UPDATE `artisanbridge`.`services` SET `skill` = 'Laptops, Phones and Watches' WHERE (`service_id` = '2');
+INSERT INTO `artisanbridge`.`services` (`service_id`, `skill`, `description`, `image_path`) VALUES ('10', 'Mechanic', 'Having problems with your engine or suspension? Check out our qualified mechanics', 'Mechanic.png');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1000', '6', 'PK', 'McForson', '5', 'Unity hall block B ground floor', '0241490250', 'Mcforson.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1001', '3', 'Alhassan', 'Ahmadu', '3', 'Behind hall 7', '0242737693', 'Alhassan.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1002', '6', 'Aunty', 'Ama', '3', 'Republic hall Annex', '0543283445', 'Ama.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1003', '2', 'Joshua', 'Nartey', '4', 'Republic hall', '0240315233', 'joshua.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1004', '5', 'Henry', 'Addai', '4', 'Off campus oppsite Victory towers', '0551782100', 'henry.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1005', '1', 'Nana', 'Yaw', '3', 'Off campus oppsite Victory towers', '0546112943', 'nana.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1006', '2', 'Nana', 'Antwi', '3', 'Ayeduase gate', '0546370163', 'Antwi.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1007', '4', 'Daniel', 'Boadu', '4', 'Kotei opposite Methodist church', '0208252758', 'dan.jpg');
+INSERT INTO `artisanbridge`.`artisans` (`artisan_id`, `service_id`, `first_name`, `last_name`, `rating`, `address`, `contact`, `profile_image_path`) VALUES ('1008', '10', 'Emmanuel', 'Adankwa', '3', 'Kotei opposite Methodist church ', '0547483870', 'emma.jpg');
+INSERT INTO `artisanbridge`.`records` (`record_id`, `customer_id`, `artisan_id`, `service_id`, `date`) VALUES ('1000', '1000', '1005', '1', '2021-09-10');
+INSERT INTO `artisanbridge`.`records` (`record_id`, `customer_id`, `artisan_id`, `service_id`, `date`) VALUES ('1001', '1000', '1001', '3', '2021-09-10');
+INSERT INTO `artisanbridge`.`records` (`record_id`, `customer_id`, `artisan_id`, `service_id`, `date`) VALUES ('1002', '1000', '1000', '6', '2021-09-10');
+UPDATE `artisanbridge`.`artisans` SET `rating` = '3.0' WHERE (`artisan_id` = '1003');
 SELECT `records`.`record_id`,
     `records`.`customer_id`,
     `records`.`artisan_id`,
