@@ -4,7 +4,7 @@ from Flaskapp.forms import LoginForm, signUpForm, adminForm
 import json
 from Flaskapp import engine, artisans, services, customers, records, db, admin, popular_services, top_rated_artisans
 from wtforms_json import from_json
-from Flaskapp import app, bcrypt, db
+from Flaskapp import app, bcrypt, db, Client
 # from Flaskapp.decos import admin_login_required, login_requireds
 from datetime import datetime
 
@@ -422,13 +422,40 @@ def confirm_id(artisan_id, customer_id):
     # Establishing connection
     connection = engine.connect()
 
-    service = connection.execute(db.select(artisans.columns.service_id).where(
+    service_artisan = connection.execute(db.select(artisans.columns.service_id, artisans.columns.first_name, artisans.columns.contact).where(
         artisans.columns.artisan_id == artisan_id)).fetchall()
 
     connection.execute(db.insert(records).values(customer_id=customer_id,
-                                                 artisan_id=artisan_id, service_id=service[0][0]))
+                                                 artisan_id=artisan_id, service_id=service_artisan[0][0]))
 
-    return {"info": 1}
+    customer_details = connection.execute(db.select(customers.columns.first_name, customers.columns.contact, customers.columns.address).where(customers.columns.customer_id == customer_id)).fetchall()
+
+    skill = connection.execute(db.select(services).where(services.columns.service_id == service_artisan[0][0])).fetchall()
+
+    account_sid = 'AC4617139fd28a9b6959c8fee9f20d9321' 
+    auth_token = '0be4682dc4fb1431626f7daeea1c0adf' 
+    client = Client(account_sid, auth_token) 
+
+    body_message_to_artisan = f"""\nArtisan Bridge\n\nYour Service has been requested\n Name: {customer_details[0][0]}\nLocation: {customer_details[0][2]} \nContact: {customer_details[0][1]}"""
+
+    body_message_to_customer = f"\n\n\nArtisan Bridge\n\nYou requested the service of \nName: {service_artisan[0][1]}\n Contact: {service_artisan[0][2]} \nService: {skill[0][1]}"
+    
+    message_artisan = client.messages.create(  
+                              messaging_service_sid='MG85e059c34a098dd42136f9d0f97911c5', 
+                              body=f'{body_message_to_artisan}',      
+                              to=f'+233{str(service_artisan[0][2])[1:]}' 
+                          ) 
+    while True:
+        if message_artisan.sid:
+            message_customer = client.messages.create(  
+                        messaging_service_sid='MG85e059c34a098dd42136f9d0f97911c5', 
+                        body=f'{body_message_to_customer}',      
+                        to=f'+233{str(customer_details[0][1])[1:]}' 
+                          )
+        break
+    
+
+    return {"info": "Message sent"}
 
 # update to update record status of record
 @app.route('/record_status/<int:record_id>/<int:number>')

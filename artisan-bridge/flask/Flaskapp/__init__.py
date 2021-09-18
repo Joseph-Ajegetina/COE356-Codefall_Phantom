@@ -11,6 +11,7 @@ import sqlalchemy as db
 from sqlalchemy import create_engine, MetaData
 import pymysql
 from flask_cors import CORS
+from twilio.rest import Client 
 
 # To allow to json to form object passing
 import wtforms_json
@@ -33,7 +34,7 @@ user = os.getenv('MYSQL_USERNAME')
 password = os.getenv('MYSQL_PASSWORD')
 print(user, password)
 engine = create_engine(
-    f'mysql+pymysql://jmiles:jmiles123@localhost:3306/artisanbridge')
+    f'mysql+pymysql://root:root@localhost:3306/artisanbridge')
 # connection = engine.connect()
 metadata = db.MetaData()
 

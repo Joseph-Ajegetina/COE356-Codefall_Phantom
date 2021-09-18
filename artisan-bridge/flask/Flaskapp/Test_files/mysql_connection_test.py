@@ -28,6 +28,7 @@ artisan = connection.execute(db.select([artisans.columns.service_id,
                                                       artisans.columns.contact,
                                                       services.columns.description
                                                       ]).select_from(artisans.join(services, artisans.columns.service_id == services.columns.service_id)).where(artisans.columns.artisan_id == 1000)).fetchall()
+  
 
 # con = connection.execute(db.select([records])).fetchall()
 # go = []
@@ -41,4 +42,4 @@ artisan = connection.execute(db.select([artisans.columns.service_id,
 #     go[num][3] = str(go[num][3])
 
 # print(go)
-# print(con)
+print(str(connection.execute(db.select(artisans.columns.contact).where(artisans.columns.artisan_id == 1000)).fetchall()[0][0])[1:])
