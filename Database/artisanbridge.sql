@@ -83,6 +83,11 @@ username VARCHAR(255),
 PRIMARY KEY(admin_id)
 );
 
+
+
+
+
+
 CREATE VIEW top_Rated_Artisans AS 
 SELECT artisans.artisan_id, artisans.first_name, artisans.last_name, artisans.rating, artisans.address, artisans.contact, services.skill, artisans.profile_image_path  
 FROM artisans JOIN services ON artisans.service_id=services.service_id
@@ -90,7 +95,7 @@ ORDER BY artisans.rating DESC
 LIMIT 3;
 
 CREATE VIEW popular_Services AS 
-SELECT count(records.service_id) AS requests, services.skill, services.description, artisanbridge.services.image_path AS image
+SELECT count(records.service_id) AS requests, services.skill AS service, services.description,services.service_id AS id, services.image_path AS image
 FROM records JOIN services ON records.service_id=services.service_id
 GROUP BY records.service_id
 LIMIT 3;
